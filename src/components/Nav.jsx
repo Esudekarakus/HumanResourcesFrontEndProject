@@ -9,7 +9,7 @@ export default function Nav(){
                     <NavLink to="/">Ana Sayfa</NavLink>
                 </li>
                 <li>
-                    <NavLink to="/employer-details">
+                    <NavLink to="/employer-details/:id">
                        Şirket Yöneticisi Detayları
                     </NavLink>
                 </li>

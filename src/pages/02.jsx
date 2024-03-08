@@ -8,21 +8,21 @@ const Page02 = () => {
   const [updatedInfo, setUpdatedInfo] = useState({
     address: '',
     phoneNumber: '',
-    // Diğer güncellenecek bilgileri ekleyin
+    
   });
+
+  const fetchEmployerDetails = async () => {
+    try {
+      const response = await fetch(`https://localhost:7287/api/Employer/${id}`);
+      const data = await response.json();
+      setEmployerDetails(data);
+    } catch (error) {
+      console.error('İşveren detaylarını getirme hatası:', error);
+    }
+  };
 
   useEffect(() => {
     // URL'den gelen ID'yi kullanarak API'den işveren detaylarını çek
-    const fetchEmployerDetails = async () => {
-      try {
-        const response = await fetch(`https://localhost:7287/api/Employer/${id}`);
-        const data = await response.json();
-        setEmployerDetails(data);
-      } catch (error) {
-        console.error('İşveren detaylarını getirme hatası:', error);
-      }
-    };
-
     if (id) {
       fetchEmployerDetails();
     }
@@ -43,12 +43,17 @@ const Page02 = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(updatedInfo),
+        body: JSON.stringify({
+          id: parseInt(id), // JSON verisine id'yi ekleyin ve integer'a çevirin
+          ...updatedInfo,
+        }),
       });
 
       if (response.ok) {
         // Başarılı durumu
         console.log('İşveren bilgileri başarıyla güncellendi');
+        // Güncelleme işlemi başarılıysa, detayları tekrar çekerek sayfayı güncelle
+        fetchEmployerDetails();
       } else {
         console.error('İşveren bilgilerini güncelleme hatası:', response.statusText);
       }

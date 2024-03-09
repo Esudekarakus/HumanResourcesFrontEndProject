@@ -13,6 +13,11 @@ export default function Nav(){
                        Şirket Yöneticisi Detayları
                     </NavLink>
                 </li>
+                <li>
+                    <NavLink to="/deneme">
+                        Test
+                    </NavLink>
+                </li>
                 
             </ul>
         </nav>

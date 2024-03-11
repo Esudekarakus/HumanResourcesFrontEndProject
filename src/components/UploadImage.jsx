@@ -1,24 +1,21 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
-function Image(){
+function Image({ imageUrl, onImageChange }) {
+  const [file, setFile] = useState(null);
 
-    const [file,setFile]=useState();
-    function handleChange(e){
-        console.log(e.target.files);
-        setFile(URL.createObjectURL(e.target.files[0]));
-        
-    }
+  const handleChange = (e) => {
+    const selectedFile = e.target.files[0];
+    setFile(selectedFile);
+    onImageChange(selectedFile);
+  };
 
-    return(
-        <div className="Image">
-            <h2>Resim Ekleyiniz:</h2>
-            <input type="file" onChange={handleChange} />
-            <img src={file}/>
-
-        </div>
-    )
+  return (
+    <div className="Image">
+      <h2>Resim Ekleyiniz:</h2>
+      <input type="file" onChange={handleChange} />
+      {imageUrl && <img src={imageUrl} alt="uploaded" />}
+    </div>
+  );
 }
 
 export default Image;
-
-

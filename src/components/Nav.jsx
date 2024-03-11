@@ -8,7 +8,7 @@ export default function Nav(){
                 <li>
                     <NavLink to="/">Ana Sayfa</NavLink>
                 </li>
-                <li>
+                {/* <li>
                     <NavLink to="/employer-details/:id">
                        Şirket Yöneticisi Detayları
                     </NavLink>
@@ -17,7 +17,7 @@ export default function Nav(){
                     <NavLink to="/deneme">
                         Test
                     </NavLink>
-                </li>
+                </li> */}
                 
             </ul>
         </nav>

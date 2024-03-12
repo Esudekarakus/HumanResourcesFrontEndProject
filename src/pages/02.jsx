@@ -13,7 +13,7 @@ const Page02 = () => {
 
   const fetchEmployerDetails = async () => {
     try {
-      const response = await fetch(`https://localhost:7287/api/Employer/GetEmployerWithCompanyById?id=${id}`);
+      const response = await fetch(`https://hrwebappapi.azure-api.net/api/Employer/GetEmployerWithCompanyById?id=${id}`);
       const data = await response.json();
       setEmployerDetails(data);
     } catch (error) {
@@ -38,7 +38,7 @@ const Page02 = () => {
 
   const handleUpdate = async () => {
     try {
-      const response = await fetch(`https://localhost:7287/api/Employer/${id}`, {
+      const response = await fetch(`https://hrwebappapi.azure-api.net/api/Employer/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

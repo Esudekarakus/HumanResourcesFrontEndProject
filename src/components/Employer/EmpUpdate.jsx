@@ -15,13 +15,19 @@ import Select from '@mui/material/Select';
 import Grid from '@mui/material/Unstable_Grid2';
 
 const states = [
-  { value: 'alabama', label: 'Alabama' },
-  { value: 'new-york', label: 'New York' },
-  { value: 'san-francisco', label: 'San Francisco' },
-  { value: 'los-angeles', label: 'Los Angeles' },
+  { value: 'türkiye', label: 'Türkiye' },
+  { value: 'abd', label: 'ABD' },
+  { value: 'almanya', label: 'Almanya' },
+  { value: 'rusya', label: 'Rusya' },
+  { value: 'hindistan', label: 'Hindistan' },
+  { value: 'fransa ', label: 'Fransa' },
+  { value: 'italya', label: 'İtalya' },
+  { value: 'danimarka', label: 'Danimarka' },
+  { value: 'japonya', label: 'Japonya' },
+  { value: 'ingiltere', label: 'İngiltere' }
 ];
 
-export function AccountDetailsForm() {
+export function EmpUpdate() {
   return (
     <form
       onSubmit={(event) => {
@@ -29,38 +35,38 @@ export function AccountDetailsForm() {
       }}
     >
       <Card>
-        <CardHeader subheader="The information can be edited" title="Profile" />
+        <CardHeader subheader="Bilgilerinizi düzenleyebilirsiniz" title="Profil" />
         <Divider />
         <CardContent>
           <Grid container spacing={3}>
             <Grid md={6} xs={12}>
               <FormControl fullWidth required>
-                <InputLabel>First name</InputLabel>
-                <OutlinedInput defaultValue="Sofia" label="First name" name="firstName" />
+                <InputLabel>Ad</InputLabel>
+                <OutlinedInput defaultValue="Hakkı" label="First name" name="firstName" />
               </FormControl>
             </Grid>
             <Grid md={6} xs={12}>
               <FormControl fullWidth required>
-                <InputLabel>Last name</InputLabel>
-                <OutlinedInput defaultValue="Rivers" label="Last name" name="lastName" />
+                <InputLabel>Soyad</InputLabel>
+                <OutlinedInput defaultValue="Alkan" label="Last name" name="lastName" />
               </FormControl>
             </Grid>
             <Grid md={6} xs={12}>
               <FormControl fullWidth required>
-                <InputLabel>Email address</InputLabel>
-                <OutlinedInput defaultValue="sofia@devias.io" label="Email address" name="email" />
+                <InputLabel>Email Adresi</InputLabel>
+                <OutlinedInput defaultValue="hakkialkan@bilgeadamboost.com" label="Email address" name="email" />
               </FormControl>
             </Grid>
             <Grid md={6} xs={12}>
               <FormControl fullWidth>
-                <InputLabel>Phone number</InputLabel>
+                <InputLabel>Telefon Numarası</InputLabel>
                 <OutlinedInput label="Phone number" name="phone" type="tel" />
               </FormControl>
             </Grid>
             <Grid md={6} xs={12}>
               <FormControl fullWidth>
-                <InputLabel>State</InputLabel>
-                <Select defaultValue="New York" label="State" name="state" variant="outlined">
+                <InputLabel>Ülke</InputLabel>
+                <Select defaultValue="türkiye" label="State" name="state" variant="outlined">
                   {states.map((option) => (
                     <MenuItem key={option.value} value={option.value}>
                       {option.label}
@@ -71,7 +77,7 @@ export function AccountDetailsForm() {
             </Grid>
             <Grid md={6} xs={12}>
               <FormControl fullWidth>
-                <InputLabel>City</InputLabel>
+                <InputLabel>Şehir</InputLabel>
                 <OutlinedInput label="City" />
               </FormControl>
             </Grid>
@@ -79,7 +85,7 @@ export function AccountDetailsForm() {
         </CardContent>
         <Divider />
         <CardActions sx={{ justifyContent: 'flex-end' }}>
-          <Button variant="contained">Save details</Button>
+          <Button variant="contained">Detayları kaydet</Button>
         </CardActions>
       </Card>
     </form>

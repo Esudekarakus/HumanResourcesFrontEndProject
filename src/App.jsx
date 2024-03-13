@@ -5,8 +5,9 @@ import Page02 from './pages/02';
 import Page03 from './pages/03';
 import Login from './components/Login/Login'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { EmployerPage } from './components/EmployerPage/EmployerPage';
-import { EmployerInfo } from './components/EmployerPage/EmployerInfo';
+import { EmpUpdate } from './components/Employer/EmpUpdate';
+import { EmpDetails } from './components/Employer/EmpDetails';
+import ForgotPass from './components/ForgotPass/ForgotPass';
 
 function App() {
   
@@ -18,8 +19,9 @@ function App() {
       </header>
       <main>
         <Login/>
-        <EmployerInfo/>
-        <EmployerPage/>
+        <ForgotPass/>
+        <EmpDetails/>
+        <EmpUpdate/>
         <Routes>
           <Route path="/" element={<Page01/>}/>
           <Route path="/employer-details/:id" element={<Page02/>}/>

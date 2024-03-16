@@ -1,6 +1,6 @@
 export const fetchEmployers = async () => {
     try{
-        const response = await fetch('https://hrwebappapi.azure-api.net/api/Employer');
+        const response = await fetch('https://hrprojectapi.azurewebsites.net/api/Employer');
         const data = await response.json();
         alert('Şirket yöneticileri başarıyla listelendi');
         return data;
@@ -12,7 +12,7 @@ export const fetchEmployers = async () => {
 
 export const fetchEmployerById = async (id) => {
     try {
-        const response = await fetch(`https://localhost:7287/api/Employer/GetEmployerWithCompanyById?id=${id}`);
+        const response = await fetch(`https://hrprojectapi.azurewebsites.net/api/Employer/${id}`);
         const data = await response.json();
         return data;
     } catch (error) {
@@ -22,7 +22,7 @@ export const fetchEmployerById = async (id) => {
 
 export const updateEmployer = async(id,updatedData) =>{
     try{
-        const response = await fetch(`https://localhost:7287/api/Employer/${id}`,{
+        const response = await fetch(`https://hrprojectapi.azurewebsites.net/api/Employer/${id}`,{
             method:'PUT',
             headers:{
                 'Content-Type':'application/json',

@@ -16,7 +16,7 @@ function Home() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const userData = await fetchEmployerById('Id'); 
+        const userData = await fetchEmployerById(2); 
         setUser(userData); 
       } catch (error) {
         console.error('Kullanıcı bilgileri alınırken bir hata oluştu:', error);

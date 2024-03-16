@@ -17,7 +17,7 @@ function App() {
 <main>
   <Login/>
   <ForgotPass/>
-  {/* //<Template/> */}
+ <Template/> 
 </main>
 </div>
   );

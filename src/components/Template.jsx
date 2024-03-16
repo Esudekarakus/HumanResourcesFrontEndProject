@@ -18,8 +18,8 @@ function Template() {
 
 <main>
  
-  <EmpDetails/>
-  <EmpUpdate/>
+  {/* <EmpDetails/>
+  <EmpUpdate/> */}
 <div style={{display: 'flex'}}>
 <nav style={{
               padding: '20px',

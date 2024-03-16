@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import axios from 'axios';
 
 function Copyright(props) {
   return (
@@ -31,13 +32,23 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+  const handleSubmit = async (event) => {
+      event.preventDefault();
+      const formData = new FormData(event.currentTarget);
+      const email = formData.get('email');
+      const password = formData.get('password');
+
+  try {
+    const response = await axios.post('https://localhost:7287/api/Account/Login', { email, password });
+    console.log(response.data); 
+    alert("Giriş başarılı");
+  } catch (error) {
+    console.error('Giriş işlemi başarısız oldu:', error);
+    alert("Giriş başarısız");
+    // Hata durumunda kullanıcıya bilgilendirme yapabilirsiniz
+  }
+  document.getElementById('email').value = ''; 
+  document.getElementById('password').value = ''; 
   };
 
   return (

@@ -12,12 +12,12 @@ function App() {
   return (
 <div>
 <header>
-<Nav></Nav>
+
 </header>
 <main>
   <Login/>
   <ForgotPass/>
-  <Template/>
+  {/* //<Template/> */}
 </main>
 </div>
   );

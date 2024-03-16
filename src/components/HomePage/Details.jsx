@@ -1,13 +1,10 @@
-// Details.js
-import { Avatar } from "@mui/material";
-import React from "react";
-
+import React from 'react';
+import { Avatar, CardContent, Divider, Stack, Button, Typography } from '@mui/material';
+ 
 function Details() {
-  // Örnek detay listesi
-  const details = [
-    {
-    img: "/path/to/photo1.jpg", 
-    name: "Johnson", 
+  const detail = {
+    img: "/path/to/photo1.jpg",
+    name: "Arda",
     secondname: "Hasan",
     surname: "Kara",
     secondsurname: "-",
@@ -21,50 +18,52 @@ function Details() {
     department: "AR-GE",
     companyinfo: "Samsung",
     email: "hasankara@bilgeadamboost.com",
-    address: "Kadıköy, İstanbul", 
+    address: "Kadıköy, İstanbul",
     phone: "0(530) 897 6232",
     salary: "49000"
-    },
-  ];
-
-  // Bu fonksiyon, yeni bir pencere açar
+  };
+ 
   const openNewWindow = () => {
     window.open("https://www.example.com", "_blank", "noopener,noreferrer");
   };
-  
- return (
-    <div>
-      <h2>Detaylar</h2>
-      <br />
-      {details.map((detail,index) => (
-        <div key={index}> {/* Benzersiz bir key prop'u eklendi */}
-            <div>
-            <Avatar src={detail.img} style={{ height: '120px', width: '120px'}} />
-            </div>
-            <br />
-          <p>Ad: {detail.name}</p>
-          <p>İkinci Ad: {detail.secondname}</p>
-          <p>Soyad: {detail.surname}</p>
-          <p>İkinci Soyad: {detail.secondsurname}</p>
-          <p>Doğum Tarihi: {detail.birthdate}</p>
-          <p>Doğum Yeri: {detail.birthplace}</p>
-          <p>TC No: {detail.idno}</p>
-          <p>İşe Giriş Tarihi: {detail.startdateofwork}</p>
-          <p>İşten Çıkış Tarihi: {detail.terminationdate}</p>
-          <p>Aktif / Pasif: {detail.activepassive}</p>
-          <p>Meslek: {detail.job}</p>
-          <p>Departman: {detail.department}</p>
-          <p>Şirket Bilgisi: {detail.companyinfo}</p>
-          <p>Email: {detail.email}</p>
-          <p>Adres: {detail.address}</p>
-          <p>Telefon: {detail.phone}</p>
-          <p>Maaş: {detail.salary}</p>
-          <br />
-          <button onClick={openNewWindow} style={{ position:'relative', bottom:'20px', left: '85%',transform: 'translateX(-50%)', padding: '8px 40px', fontSize: '16px', borderRadius: '8px', cursor: 'pointer'}}>Güncelle</button>
-        </div>
-      ))}
-    </div>
+ 
+  return (
+<div>
+<h2 style={{ textAlign: 'center' }}>Detaylar</h2>
+<br />
+<Divider />
+<br />
+<CardContent>
+<Stack spacing={2} alignItems='center'>
+<Avatar src={detail.img} sx={{ height: 120, width: 120 }} />
+<Stack spacing={1} sx={{ width: '100%', maxWidth: 360, bgcolor: 'transparent' }}>
+<Typography variant="subtitle1" component="p"><b>Ad:</b> {detail.name}</Typography>
+<Typography variant="subtitle1" component="p"><b>İkinci Ad:</b> {detail.secondname}</Typography>
+<Typography variant="subtitle1" component="p"><b>Soyad:</b> {detail.surname}</Typography>
+<Typography variant="subtitle1" component="p"><b>İkinci Soyad:</b> {detail.secondsurname}</Typography>
+<Typography variant="subtitle1" component="p"><b>Doğum Tarihi:</b> {detail.birthdate}</Typography>
+<Typography variant="subtitle1" component="p"><b>Doğum Yeri:</b> {detail.birthplace}</Typography>
+<Typography variant="subtitle1" component="p"><b>TC No:</b> {detail.idno}</Typography>
+<Typography variant="subtitle1" component="p"><b>İşe Giriş Tarihi:</b> {detail.startdateofwork}</Typography>
+<Typography variant="subtitle1" component="p"><b>İşten Çıkış Tarihi:</b> {detail.terminationdate}</Typography>
+<Typography variant="subtitle1" component="p"><b>Aktif / Pasif:</b> {detail.activepassive}</Typography>
+<Typography variant="subtitle1" component="p"><b>Meslek:</b> {detail.job}</Typography>
+<Typography variant="subtitle1" component="p"><b>Departman:</b> {detail.department}</Typography>
+<Typography variant="subtitle1" component="p"><b>Şirket Bilgisi:</b> {detail.companyinfo}</Typography>
+<Typography variant="subtitle1" component="p"><b>Email:</b> {detail.email}</Typography>
+<Typography variant="subtitle1" component="p"><b>Adres:</b> {detail.address}</Typography>
+<Typography variant="subtitle1" component="p"><b>Telefon:</b> {detail.phone}</Typography>
+<Typography variant="subtitle1" component="p"><b>Maaş:</b> {detail.salary}</Typography>
+<Button variant="contained" onClick={openNewWindow} sx={{mt: 2, // margintop 
+bgcolor: 'primary.main', '&:hover': 
+{bgcolor: 'primary.dark',
+}}}>Güncelle
+</Button>
+</Stack>
+</Stack>
+</CardContent>
+</div>
   );
 }
-
+ 
 export default Details;

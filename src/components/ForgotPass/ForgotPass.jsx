@@ -1,6 +1,7 @@
 // ForgotPass.jsx
  
 import React, { useState } from 'react';
+import axios from 'axios';
  
 const ForgotPass = () => {
   const [email, setEmail] = useState('');
@@ -8,10 +9,29 @@ const ForgotPass = () => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
  
-  const handleUpdatePassword = () => {
-    // Burada şifre güncelleme işlemlerini gerçekleştirebilirsiniz.
-    // Örneğin, bir API çağrısı yaparak şifreyi güncelleyebilirsiniz.
-    console.log('Şifre güncelleme işlemi yapılacak.');
+  const handleUpdatePassword = async () => {
+    try {
+      // API'ye şifre güncelleme isteği gönderme
+      const response = await axios.put('https://localhost:7287/api/Account/ChangePassword', {
+        email: email,
+        password: newPassword,
+        confirmPassword: confirmPassword,
+      });
+  
+      
+      console.log('Şifre başarıyla güncellendi:');
+      alert("Şifre başarıyla güncellendi");
+  
+    } catch (error) {
+     
+      console.error('Şifre güncellenirken bir hata oluştu',error);
+      alert("Şifre güncelleme hatası");
+    }
+
+    setEmail('');
+    setVerificationCode('');
+    setNewPassword('');
+    setConfirmPassword('');
   };
  
   return (

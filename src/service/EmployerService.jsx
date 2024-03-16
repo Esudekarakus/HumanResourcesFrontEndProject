@@ -1,6 +1,6 @@
 export const fetchEmployers = async () => {
     try{
-        const response = await fetch('https://localhost:7287/api/Employer/GetEmployerWithCompany');
+        const response = await fetch('https://hrwebappapi.azure-api.net/api/Employer');
         const data = await response.json();
         alert('Şirket yöneticileri başarıyla listelendi');
         return data;

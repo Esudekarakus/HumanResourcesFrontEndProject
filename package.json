@@ -2,7 +2,7 @@
   "name": "front-end-hr",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://hrwebproject2.azurewebsites.net/",
+  "homepage": ".",
   "type": "module",
   "scripts": {
     "dev": "vite",

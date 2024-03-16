@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Home from "../components/HomePage/Home";
 import Managers from "../components/HomePage/Managers";
 import Details from "../components/HomePage/Details";
-import Employees from "../components/HomePage/Employees";
+import Employees from "./HomePage/AddEmp";
 
 
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -30,9 +30,8 @@ function Template() {
             }}>
 <ul style={{listStyleType: 'none', padding: 0}}>
 <li><Link to="/" style={{ color: 'white', textDecoration: 'none' }}>Anasayfa</Link></li>
-<li><Link to="/managers" style={{ color: 'white', textDecoration: 'none' }}>Yöneticiler</Link></li>
 <li><Link to="/details" style={{ color: 'white', textDecoration: 'none' }}>Detaylar</Link></li>
-<li><Link to="/employees" style={{ color: 'white', textDecoration: 'none' }}>Çalışanlar</Link></li>
+<li><Link to="/employees" style={{ color: 'white', textDecoration: 'none' }}>Personel Ekle</Link></li>
 </ul>
 </nav>
 <div style={{flex: 1, padding: '20px', background: '#e6f2ff'}}>

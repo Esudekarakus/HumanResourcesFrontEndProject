@@ -32,7 +32,7 @@ function Details() {
 <h2 style={{ textAlign: 'center' }}>Detaylar</h2>
 <br />
 <Divider />
-<br />
+
 <CardContent>
 <Stack spacing={2} alignItems='center'>
 <Avatar src={detail.img} sx={{ height: 120, width: 120 }} />

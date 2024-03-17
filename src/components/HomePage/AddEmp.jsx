@@ -79,8 +79,7 @@ export function AddEmp() {
   };
 
   // const classes = useStyles();
-
-
+  
   return (
     <form onSubmit={handleSubmit}>
       <Card>
@@ -132,7 +131,7 @@ export function AddEmp() {
              <Grid item xs={12} md={6}>
               <FormControl fullWidth required>
                 <InputLabel htmlFor="birthDate">Doğum Tarihi</InputLabel>
-                <OutlinedInput id="birthDate" type="date" name="birthDate" value={empData.birthDate} onChange={handleChange} /*classes={classes.input} *//>
+                <OutlinedInput id="birthDate" type="" name="birthDate" value={empData.birthDate} onChange={handleChange} /*classes={classes.input} *//>
              </FormControl>
             </Grid>
        
@@ -154,7 +153,7 @@ export function AddEmp() {
             <Grid item xs={12} md={6}>
               <FormControl fullWidth required>
                 <InputLabel htmlFor="startDate">İşe Giriş Tarihi</InputLabel>
-                <OutlinedInput id="startDate" type="date" name="startDate" value={empData.startDate} onChange={handleChange} />
+                <OutlinedInput id="startDate" type="" name="startDate" value={empData.startDate} onChange={handleChange} />
               </FormControl>
             </Grid>
             {/* Meslek */}

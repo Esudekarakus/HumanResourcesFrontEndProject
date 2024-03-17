@@ -1,37 +1,34 @@
-
 import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import React, { useState, useEffect } from 'react';
 import { fetchEmployerById } from '../../service/EmployerService';
+import { useParams } from 'react-router';
+import CircularProgress from '@mui/material/CircularProgress'; // CircularProgress bileşenini import ediyoruz
 
 function Home() {
-  const [user, setUser] = useState(null); // Kullanıcı bilgilerini tutmak için state
+  const [user, setUser] = useState(null);
+  const { userId } = useParams();
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const userData = await fetchEmployerById(2); 
-        setUser(userData); 
+        const userData = await fetchEmployerById(userId);
+        setUser(userData);
       } catch (error) {
         console.error('Kullanıcı bilgileri alınırken bir hata oluştu:', error);
       }
     };
 
-    fetchUser(); 
-  }, []); 
-
+    fetchUser();
+  }, [userId]); 
 
   if (!user) {
-    return <div>Loading...</div>;
+    return <CircularProgress />; // Loading durumu için CircularProgress
   }
 
-  // Kullanıcı bilgilerini göster
   return (
     <div>
       <h2 style={{ textAlign: 'center' }}>Anasayfa</h2>

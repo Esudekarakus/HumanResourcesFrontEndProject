@@ -1,6 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import Nav from './components/Nav';
+import { BrowserRouter as Router, Routes, Route, Link, BrowserRouter } from "react-router-dom";
+
 
 import Login from './components/Login/Login'
 
@@ -10,16 +10,16 @@ import Template from './components/Template';
 
 function App() {
   return (
-<div>
-<header>
+    <div>
+        <Routes>
+          <Route path='*' element={<Template/>} />
+          <Route path="/login" element={<Login/>} />
+          <Route path="forgot-password" element={<ForgotPass/>} />
+        </Routes>
 
-</header>
-<main>
-  <Login/>
-  <ForgotPass/>
- <Template/> 
-</main>
-</div>
+    
+
+    </div>
   );
 }
 export default App;

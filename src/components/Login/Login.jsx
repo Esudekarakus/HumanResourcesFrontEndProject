@@ -13,46 +13,40 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
+import jwt_decode from 'jwt-decode'; // jwt-decode kütüphanesini ekliyoruz
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        insankaynaklari.com
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
-// TODO remove, this demo shouldn't need to reset the theme.
 
-const defaultTheme = createTheme();
-
-export default function SignIn() {
+function SignIn() {
+  
   const handleSubmit = async (event) => {
-      event.preventDefault();
-      const formData = new FormData(event.currentTarget);
-      const email = formData.get('email');
-      const password = formData.get('password');
-
-  try {
-    const response = await axios.post('https://localhost:7287/api/Account/Login', { email, password });
-    console.log(response.data); 
-    alert("Giriş başarılı");
-  } catch (error) {
-    console.error('Giriş işlemi başarısız oldu:', error);
-    alert("Giriş başarısız");
-    // Hata durumunda kullanıcıya bilgilendirme yapabilirsiniz
-  }
-  document.getElementById('email').value = ''; 
-  document.getElementById('password').value = ''; 
+    event.preventDefault();
+      
+    const formData = new FormData(event.currentTarget);
+    const email = formData.get('email');
+    const password = formData.get('password');
+     
+    try {
+      const response = await axios.post('https://localhost:7287/api/Account/Login', { email, password });
+      console.log(response.data); 
+     
+      const decodedToken = jwt_decode(response.data);
+     
+      const userId = decodedToken.userId; // Token'ı decode edip kullanıcı kimliğini alıyoruz
+      alert("Giriş başarılı");
+      window.location.href = `/home/${userId}`;
+    } catch (error) {
+      console.error('Giriş işlemi başarısız oldu:', error);
+      console.log('Response:', error.response); // Hata durumunda response'ı konsola yazdırma
+      alert("Giriş başarısız");
+    }
+    
+    // Formun alanlarını temizle
+    event.target.reset();
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={createTheme()}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -100,7 +94,7 @@ export default function SignIn() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Gİrİş Yap
+              GİrİŞ Yap
             </Button>
             <Grid container>
               <Grid item xs>
@@ -115,8 +109,18 @@ export default function SignIn() {
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
+        {/* Telif hakkı bilgisi */}
+        <Typography variant="body2" color="text.secondary" align="center">
+          {'Copyright © '}
+          <Link color="inherit" href="https://mui.com/">
+            insankaynaklari.com
+          </Link>{' '}
+          {new Date().getFullYear()}
+          {'.'}
+        </Typography>
       </Container>
     </ThemeProvider>
   );
 }
+
+export default SignIn;

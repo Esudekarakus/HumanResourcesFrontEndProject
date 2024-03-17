@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Home from "../components/HomePage/Home";
 import Managers from "../components/HomePage/Managers";
 import Details from "../components/HomePage/Details";
-import Employees from "./HomePage/AddEmp";
+import AddEmployee from "./HomePage/AddEmp";
 
 
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -36,13 +36,13 @@ function Template() {
 </nav>
 <div style={{flex: 1, padding: '20px', background: '#e6f2ff'}}>
 <Routes>
-<Route path="/" element={<Home />} />
-<Route path="/managers" element={<Managers />} />
-<Route path="/details" element={<Details />} />
-<Route path="/employees" element={<Employees />} />
+<Route path="/home/:userId" element={<Home />} />
+{/* <Route path="/managers" element={<Managers />} /> */}
+<Route path="/details/:userId" element={<Details />} />
+<Route path="/employees" element={<AddEmployee />} />
 
 
-<Route path="*" element={<h2>404 Page not found</h2>} />
+
 </Routes>
 </div>
 </div>

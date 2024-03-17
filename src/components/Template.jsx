@@ -5,7 +5,7 @@ import Home from "../components/HomePage/Home";
 import Managers from "../components/HomePage/Managers";
 import Details from "../components/HomePage/Details";
 import AddEmployee from "./HomePage/AddEmp";
-
+import UpdateDetails from "./UpdateDetails";
 
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
@@ -28,8 +28,10 @@ function Template() {
             }}>
 <ul style={{listStyleType: 'none', padding: 0}}>
 <li><Link to="/" style={{ color: 'white', textDecoration: 'none' }}>Anasayfa</Link></li>
-<li><Link to="/details" style={{ color: 'white', textDecoration: 'none' }}>Detaylar</Link></li>
+<li><Link to="/details/:userId" style={{ color: 'white', textDecoration: 'none' }}>Detaylar</Link></li>
+<li><Link to="/update" style={{ color: 'white', textDecoration: 'none' }}>Bilgileri Güncelle</Link></li>
 <li><Link to="/employees" style={{ color: 'white', textDecoration: 'none' }}>Personel Ekle</Link></li>
+
 </ul>
 </nav>
 <div style={{flex: 1, padding: '20px', background: '#e6f2ff'}}>
@@ -38,6 +40,7 @@ function Template() {
 {/* <Route path="/managers" element={<Managers />} /> */}
 <Route path="/details/:userId" element={<Details />} />
 <Route path="/employees" element={<AddEmployee />} />
+<Route path="/update" element={<UpdateDetails/>}/>
 
 
 

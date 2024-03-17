@@ -1,7 +1,8 @@
 import React from 'react';
 import { Avatar, CardContent, Divider, Stack, Button, Typography } from '@mui/material';
- 
+import { useParams } from 'react-router';
 function Details() {
+  const { userId } = useParams();
   const detail = {
     img: "/path/to/photo1.jpg",
     name: "Arda",
@@ -23,10 +24,11 @@ function Details() {
     salary: "49000"
   };
  
-  const openNewWindow = () => {
-    window.open("https://www.example.com", "_blank", "noopener,noreferrer");
-  };
  
+    const openNewWindow = () => {
+      window.open("/update", "_self"); // Yeni pencere yerine mevcut pencerede yönlendirme yapar
+    };
+  
   return (
 <div>
 <h2 style={{ textAlign: 'center' }}>Detaylar</h2>

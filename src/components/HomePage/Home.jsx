@@ -42,7 +42,7 @@ function Home() {
       <CardContent>
         <Stack spacing={2} sx={{ alignItems: 'center' }}>
           <div>
-            <Avatar src={user.avatar} sx={{ height: '120px', width: '120px' }} />
+            <Avatar src={user.avatar} sx={{ height: '120px', width: '120px' }} /> <br/>
           </div>
           <Stack spacing={1} sx={{ textAlign: 'left' }}>
             <Typography variant="h5">

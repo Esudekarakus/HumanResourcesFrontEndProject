@@ -8,8 +8,7 @@ import AddEmployee from "./HomePage/AddEmp";
 
 
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { EmpUpdate } from '../components/Employer/EmpUpdate';
-import { EmpDetails } from '../components/Employer/EmpDetails';
+
 import ForgotPass from '../components/ForgotPass/ForgotPass';
 import '../App.css';
 
@@ -18,8 +17,7 @@ function Template() {
 
 <main>
  
-  {/* <EmpDetails/>
-  <EmpUpdate/> */}
+ 
 <div style={{display: 'flex'}}>
 <nav style={{
               padding: '20px',

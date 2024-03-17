@@ -32,34 +32,34 @@ function Home() {
   return (
     <div>
       <h2 style={{ textAlign: 'center' }}>Anasayfa</h2>
-      <h5 style={{ textAlign: 'center' }}>Hoş geldiniz!</h5>
+      <h5 style={{ textAlign: 'center' }}>Hoş geldiniz <strong>{user.name}!</strong></h5>  
       <br />
       <Divider />
       <br />
       <CardContent>
         <Stack spacing={2} sx={{ alignItems: 'center' }}>
           <div>
-            <Avatar src={user.avatar} sx={{ height: '120px', width: '120px' }} />
+            <Avatar src={user.avatar} sx={{ height: '120px', width: '120px' }} /> <br/>
           </div>
           <Stack spacing={1} sx={{ textAlign: 'left' }}>
-            <Typography variant="h5">
-              <label>Ad Soyad:</label> {user.name}
+            <Typography variant="h6">
+              <label><strong>Ad Soyad:</strong></label> {user.name}
             </Typography>
-            <Typography color="text.secondary" variant="h7">
-              <label>Email:</label> {user.email}
+            <Typography color="" variant="h7">
+              <label><strong>Email:</strong></label> {user.email}
             </Typography>
-            <Typography color="text.secondary" variant="h7">
-              <label>Telefon: </label> {user.phone}
+            <Typography color="" variant="h7">
+              <label><strong>Telefon:</strong></label> {user.phone}
             </Typography>
-            <Typography color="text.secondary" variant="h7">
-              <label>Adres:</label> {user.address}, <label></label>
+            <Typography color="" variant="h7">
+              <label><strong>Adres:</strong></label> {user.address}, <label></label>
               {user.country}
             </Typography>
-            <Typography color="text.secondary" variant="h7">
-              <label>Departman:</label> {user.department}
+            <Typography color="" variant="h7">
+              <label><strong>Departman:</strong></label> {user.department}
             </Typography>
-            <Typography color="text.secondary" variant="h7">
-              <label>İş Ünvanı:</label> {user.profession}
+            <Typography color="" variant="h7">
+              <label><strong>İş Ünvanı:</strong></label> {user.profession}
             </Typography>
           </Stack>
         </Stack>

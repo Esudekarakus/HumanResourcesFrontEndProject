@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './UpdateDetails.css';
  
 function PersonelGuncellemeFormu() {
   const [personel, setPersonel] = useState({
@@ -23,18 +24,20 @@ function PersonelGuncellemeFormu() {
   };
  
   return (
+<div className="form-container">
 <form onSubmit={handleSubmit}>
-<div>
+<div  className="form-group">
 <label>Fotoğraf: <input type="file" name="fotograf" onChange={handleChange} /></label>
 </div>
-<div>
+<div className="form-group">
 <label>Adres: <input type="adres" name="adres" value={personel.adres} onChange={handleChange} /></label>
 </div>
-<div>
+<div className="form-group" >
 <label>Telefon: <input type="tel" name="telefon" value={personel.telefon} onChange={handleChange} /></label>
 </div>
 <button type="submit">Bilgileri Güncelle</button>
 </form>
+</div>
   );
 }
  

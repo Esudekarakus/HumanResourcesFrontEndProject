@@ -11,6 +11,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 import ForgotPass from '../components/ForgotPass/ForgotPass';
 import '../App.css';
+import AdvanceRequestForm from './HomePage/AdvanceForm';
+import AdvanceRequestList from './HomePage/AdvanceList';
+import AdvanceRequestsList from './HomePage/AdvanceList';
+import LeaveRequestForm from './HomePage/LeaveForm';
+import LeaveRequestList from './HomePage/LeaveList';
 
 function Template() {
   return (
@@ -31,6 +36,10 @@ function Template() {
 <li><Link to="/details/:userId" style={{ color: 'white', textDecoration: 'none' }}>Detaylar</Link></li>
 <li><Link to="/update" style={{ color: 'white', textDecoration: 'none' }}>Bilgileri Güncelle</Link></li>
 <li><Link to="/employees" style={{ color: 'white', textDecoration: 'none' }}>Personel Ekle</Link></li>
+<li><Link to="/advancerequestform" style={{ color: 'white', textDecoration: 'none' }}>Avans Talep Et</Link></li>
+<li><Link to="/advancerequestlist" style={{ color: 'white', textDecoration: 'none' }}>Avans Taleplerim</Link></li>
+<li><Link to="/leaverequestform" style={{ color: 'white', textDecoration: 'none' }}>İzin Talep Et</Link></li>
+<li><Link to="/leaverequestlist" style={{ color: 'white', textDecoration: 'none' }}>İzin Taleplerim</Link></li>
 
 </ul>
 </nav>
@@ -41,6 +50,10 @@ function Template() {
 <Route path="/details/:userId" element={<Details />} />
 <Route path="/employees" element={<AddEmployee />} />
 <Route path="/update" element={<UpdateDetails/>}/>
+<Route path="/advancerequestform" element={<AdvanceRequestForm/>}/>
+<Route path="/advancerequestlist" element={<AdvanceRequestsList/>}/>
+<Route path="/leaverequestform" element={<LeaveRequestForm/>}/>
+<Route path="/leaverequestlist" element={<LeaveRequestList/>}/>
 
 
 

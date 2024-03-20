@@ -32,7 +32,7 @@ function Template() {
               color: 'white'
             }}>
 <ul style={{listStyleType: 'none', padding: 0}}>
-<li><Link to="/" style={{ color: 'white', textDecoration: 'none' }}>Anasayfa</Link></li>
+<li><Link to="/home/:userId" style={{ color: 'white', textDecoration: 'none' }}>Anasayfa</Link></li>
 <li><Link to="/details/:userId" style={{ color: 'white', textDecoration: 'none' }}>Detaylar</Link></li>
 <li><Link to="/update" style={{ color: 'white', textDecoration: 'none' }}>Bilgileri Güncelle</Link></li>
 <li><Link to="/employees" style={{ color: 'white', textDecoration: 'none' }}>Personel Ekle</Link></li>

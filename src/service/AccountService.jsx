@@ -16,7 +16,11 @@ export const LoginF = async (email, password) => {
         console.error('Bir hata oluştu:', error.message);
         throw error;
     } 
+
 }
+
+
+
   export const ChangePassword = async (email, password, confirmPassword) => {
     try {
         const response = await axios.put('https://localhost:7287/api/Account/ChangePassword', {

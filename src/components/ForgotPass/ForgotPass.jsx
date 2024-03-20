@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ChangePassword } from '../../service/AccountService';
-/*jkjkjk*/
+
 const ForgotPass = () => {
   const [email, setEmail] = useState('');
   const [verificationCode, setVerificationCode] = useState('');

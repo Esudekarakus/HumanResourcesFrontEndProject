@@ -11,11 +11,17 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 import ForgotPass from '../components/ForgotPass/ForgotPass';
 import '../App.css';
-import AdvanceRequestForm from './HomePage/AdvanceForm';
-import AdvanceRequestList from './HomePage/AdvanceList';
-import AdvanceRequestsList from './HomePage/AdvanceList';
-import LeaveRequestForm from './HomePage/LeaveForm';
-import LeaveRequestList from './HomePage/LeaveList';
+import AdvanceRequestForm from './Personel/AdvanceForm';
+import AdvanceRequestList from './Personel/AdvanceList';
+import AdvanceRequestsList from './Personel/AdvanceList';
+import LeaveRequestForm from './Personel/LeaveForm';
+import LeaveRequestList from './Personel/LeaveList';
+import ExpenseForm from './Personel/ExpenseForm';
+import ApproveRejectTable from './Employeer/ApproveRejectTable';
+import LeaveApprovalScreen from './Employeer/LeaveApprovalScreen';
+import ExpenseScreen from './Employeer/ExpenseScreen';
+
+
 
 function Template() {
   return (
@@ -40,6 +46,12 @@ function Template() {
 <li><Link to="/advancerequestlist" style={{ color: 'white', textDecoration: 'none' }}>Avans Taleplerim</Link></li>
 <li><Link to="/leaverequestform" style={{ color: 'white', textDecoration: 'none' }}>İzin Talep Et</Link></li>
 <li><Link to="/leaverequestlist" style={{ color: 'white', textDecoration: 'none' }}>İzin Taleplerim</Link></li>
+<li><Link to="/expenseform" style={{ color: 'white', textDecoration: 'none' }}>Masraf Formu</Link></li>
+<li><Link to="/approverejecttable" style={{ color: 'white', textDecoration: 'none' }}>Avans Onay </Link></li>
+<li><Link to="/leaveapprovalscreen" style={{ color: 'white', textDecoration: 'none' }}>İzin Onay </Link></li>
+<li><Link to="/expensescreen" style={{ color: 'white', textDecoration: 'none' }}>Masraf Onay </Link></li>
+
+
 
 </ul>
 </nav>
@@ -54,6 +66,10 @@ function Template() {
 <Route path="/advancerequestlist" element={<AdvanceRequestsList/>}/>
 <Route path="/leaverequestform" element={<LeaveRequestForm/>}/>
 <Route path="/leaverequestlist" element={<LeaveRequestList/>}/>
+<Route path="/expenseform" element={<ExpenseForm/>}/>
+<Route path="/approverejecttable" element={<ApproveRejectTable/>}/>
+<Route path="/leaveapprovalscreen" element={<LeaveApprovalScreen/>}/>
+<Route path="/expensescreen" element={<ExpenseScreen/>}/>
 
 
 

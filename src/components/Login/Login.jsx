@@ -12,8 +12,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import axios from 'axios';
-import jwt_decode from 'jwt-decode'; // jwt-decode kütüphanesini ekliyoruz
+import { LoginF } from '../../service/AccountService';
+import jwt_decode from 'jwt-decode'; 
 
 
 
@@ -27,21 +27,21 @@ function SignIn() {
     const password = formData.get('password');
      
     try {
-      const response = await axios.post('https://localhost:7287/api/Account/Login', { email, password });
-      console.log(response.data); 
-     
-      const decodedToken = jwt_decode(response.data);
-     
-      const userId = decodedToken.userId; // Token'ı decode edip kullanıcı kimliğini alıyoruz
+      const response = await LoginF(email, password);
+      console.log(response); 
+      const decodedToken = jwt_decode(response);
+       const userId = decodedToken.userId;
+       const userEmail = decodedToken.email;
+       console.log(decodedToken);
       alert("Giriş başarılı");
-      window.location.href = `/home/${userId}`;
+      // window.location.href = `/home/${userId}`;
     } catch (error) {
       console.error('Giriş işlemi başarısız oldu:', error);
-      console.log('Response:', error.response); // Hata durumunda response'ı konsola yazdırma
+      console.log('Response:', error.response); 
       alert("Giriş başarısız");
     }
     
-    // Formun alanlarını temizle
+   
     event.target.reset();
   };
 

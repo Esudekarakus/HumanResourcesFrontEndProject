@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChangePassword } from '../../service/AccountService'; // AccountService'ten ChangePassword fonksiyonunu içeri aktarın
+import { ChangePassword } from '../../service/AccountService';
 
 const ForgotPass = () => {
   const [email, setEmail] = useState('');
@@ -10,18 +10,15 @@ const ForgotPass = () => {
 
   const handleUpdatePassword = async () => {
     try {
-      // Şifre değiştirme isteği için ChangePassword fonksiyonunu çağırın
       await ChangePassword(email, newPassword, confirmPassword);
 
       console.log('Şifre başarıyla güncellendi');
       alert('Şifre başarıyla güncellendi');
     } catch (error) {
       console.error('Şifre güncellenirken bir hata oluştu', error);
-      // API'den gelen hata mesajını al ve kullanıcıya göster
       setErrorMessage(error.message);
     }
 
-    // Alanları temizle
     setEmail('');
     setVerificationCode('');
     setNewPassword('');
@@ -76,7 +73,6 @@ const ForgotPass = () => {
         />
       </div>
 
-      {/* Hata mesajını göstermek için */}
       {errorMessage && <div style={{ color: 'red', margin: '10px 0' }}>{errorMessage}</div>}
 
       <div style={{ textAlign: 'center' }}>
@@ -91,5 +87,11 @@ const ForgotPass = () => {
             cursor: 'pointer',
           }}
         >
-          Şifreyi Güncelle        
+          Şifreyi Güncelle
+        </button>
+      </div>
+    </div>
+  );
+};
 
+export default ForgotPass;

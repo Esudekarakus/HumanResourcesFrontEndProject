@@ -1,0 +1,59 @@
+/* Genel stil ayarları */
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Ana konteyner stil ayarları */
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Sidebar stil ayarları */
+.sidebar {
+  flex: 0 0 250px; /* Sabit genişlik */
+  background-color: #003366; /* Örnek bir renk */
+  color: white;
+  padding: 20px;
+}
+
+/* İçerik stil ayarları */
+.content {
+  flex: 1;
+  padding: 20px;
+}
+
+/* Responsif ayarlar */
+@media (max-width: 768px) {
+  .sidebar {
+    flex: 0 0 150px; /* Küçük ekranlar için sidebar genişliği */
+  }
+
+  .content {
+    padding: 10px;
+  }
+}
+
+/* Daha küçük ekranlar için ekstra responsif ayarlar */
+@media (max-width: 480px) {
+  .sidebar {
+    position: absolute; /* Mobil cihazlarda sidebarı gizlemek için */
+    width: 100%;
+    left: -250px; /* Sidebarı ekran dışına çıkarmak için */
+    top: 0;
+    height: 100%;
+    transition: left 0.3s;
+  }
+
+  .sidebar.active {
+    left: 0; /* Aktif class'ı eklendiğinde sidebarı göster */
+  }
+
+  .content {
+    margin-left: 0; /* Sidebar gösterildiğinde içeriği kaydırmak için */
+  }
+}

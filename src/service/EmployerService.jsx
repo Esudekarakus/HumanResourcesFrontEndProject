@@ -40,3 +40,44 @@ export const updateEmployer = async(id,updatedData) =>{
         throw error;
     }
 }
+
+export const addEmployeeByEmployer = async (addData) => {
+    try {
+        const formData = new FormData();
+        formData.append('name', addData.firstName);
+        formData.append('middleName', addData.middleName);
+        formData.append('lastName', addData.lastName);
+        formData.append('secondLastName', addData.middleSurname);
+        formData.append('dateOfBirth', addData.birthDate);
+        formData.append('birthOfPlace', addData.birthPlace);
+        formData.append('address', addData.address);
+        formData.append('identificationNumber', addData.tc);
+        formData.append('dateOfStart', addData.startDate);
+       
+        formData.append('companyId', addData.companyId);
+        formData.append('department', addData.department);
+        formData.append('status', addData.status);
+        formData.append('phoneNumber', addData.phone);
+        formData.append('salary', addData.salary);
+       
+        formData.append('profession', addData.profession);
+        formData.append('privateMail', addData.email);
+
+        const response = await fetch(`https://localhost:7287/api/Employer/CreateEmployeeByEmployer`, {
+            method: 'POST',
+            body: formData,
+        });
+
+        if (!response.ok) {
+            throw new Error('API isteği sırasında bir hata oluştu.');
+        }
+
+        const data = await response.json();
+        return data;
+
+    } catch (error) {
+        console.error('Güncelleme başarısız', error);
+        throw error;
+    }
+}
+

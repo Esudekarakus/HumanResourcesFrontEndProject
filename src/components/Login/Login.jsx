@@ -34,7 +34,11 @@ function SignIn() {
        const userEmail = decodedToken.email;
        console.log(decodedToken);
       alert("Giriş başarılı");
+<<<<<<< HEAD
       window.location.href = `/home/${userId}`;
+=======
+      // window.location.href = `/home/${userId}`;
+>>>>>>> c6a139a3f12d257b860310ef08b123ad23a3e073
     } catch (error) {
       console.error('Giriş işlemi başarısız oldu:', error);
       console.log('Response:', error.response); 

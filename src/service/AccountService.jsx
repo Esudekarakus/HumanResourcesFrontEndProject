@@ -16,4 +16,28 @@ export const LoginF = async (email, password) => {
         console.error('Bir hata oluştu:', error.message);
         throw error;
     }
+<<<<<<< HEAD
 }
+
+export const ChangePassword = async (email, password, confirmPassword) => {
+    try {
+        const response = await axios.put('https://localhost:7287/api/Account/ChangePassword', {
+            email,
+            password,
+            confirmPassword
+        });
+
+        if (response.status >= 200 && response.status < 300) {
+            return response.data;
+        } else {
+            console.error('İstek başarısız oldu:', response.status, response.statusText);
+            throw new Error('İstek başarısız oldu');
+        }
+    } catch (error) {
+        console.error('Bir hata oluştu:', error.message);
+        throw error;
+    }
+}                              
+=======
+}
+>>>>>>> c6a139a3f12d257b860310ef08b123ad23a3e073

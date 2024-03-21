@@ -112,7 +112,7 @@ function ExpenseForm() {
 </label> */}
 <br />
 <Button type="submit" variant="contained" color="primary" className={styles.submitButton}>
-            Talep Ekle
+            Talep Gönder
 </Button>
 </form>
 <table>

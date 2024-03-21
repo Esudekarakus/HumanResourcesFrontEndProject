@@ -1,4 +1,6 @@
+
 import React, { useState } from 'react';
+import {Button} from '@material-ui/core';
  
 const initialExpenses = [
   // Başlangıç verileri
@@ -18,13 +20,21 @@ function ExpenseScreen() {
   const [expenses] = useState(initialExpenses);
  
   const styles = {
-    expenseScreen: {
-      backgroundColor: '#f0f4f8',
-      padding: '20px',
+    card: {
+      backgroundColor: '#f0faff', // Açık mavi arka plan
+      border: '1px solid #007bff', // Mavi çerçeve
       borderRadius: '8px',
-      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-      maxWidth: '800px',
+      padding: '20px',
+      maxWidth: '700px',
       margin: '20px auto',
+      boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+      
+      textAlign:'center'
+    },
+    header: {
+      color: '#007bff',
+      textAlign: 'center',
+      marginBottom: '20px',
     },
     table: {
       width: '100%',
@@ -32,66 +42,60 @@ function ExpenseScreen() {
     },
     th: {
       backgroundColor: '#007bff',
-      color: '#ffffff',
+      color: 'white',
       padding: '10px',
-      textAlign: 'left',
+      border: '1px solid #0056b3',
     },
     td: {
-      padding: '10px',
-      borderBottom: '1px solid #dddddd',
-    },
-    button: {
-      marginRight: '5px',
-      padding: '5px 10px',
-      border: 'none',
-      borderRadius: '5px',
-      cursor: 'pointer',
-    },
-    approveBtn: {
-      backgroundColor: '#28a745',
-      color: '#ffffff',
-    },
-    rejectBtn: {
-      backgroundColor: '#dc3545',
-      color: '#ffffff',
-    },
-    link: {
-      color: '#007bff',
-      textDecoration: 'none',
-    },
+      padding: '8px',
+      border: '1px solid #007bff',
+      textAlign: 'center',
+    }
   };
  
   return (
-<div style={styles.expenseScreen}>
-<h2>Masraf Onay Ekranı</h2>
+<div style={styles.card}>
+<h2 style={{color:'#007bff'}}>Masraf Onay Ekranı</h2>
 <table style={styles.table}>
 <thead>
 <tr>
-<th style={styles.th}>Ad</th>
-<th style={styles.th}>Soyad</th>
-<th style={styles.th}>Masraf Türü</th>
-<th style={styles.th}>Masraf Tutarı</th>
-<th style={styles.th}>Talep Tarihi</th>
-<th style={styles.th}>Masraf Belgesi</th>
-<th style={styles.th}>İşlemler</th>
+<td style={styles.th}>Ad</td>
+<td style={styles.th}>Soyad</td>
+<td style={styles.th}>Masraf Türü</td>
+<td style={styles.th}>Masraf Tutarı</td>
+<td style={styles.th}>Talep Tarihi</td>
+<td style={styles.th}>Masraf Belgesi</td>
+<td style={styles.th}>İşlemler</td>
 </tr>
 </thead>
 <tbody>
           {expenses.map((expense) => (
 <tr key={expense.id}>
-<td style={styles.td}>{expense.ad}</td>
-<td style={styles.td}>{expense.soyad}</td>
-<td style={styles.td}>{expense.masrafTuru}</td>
-<td style={styles.td}>{expense.masrafTutari}</td>
-<td style={styles.td}>{expense.talepTarihi}</td>
-<td style={styles.td}>
+<td >{expense.ad}</td>
+<td >{expense.soyad}</td>
+<td >{expense.masrafTuru}</td>
+<td >{expense.masrafTutari}</td>
+<td >{expense.talepTarihi}</td>
+<td >
 <a style={styles.link} href={`/documents/${expense.masrafBelgesi}`} target="_blank" rel="noopener noreferrer">
                   Belgeyi Görüntüle
 </a>
 </td>
-<td style={styles.td}>
-<button style={{...styles.button, ...styles.approveBtn}}>Onayla</button>
-<button style={{...styles.button, ...styles.rejectBtn}}>Reddet</button>
+<td align='center'>
+<Button style={{backgroundColor:"green"}}
+                    variant="contained"
+                    className={`${expense.button} ${expense.approveButton}`}
+                    onClick={() => handleApprove(expense.id)}
+                  >
+                    Onayla
+                  </Button>
+                  <Button style={{backgroundColor:"red"}}
+                    variant="contained"
+                    className={`${expense.button} ${expense.rejectButton}`}
+                    onClick={() => handleReject(expense.id)}
+                  >
+                    Reddet
+                  </Button>
 </td>
 </tr>
           ))}

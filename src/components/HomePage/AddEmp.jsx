@@ -31,6 +31,18 @@ const states = [
   { value: "ingiltere", label: "İngiltere" },
 ];
 
+const company=[
+  { value: "samsung", label: "Samsung" },
+  { value: "huawei", label: "Huawei" },
+  { value: "türktelekom", label: "TürkTelekom" },
+  { value: "vestel", label: "Vestel" },
+  { value: "aselsan", label: "Aselsan" },
+  { value: "apple ", label: "Apple" },
+  { value: "tesla", label: "Tesla" },
+  { value: "amazon", label: "Amazon" },
+  { value: "trendyol", label: "Trendyol" },
+  { value: "hepsiburada", label: "Hepsiburada" },
+];
 // const useStyles = makeStyles({
 //   input: {
 //     marginTop: '16px',
@@ -293,18 +305,26 @@ export function AddEmp() {
             <Grid item xs={12} md={6}>
               <FormControl fullWidth required>
                 <InputLabel
-                  htmlFor="companyName"
-                  InputLabelProps={{ shrink: !!empData.companyName }}
+                  id="company-label"
+                  InputLabelProps={{ shrink: !!empData.company }}
                 >
                   Şirket Bilgisi
                 </InputLabel>
-                <OutlinedInput
-                  id="companyName"
-                  name="companyName"
-                  value={empData.companyName}
+               
+                <Select
+                  labelId="company-label"
+                  id="company"
+                  name="company"
+                  value={empData.company}
                   onChange={handleChange}
                   label="Şirket Bilgisi"
-                />
+                >
+                  {company.map((company) => (
+                    <MenuItem key={company.value} value={company.value}>
+                      {company.label}
+                    </MenuItem>
+                  ))}
+                </Select>
               </FormControl>
             </Grid>
             {/* Email */}

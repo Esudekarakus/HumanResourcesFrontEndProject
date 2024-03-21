@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
  
 const styles = {
@@ -145,16 +146,8 @@ const AdvanceRequestForm = ({ userSalary = 10000, lastAdvanceRequest = 20000 }) 
 <option value="travel">Seyahat</option>
 </select>
 </div>
-
-<div style={styles.formGroup}>
-<label style={styles.label}>Cevaplanma Tarihi:</label>
-<input
-            style={styles.input}
-            type="date"
-            value={responseDate}
-            onChange={(e) => setResponseDate(e.target.value)}
-          />
-</div>
+ 
+ 
 <button type="submit" style={styles.submitButton}>Talep Et</button>
 </form>
 </div>
@@ -162,5 +155,6 @@ const AdvanceRequestForm = ({ userSalary = 10000, lastAdvanceRequest = 20000 }) 
 };
  
 export default AdvanceRequestForm;
-
-
+ 
+ 
+ 

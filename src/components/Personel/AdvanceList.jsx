@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getAdvancesByEmployeeId } from '../../service/AdvanceService';
-
+ 
 const styles = {
   card: {
     backgroundColor: '#f0faff', // Açık mavi arka plan
@@ -32,10 +32,10 @@ const styles = {
     textAlign: 'center',
   }
 };
-
+ 
 const AdvanceRequestsList = () => {
   const [advanceRequests, setAdvanceRequests] = useState([]);
-
+ 
   useEffect(() => {
     async function fetchData() {
       try {
@@ -46,13 +46,13 @@ const AdvanceRequestsList = () => {
         // Handle error, e.g., set an error state
       }
     }
-
+ 
     fetchData();
-  }, []); 
-
+  }, []);
+ 
   return (
     <div style={styles.card}>
-      <h2 style={styles.header}>Advance Taleplerim</h2>
+      <h2 style={styles.header}>Avans Taleplerim</h2>
       <table style={styles.table}>
         <thead>
           <tr>
@@ -78,5 +78,5 @@ const AdvanceRequestsList = () => {
     </div>
   );
 };
-
+ 
 export default AdvanceRequestsList;

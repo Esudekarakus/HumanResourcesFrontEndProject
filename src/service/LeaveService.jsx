@@ -9,7 +9,8 @@ export async function getLeaveWithEmployee() {
   }
   
   export async function getLeaveByEmployeeId(employeeId) {
-    const response = await fetch(`https://localhost:7287/api/leave/${employeeId}`);
+    const response = await fetch(`https://localhost:7287/api/Leave/id?id=${employeeId}`);
+
     if (!response.ok) {
       throw new Error(`Failed to fetch leave data for employee ${employeeId}`);
     }

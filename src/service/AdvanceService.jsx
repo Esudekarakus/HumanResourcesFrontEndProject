@@ -9,7 +9,7 @@ export async function getAdvanceWithEmployee() {
   }
   
   export async function getAdvancesByEmployeeId(employeeId) {
-    const response = await fetch(`https://localhost:7287/api/advance/${employeeId}`);
+    const response = await fetch(`https://localhost:7287/api/Advance/id?id=${employeeId}`);
     if (!response.ok) {
       throw new Error(`Failed to fetch advances for employee ${employeeId}`);
     }

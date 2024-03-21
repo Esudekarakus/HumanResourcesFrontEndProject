@@ -1,5 +1,6 @@
-import React from 'react';
- 
+import React, { useState, useEffect } from 'react';
+import { getAdvancesByEmployeeId } from '../../service/AdvanceService';
+
 const styles = {
   card: {
     backgroundColor: '#f0faff', // Açık mavi arka plan
@@ -31,42 +32,51 @@ const styles = {
     textAlign: 'center',
   }
 };
- 
+
 const AdvanceRequestsList = () => {
-  // Örnek talep verileri
-  const requests = [
-    { type: 'Kişisel', amount: '5000', status: 'Onaylandı', responseDate: '2024-03-10', requestDate: '2024-03-05' },
-    { type: 'Sağlık', amount: '10000', status: 'Beklemede', responseDate: '', requestDate: '2024-03-07' },
-    // Daha fazla örnek veri ekleyebilirsiniz
-  ];
- 
+  const [advanceRequests, setAdvanceRequests] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const data = await getAdvancesByEmployeeId(1); // Buradaki 1, employeeId'yi temsil eder. Değiştirmeniz gerekiyorsa değiştirebilirsiniz.
+        setAdvanceRequests(data);
+      } catch (error) {
+        console.error(error);
+        // Handle error, e.g., set an error state
+      }
+    }
+
+    fetchData();
+  }, []); 
+
   return (
-<div style={styles.card}>
-<h2 style={styles.header}>Taleplerim</h2>
-<table style={styles.table}>
-<thead>
-<tr>
-<th style={styles.th}>Talep Türü</th>
-<th style={styles.th}>Talep Miktarı</th>
-<th style={styles.th}>Talep Durumu</th>
-<th style={styles.th}>Cevaplanma Tarihi</th>
-<th style={styles.th}>Talep Etme Tarihi</th>
-</tr>
-</thead>
-<tbody>
-          {requests.map((request, index) => (
-<tr key={index}>
-<td style={styles.td}>{request.type}</td>
-<td style={styles.td}>{request.amount}</td>
-<td style={styles.td}>{request.status}</td>
-<td style={styles.td}>{request.responseDate || 'N/A'}</td>
-<td style={styles.td}>{request.requestDate}</td>
-</tr>
+    <div style={styles.card}>
+      <h2 style={styles.header}>Advance Taleplerim</h2>
+      <table style={styles.table}>
+        <thead>
+          <tr>
+            <th style={styles.th}>Talep Türü</th>
+            <th style={styles.th}>Talep Miktarı</th>
+            <th style={styles.th}>Talep Durumu</th>
+            <th style={styles.th}>Cevaplanma Tarihi</th>
+            <th style={styles.th}>Talep Etme Tarihi</th>
+          </tr>
+        </thead>
+        <tbody>
+          {advanceRequests.map((request, index) => (
+            <tr key={index}>
+              <td style={styles.td}>{request.type}</td>
+              <td style={styles.td}>{request.amount}</td>
+              <td style={styles.td}>{request.approvalStatus}</td>
+              <td style={styles.td}>{request.updatedDate || 'N/A'}</td>
+              <td style={styles.td}>{request.createdDate}</td>
+            </tr>
           ))}
-</tbody>
-</table>
-</div>
+        </tbody>
+      </table>
+    </div>
   );
 };
- 
+
 export default AdvanceRequestsList;

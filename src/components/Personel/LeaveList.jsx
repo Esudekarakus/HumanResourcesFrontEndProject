@@ -1,85 +1,87 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, Typography, Table, TableBody, TableCell, TableHead, TableRow, Button, makeStyles } from '@material-ui/core';
-import { getLeaveByEmployeeId } from '../../service/LeaveService'; 
-
-const useStyles = makeStyles({
+import { getLeaveByEmployeeId } from '../../service/LeaveService';
+ 
+const styles = {
   card: {
-    margin: '20px',
-    backgroundColor: '#bbdefb',
+    backgroundColor: '#f0faff', // Açık mavi arka plan
+    border: '1px solid #007bff', // Mavi çerçeve
+    borderRadius: '8px',
+    padding: '20px',
+    maxWidth: '700px',
+    margin: '20px auto',
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+  },
+  header: {
+    color: '#007bff',
+    textAlign: 'center',
+    marginBottom: '20px',
   },
   table: {
-    minWidth: 650,
+    width: '100%',
+    borderCollapse: 'collapse',
   },
-  button: {
-    margin: '5px',
+  th: {
+    backgroundColor: '#007bff',
+    color: 'white',
+    padding: '10px',
+    border: '1px solid #0056b3',
   },
-  approveButton: {
-    backgroundColor: '#4caf50',
-    '&:hover': {
-      backgroundColor: '#388e3c',
-    },
-  },
-  rejectButton: {
-    backgroundColor: '#f44336',
-    '&:hover': {
-      backgroundColor: '#d32f2f',
-    },
+  td: {
+    padding: '8px',
+    border: '1px solid #007bff',
+    textAlign: 'center',
   }
-});
-
+};
+ 
 function LeaveRequestList() {
-  const classes = useStyles();
   const [leaveRequests, setLeaveRequests] = useState([]);
-
+ 
   useEffect(() => {
     async function fetchData() {
       try {
-        const data = await getLeaveByEmployeeId(1); 
+        const data = await getLeaveByEmployeeId(1);
         setLeaveRequests(data);
       } catch (error) {
         console.error(error);
         // Handle error, e.g., set an error state
       }
     }
-
+ 
     fetchData();
-  }, []); 
-
+  }, []);
+ 
   return (
-    <Card className={classes.card}>
-      <CardContent>
-        <Typography color="textSecondary" gutterBottom>
-          Taleplerim
-        </Typography>
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Talep Türü</TableCell>
-              <TableCell>Açıklama</TableCell>
-              <TableCell>Cevaplama Tarihi</TableCell>
-              <TableCell>İzin Başlangıç</TableCell>
-              <TableCell>İzin Bitiş</TableCell>
-              <TableCell>Talep Durumu</TableCell>
-              <TableCell>Gün Sayısı</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {leaveRequests.map((request, index) => (
-              <TableRow key={index}>
-                <TableCell>{request.type}</TableCell>
-                <TableCell>{request.description}</TableCell>
-                <TableCell>{request.approvalDate}</TableCell>
-                <TableCell>{request.leaveDate}</TableCell>
-                <TableCell>{request.dueDate}</TableCell>
-                <TableCell>-</TableCell>
-                <TableCell>{request.numberOfDays}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </CardContent>
-    </Card>
+    <div style={styles.card}>
+      <h2 style={styles.header}>İzin Taleplerim</h2>
+      <table style={styles.table}>
+        <thead>
+          <tr>
+            <th style={styles.th}>Talep Türü</th>
+            <th style={styles.th}>Açıklama</th>
+            <th style={styles.th}>Cevaplanma Tarihi</th>
+            <th style={styles.th}>İzin Başlangıç</th>
+            <th style={styles.th}>İzin Bitiş</th>
+            <th style={styles.th}>Talep Durumu</th>
+            <th style={styles.th}>Gün Sayısı</th>
+          </tr>
+        </thead>
+        <tbody>
+          {leaveRequests.map((request, index) => (
+            <tr key={index}>
+              <td style={styles.td}>{request.type}</td>
+              <td style={styles.td}>{request.description}</td>
+              <td style={styles.td}>{request.approvalDate}</td>
+              <td style={styles.td}>{request.leaveDate}</td>
+              <td style={styles.td}>{request.dueDate}</td>
+              <td>-</td>
+              <td>{request.numberOfDays}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
-
+ 
 export default LeaveRequestList;

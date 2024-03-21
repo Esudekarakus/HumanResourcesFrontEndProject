@@ -3,30 +3,58 @@ import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 import { AttachFile as AttachFileIcon } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
  
-const useStyles = makeStyles((theme) => ({
-  formContainer: {
-    margin: theme.spacing(2),
-    padding: theme.spacing(2),
-    backgroundColor: '#e3f2fd',
+const styles = {
+  card: {
+    backgroundColor: '#f0faff', // Açık mavi arka plan
+    border: '1px solid #007bff', // Mavi çerçeve
+    borderRadius: '8px',
+    padding: '20px',
+    maxWidth: '500px',
+    margin: '20px auto',
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
   },
-  tableContainer: {
-    marginTop: theme.spacing(2),
+  header: {
+    color: '#007bff', // Mavi başlık metni
+    textAlign: 'center',
+    marginBottom: '20px',
   },
-  fileInput: {
-    display: 'none',
+  formGroup: {
+    marginBottom: '15px',
+  },
+  label: {
+    display: 'block',
+    marginBottom: '5px',
+    color: '#0056b3', // Daha koyu mavi metin
+  },
+  input: {
+    width: '100%',
+    padding: '8px',
+    margin: '0 0 10px 0',
+    borderRadius: '4px',
+    border: '1px solid #007bff',
+  },
+  select: {
+    width: '100%',
+    padding: '8px',
+    borderRadius: '4px',
+    border: '1px solid #007bff',
+    marginBottom: '10px',
   },
   submitButton: {
-    marginTop: theme.spacing(2),
+    backgroundColor: '#007bff', // Mavi buton
+    color: 'white',
+    padding: '10px 15px',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
   },
-  paper: {
-    padding: theme.spacing(2),
-    color: theme.palette.text.secondary,
-    backgroundColor: '#bbdefb',
+  errorMessage: {
+    color: 'red',
+    marginBottom: '15px',
   },
-}));
+};
  
 function ExpenseForm() {
-  const classes = useStyles();
   const [expenses, setExpenses] = useState([]);
   const [expenseType, setExpenseType] = useState('');
   const [amount, setAmount] = useState('');
@@ -53,50 +81,62 @@ function ExpenseForm() {
   };
  
   return (
-<div>
-<Paper className={classes.formContainer}>
-<Typography variant="h6">Harcama Talep Formu</Typography>
+<div style={styles.card}>
 <form onSubmit={handleSubmit}>
-<TextField label="Harcama Türü" value={expenseType} onChange={(e) => setExpenseType(e.target.value)} fullWidth margin="normal" />
-<TextField label="Tutar" value={amount} onChange={(e) => setAmount(e.target.value)} fullWidth margin="normal" InputProps={{
+<h2 style={styles.header}>Masraf Talep Formu</h2>
+ 
+<div style={styles.formGroup}>
+   <label style={styles.label}>Masraf Türü:</label>
+   <input value={expenseType} onChange={(e) => setExpenseType(e.target.value)} fullWidth margin="normal" />
+</div>
+ 
+<div style={styles.formGroup}>
+<label style={styles.label}>Tutar:</label>
+<input value={amount} onChange={(e) => setAmount(e.target.value)} fullWidth margin="normal" InputProps={{
             endAdornment: <InputAdornment position="end">TL</InputAdornment>,
           }} />
-<TextField label="Para Birimi" value={currency} onChange={(e) => setCurrency(e.target.value)} fullWidth margin="normal" />
-<input accept=".pdf,.xls,.xlsx" className={classes.fileInput} id="contained-button-file" multiple type="file" onChange={handleFileChange} />
-<label htmlFor="contained-button-file">
-<Button variant="contained" color="default" component="span" startIcon={<AttachFileIcon />}>
+</div>
+ 
+<div style={styles.formGroup}>
+<label style={styles.label}>Para Birimi:</label>
+
+<input value={currency} onChange={(e) => setCurrency(e.target.value)} fullWidth margin="normal" />
+
+</div>
+<input accept=".pdf,.xls,.xlsx" className={styles.AttachFile} id="contained-button-file" multiple type="file" onChange={handleFileChange} />
+ <br />
+{/* <label >
+<Button variant="contained" color="default" component="span" startIcon={<AttachFileIcon />} multiple type="file" onChange={handleFileChange} accept=".pdf,.xls,.xlsx">
               Dosya Ekle
 </Button>
-</label>
-<Button type="submit" variant="contained" color="primary" className={classes.submitButton}>
+</label> */}
+<br />
+<Button type="submit" variant="contained" color="primary" className={styles.submitButton}>
             Talep Ekle
 </Button>
 </form>
-</Paper>
-<TableContainer component={Paper} className={classes.tableContainer}>
-<Table>
-<TableHead>
-<TableRow>
-<TableCell>Harcama Türü</TableCell>
-<TableCell align="right">Tutar</TableCell>
-<TableCell align="right">Para Birimi</TableCell>
-<TableCell align="right">Dosya</TableCell>
-</TableRow>
-</TableHead>
-<TableBody>
+<table>
+<thead>
+<tr>
+<td>Masraf Türü</td>
+<td align="right">Tutar</td>
+<td align="right">Para Birimi</td>
+<td align="right">Dosya</td>
+</tr>
+</thead>
+<tbody>
             {expenses.map((expense, index) => (
-<TableRow key={index}>
-<TableCell component="th" scope="row">
+<tr key={index}>
+<td component="th" scope="row">
                   {expense.expenseType}
-</TableCell>
-<TableCell align="right">{expense.amount}</TableCell>
-<TableCell align="right">{expense.currency}</TableCell>
-<TableCell align="right">{expense.file ? expense.file.name : 'Yok'}</TableCell>
-</TableRow>
+</td>
+<td align="right">{expense.amount}</td>
+<td align="right">{expense.currency}</td>
+<td align="right">{expense.file ? expense.file.name : 'Yok'}</td>
+</tr>
             ))}
-</TableBody>
-</Table>
-</TableContainer>
+</tbody>
+</table>
 </div>
   );
 }

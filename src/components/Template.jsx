@@ -46,7 +46,7 @@ function Template() {
 <li><Link to="/advancerequestlist" style={{ color: 'white', textDecoration: 'none' }}>Avans Taleplerim</Link></li>
 <li><Link to="/leaverequestform" style={{ color: 'white', textDecoration: 'none' }}>İzin Talep Et</Link></li>
 <li><Link to="/leaverequestlist" style={{ color: 'white', textDecoration: 'none' }}>İzin Taleplerim</Link></li>
-<li><Link to="/expenseform" style={{ color: 'white', textDecoration: 'none' }}>Masraf Formu</Link></li>
+<li><Link to="/expenseform" style={{ color: 'white', textDecoration: 'none' }}>Masraf Talep Et</Link></li>
 <li><Link to="/approverejecttable" style={{ color: 'white', textDecoration: 'none' }}>Avans Onay </Link></li>
 <li><Link to="/leaveapprovalscreen" style={{ color: 'white', textDecoration: 'none' }}>İzin Onay </Link></li>
 <li><Link to="/expensescreen" style={{ color: 'white', textDecoration: 'none' }}>Masraf Onay </Link></li>

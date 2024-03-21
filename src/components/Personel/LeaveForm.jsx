@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
  
 const LeaveRequestForm = () => {
@@ -12,6 +13,7 @@ const LeaveRequestForm = () => {
     padding: '20px',
     maxWidth: '500px',
     margin: 'auto',
+    border: '1px solid #0056b3',
   };
  
   const titleStyles = {
@@ -26,6 +28,7 @@ const LeaveRequestForm = () => {
   const labelStyles = {
     display: 'block',
     marginBottom: '5px',
+    color:'#007bff',
   };
  
   const inputSelectStyles = {

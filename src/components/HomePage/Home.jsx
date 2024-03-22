@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import React, { useState, useEffect } from 'react';
 import { fetchEmployerById } from '../../service/EmployerService';
 import { useParams } from 'react-router';
-import CircularProgress from '@mui/material/CircularProgress'; // CircularProgress bileşenini import ediyoruz
+import CircularProgress from '@mui/material/CircularProgress'; // 
 
 function Home() {
   const [user, setUser] = useState(null);

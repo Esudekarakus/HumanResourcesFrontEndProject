@@ -44,40 +44,34 @@ export const updateEmployer = async(id,updatedData) =>{
 export const addEmployeeByEmployer = async (addData) => {
     try {
         const formData = new FormData();
-        formData.append('name', addData.firstName);
+        formData.append('name', addData.name);
         formData.append('middleName', addData.middleName);
         formData.append('lastName', addData.lastName);
-        formData.append('secondLastName', addData.middleSurname);
-        formData.append('dateOfBirth', addData.birthDate);
-        formData.append('birthOfPlace', addData.birthPlace);
+        formData.append('secondLastName', addData.secondLastName);
+        formData.append('dateOfBirth', addData.dateOfBirth);
+        formData.append('birthPlace', addData.birthPlace);
         formData.append('address', addData.address);
-        formData.append('identificationNumber', addData.tc);
-        formData.append('dateOfStart', addData.startDate);
+        formData.append('identificationNumber', addData.identificationNumber);
+        formData.append('dateOfStart', addData.dateOfStart);
        
         formData.append('companyId', addData.companyId);
         formData.append('department', addData.department);
         formData.append('status', addData.status);
-        formData.append('phoneNumber', addData.phone);
+        formData.append('phoneNumber', addData.phoneNumber);
         formData.append('salary', addData.salary);
        
         formData.append('profession', addData.profession);
-        formData.append('privateMail', addData.email);
+        formData.append('privateMail', addData.privateMail);
 
         const response = await fetch(`https://localhost:7287/api/Employer/CreateEmployeeByEmployer`, {
             method: 'POST',
             body: formData,
         });
 
-        if (!response.ok) {
-            throw new Error('API isteği sırasında bir hata oluştu.');
-        }
-
-        const data = await response.json();
-        return data;
-
+        // Burada response ile işlemler yapılabilir, örneğin başarılı ekleme durumunda geri dönüş yapılabilir.
     } catch (error) {
-        console.error('Güncelleme başarısız', error);
-        throw error;
+        // Hata durumunda hata işlemleri yapılabilir.
+        console.error("Error adding employee:", error);
+        throw new Error("Personel eklenirken bir hata oluştu.");
     }
-}
-
+};

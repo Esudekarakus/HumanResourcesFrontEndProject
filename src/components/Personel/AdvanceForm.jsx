@@ -1,10 +1,9 @@
-
 import React, { useState } from 'react';
- 
+
 const styles = {
   card: {
-    backgroundColor: '#f0faff', // Açık mavi arka plan
-    border: '1px solid #007bff', // Mavi çerçeve
+    backgroundColor: '#f0faff', // Light blue background
+    border: '1px solid #007bff', // Blue border
     borderRadius: '8px',
     padding: '20px',
     maxWidth: '500px',
@@ -12,7 +11,7 @@ const styles = {
     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
   },
   header: {
-    color: '#007bff', // Mavi başlık metni
+    color: '#007bff', // Blue header text
     textAlign: 'center',
     marginBottom: '20px',
   },
@@ -22,7 +21,7 @@ const styles = {
   label: {
     display: 'block',
     marginBottom: '5px',
-    color: '#0056b3', // Daha koyu mavi metin
+    color: '#0056b3', // Darker blue text
   },
   input: {
     width: '100%',
@@ -39,7 +38,7 @@ const styles = {
     marginBottom: '10px',
   },
   submitButton: {
-    backgroundColor: '#007bff', // Mavi buton
+    backgroundColor: '#007bff', // Blue button
     color: 'white',
     padding: '10px 15px',
     border: 'none',
@@ -51,110 +50,100 @@ const styles = {
     marginBottom: '15px',
   },
 };
- 
-const AdvanceRequestForm = ({ userSalary = 10000, lastAdvanceRequest = 20000 }) => {
-  const [requestDate, setRequestDate] = useState('');
-  const [advanceAmount, setAdvanceAmount] = useState('');
-  const [currency, setCurrency] = useState('TRY');
+
+const AdvanceRequestForm = () => {
+  const [amount, setAmount] = useState('');
+  const [currency, setCurrency] = useState('1');
   const [description, setDescription] = useState('');
-  const [advanceType, setAdvanceType] = useState('');
-  const [approvalStatus, setApprovalStatus] = useState('pending');
-  const [responseDate, setResponseDate] = useState('');
+  const [advanceType, setAdvanceType] = useState('1');
   const [errorMessage, setErrorMessage] = useState('');
- 
-  const maxAdvanceAmount = userSalary * 3;
-  const remainingAdvanceLimit = maxAdvanceAmount - lastAdvanceRequest;
- 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (parseInt(advanceAmount) > remainingAdvanceLimit) {
-      setErrorMessage(`Maksimum talep edilebilecek avans miktarı: ${remainingAdvanceLimit} TL`);
-      return;
+    const advanceData = {
+      Description: description,
+      Currency: parseInt(currency, 10),
+      AdvanceType: parseInt(advanceType, 10),
+      Amount: parseFloat(amount),
+      EmployeeId: 1, // Assuming a fixed value for simplicity
+    };
+
+    try {
+      await createAdvance(advanceData);
+      alert('Advance request submitted successfully.');
+      // Reset the form
+      setAmount('');
+      setCurrency('1');
+      setDescription('');
+      setAdvanceType('1');
+      setErrorMessage('');
+    } catch (error) {
+      console.error('Request error:', error);
+      setErrorMessage(error.message || 'An error occurred, please try again later.');
     }
- 
-    console.log({ requestDate, advanceAmount, currency, description, advanceType, approvalStatus, responseDate });
-    alert('Avans talebi gönderildi.');
- 
-    setRequestDate('');
-    setAdvanceAmount('');
-    setCurrency('TRY');
-    setDescription('');
-    setAdvanceType('');
-    setApprovalStatus('pending');
-    setResponseDate('');
-    setErrorMessage('');
   };
- 
+
+  async function createAdvance(advanceData) {
+    try {
+      const response = await fetch('https://localhost:7287/api/advance', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(advanceData),
+      });
+
+      if (!response.ok) {
+        const contentType = response.headers.get('Content-Type');
+        if (contentType && contentType.includes('application/json')) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || 'Server error.');
+        } else {
+          const errorText = await response.text();
+          throw new Error(errorText || 'Unexpected error occurred. Please try again later.');
+        }
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Error during the request:', error);
+      throw error;
+    }
+  }
+
   return (
-<div style={styles.card}>
-<form onSubmit={handleSubmit}>
-<h2 style={styles.header}>Avans Talep Formu</h2>
+    <div style={styles.card}>
+      <form onSubmit={handleSubmit}>
+        <h2 style={styles.header}>Advance Request Form</h2>
         {errorMessage && <p style={styles.errorMessage}>{errorMessage}</p>}
-<div style={styles.formGroup}>
-<label style={styles.label}>Talep Tarihi:</label>
-<input
-            style={styles.input}
-            type="date"
-            value={requestDate}
-            onChange={(e) => setRequestDate(e.target.value)}
-            required
-          />
-</div>
-<div style={styles.formGroup}>
-<label style={styles.label}>Avans Tutarı:</label>
-<input
-            style={styles.input}
-            type="number"
-            value={advanceAmount}
-            onChange={(e) => setAdvanceAmount(e.target.value)}
-            required
-          />
-</div>
-<div style={styles.formGroup}>
-<label style={styles.label}>Para Birimi:</label>
-<select
-            style={styles.select}
-            value={currency}
-            onChange={(e) => setCurrency(e.target.value)}
-            required
->
-<option value="TRY">Türk Lirası (TRY)</option>
-<option value="USD">Amerikan Doları (USD)</option>
-<option value="EUR">Euro (EUR)</option>
-</select>
-</div>
-<div style={styles.formGroup}>
-<label style={styles.label}>Açıklama:</label>
-<textarea
-            style={styles.input}
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-></textarea>
-</div>
-<div style={styles.formGroup}>
-<label style={styles.label}>Avans Türü:</label>
-<select
-            style={styles.select}
-            value={advanceType}
-            onChange={(e) => setAdvanceType(e.target.value)}
-            required
->
-<option value="">Seçiniz</option>
-<option value="personal">Kişisel</option>
-<option value="medical">Sağlık</option>
-<option value="travel">Seyahat</option>
-</select>
-</div>
- 
- 
-<button type="submit" style={styles.submitButton}>Talep Et</button>
-</form>
-</div>
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Advance Amount:</label>
+          <input style={styles.input} type="number" value={amount} onChange={(e) => setAmount(e.target.value)} required />
+        </div>
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Currency:</label>
+          <select style={styles.select} value={currency} onChange={(e) => setCurrency(e.target.value)} required>
+            <option value="1">Turkish Lira (TL)</option>
+            <option value="2">US Dollar (USD)</option>
+            <option value="3">Euro (EUR)</option>
+          </select>
+        </div>
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Description:</label>
+          <textarea style={styles.input} value={description} onChange={(e) => setDescription(e.target.value)} required></textarea>
+        </div>
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Advance Type:</label>
+          <select style={styles.select} value={advanceType} onChange={(e) => setAdvanceType(e.target.value)} required>
+            <option value="1">Personal</option>
+            <option value="2">Health</option>
+            <option value="3">Travel</option>
+          </select>
+        </div>
+        <button type="submit" style={styles.submitButton}>Submit Request</button>
+      </form>
+    </div>
   );
 };
- 
+
 export default AdvanceRequestForm;
- 
- 
- 

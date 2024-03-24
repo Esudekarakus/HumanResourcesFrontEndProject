@@ -37,7 +37,7 @@ export function AddEmp() {
     lastName: "",
     secondLastName: "",
     dateOfBirth: "",
-    birthPlace: "",
+    birthOfPlace: "",
     address: "",
     identificationNumber: "",
     companyId: 1,
@@ -53,33 +53,29 @@ export function AddEmp() {
 
   const handleChange = (e) => {
     const { name, value, checked } = e.target;
-    let updatedValue = value;
     if (name === "status") {
-      updatedValue = checked ? "active" : "inactive";
-      updatedValue = updatedValue === "active" ? 1 : 2;
+      // Handle switch for status
+      setEmpData({ ...empData, [name]: checked ? 1 : 2 });
     } else if (name === "salary") {
-      updatedValue = parseFloat(value);
-    } else if (name === "dateOfBirth" || name === "dateOfStart") {
-      const date = new Date(value);
-      updatedValue = value;
+      // Parse salary as float and handle NaN
+      setEmpData({ ...empData, [name]: isNaN(parseFloat(value)) ? "" : parseFloat(value) });
+    } else {
+      // Handle all other inputs
+      setEmpData({ ...empData, [name]: value });
     }
-
-    setEmpData({
-      ...empData,
-      [name]: updatedValue,
-    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (!empData.name || !empData.lastName || !empData.dateOfBirth || !empData.address || !empData.identificationNumber || !empData.dateOfStart || !empData.phoneNumber || !empData.privateMail || !empData.department) {
+      if (!empData.name || !empData.lastName || !empData.dateOfBirth || !empData.address || !empData. identificationNumber || !empData.dateOfStart || !empData.phoneNumber || !empData.privateMail || !empData.department) {
         setError("Lütfen tüm gerekli alanları doldurun.");
         return;
       }
-
-      var response =await addEmployeeByEmployer(empData);
-      console.log("Employee added successfully.",response.status);
+      console.log(empData);
+      const responseData = await addEmployeeByEmployer(empData);
+      console.log("Employee added successfully:", responseData);
+      
 
       setEmpData({
         name: "",
@@ -87,7 +83,7 @@ export function AddEmp() {
         lastName: "",
         secondLastName: "",
         dateOfBirth: "",
-        birthPlace: "",
+        birthOfPlace: "",
         address: "",
         identificationNumber: "",
         companyId: 1,
@@ -182,9 +178,9 @@ export function AddEmp() {
               <TextField
                 fullWidth
                 label="Doğum Yeri"
-                name="birthPlace"
+                name="birthOfPlace"
                 onChange={handleChange}
-                value={empData.birthPlace}
+                value={empData.birthOfPlace}
                 variant="outlined"
               />
             </Grid>

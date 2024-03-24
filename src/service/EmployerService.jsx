@@ -41,15 +41,17 @@ export const updateEmployer = async(id,updatedData) =>{
     }
 }
 
+
 export const addEmployeeByEmployer = async (addData) => {
     try {
+        
         const formData = new FormData();
         formData.append('name', addData.name);
         formData.append('middleName', addData.middleName);
         formData.append('lastName', addData.lastName);
         formData.append('secondLastName', addData.secondLastName);
         formData.append('dateOfBirth', addData.dateOfBirth);
-        formData.append('birthPlace', addData.birthPlace);
+        formData.append('birthOfPlace', addData.birthOfPlace);
         formData.append('address', addData.address);
         formData.append('identificationNumber', addData.identificationNumber);
         formData.append('dateOfStart', addData.dateOfStart);
@@ -66,12 +68,19 @@ export const addEmployeeByEmployer = async (addData) => {
         const response = await fetch(`https://localhost:7287/api/Employer/CreateEmployeeByEmployer`, {
             method: 'POST',
             body: formData,
+            
         });
 
-        // Burada response ile işlemler yapılabilir, örneğin başarılı ekleme durumunda geri dönüş yapılabilir.
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        // Yanıt işleme
+        const responseData = await response.json();
+        console.log("Employee added successfully:", responseData);
+        return responseData;
     } catch (error) {
-        // Hata durumunda hata işlemleri yapılabilir.
         console.error("Error adding employee:", error);
-        throw new Error("Personel eklenirken bir hata oluştu.");
+        throw error;
     }
 };

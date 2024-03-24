@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from '@material-ui/core';
+import { Button, Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
+
+// API çağrılarınızı içeren servis dosyanızın yolu
 import { getLeaveWithEmployee } from '../../service/LeaveService';
 
 const styles = {
@@ -11,7 +13,7 @@ const styles = {
     maxWidth: '700px',
     margin: '20px auto',
     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   header: {
     color: '#007bff',
@@ -33,6 +35,22 @@ const styles = {
     border: '1px solid #007bff',
     textAlign: 'center',
   },
+  buttonApprove: {
+    backgroundColor: 'green',
+    color: 'white',
+    '&:hover': {
+      backgroundColor: 'darkgreen',
+    },
+    margin: '5px',
+  },
+  buttonReject: {
+    backgroundColor: 'red',
+    color: 'white',
+    '&:hover': {
+      backgroundColor: 'darkred',
+    },
+    margin: '5px',
+  },
 };
 
 function LeaveApprovalScreen() {
@@ -41,72 +59,82 @@ function LeaveApprovalScreen() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const data = await getLeaveWithEmployee();
-        setLeaveRequests(data.result);
+        const response = await getLeaveWithEmployee();
+        setLeaveRequests(response.result);
       } catch (error) {
-        console.error(error);
+        console.error('İzin talepleri yüklenirken bir hata oluştu:', error);
       }
     }
 
     fetchData();
   }, []);
 
-  const handleApprove = (id) => {
-    alert(`İzin talebi ${id} onaylandı.`);
-  };
+  const updateLeaveStatus = async (leaveId, newStatus) => {
+    console.log(`Updating status for leaveId: ${leaveId} with newStatus: ${newStatus}`);
+    const url = `https://localhost:7287/api/leave/${leaveId}`;
+    console.log(`Request URL: ${url}`);
+    try {
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: leaveId, status: newStatus }),
+        
+      });
 
-  const handleReject = (id) => {
-    alert(`İzin talebi ${id} reddedildi.`);
+      if (!response.ok) {
+        throw new Error('Durum güncelleme başarısız');
+      }
+
+      // API çağrısı başarılıysa, liste güncellenir
+      const updatedList = leaveRequests.map(request => {
+        if (request.id === leaveId) {
+          return { ...request, status: newStatus };
+        }
+        return request;
+      });
+      alert(`İzin talebi ID: ${leaveId} başarıyla güncellendi.`);
+      setLeaveRequests(updatedList);
+    } catch (error) {
+      console.error('İzin durumu güncellenirken bir hata oluştu:', error);
+    }
   };
 
   return (
     <div style={styles.card}>
-      <h2 style={styles.header}>
-        İzin Onay Ekranı
-      </h2>
-      <table style={styles.table}>
-        <thead>
-          <tr>
-            <td style={styles.th}>Ad</td>
-            <td style={styles.th}>Soyad</td>
-            <td style={styles.th}>Talep Edilen Gün Sayısı</td>
-            <td style={styles.th}>Açıklama</td>
-            <td style={styles.th}>Talep Türü</td>
-            <td style={styles.th}>İzin Başlangıç Tarihi</td>
-            <td style={styles.th}>İzin Bitiş Tarihi</td>
-            <td style={styles.th} align="center">İşlemler</td>
-          </tr>
-        </thead>
-        <tbody>
+      <h2 style={styles.header}>İzin Taleplerim</h2>
+      <Table style={styles.table}>
+        <TableHead>
+          <TableRow>
+            <TableCell style={styles.th}>Ad</TableCell>
+            <TableCell style={styles.th}>Soyad</TableCell>
+            <TableCell style={styles.th}>Talep Edilen Gün Sayısı</TableCell>
+            <TableCell style={styles.th}>Açıklama</TableCell>
+            <TableCell style={styles.th}>Talep Türü</TableCell>
+            <TableCell style={styles.th}>İzin Başlangıç Tarihi</TableCell>
+            <TableCell style={styles.th}>İzin Bitiş Tarihi</TableCell>
+            <TableCell style={styles.th}>İşlemler</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
           {leaveRequests.map((request) => (
-            <tr key={request.id}>
-              <td>{request.employeeName}</td>
-              <td>{request.employeeLastName}</td>
-              <td>{request.numberOfDays}</td>
-              <td>{request.description}</td>
-              <td>{request.type}</td>
-              <td>{request.leaveDate}</td>
-              <td>{request.dueDate}</td>
-              <td align="center">
-                <Button
-                  style={{ backgroundColor: 'green', margin: 'theme.spacing(1)' }}
-                  variant="contained"
-                  onClick={() => handleApprove(request.id)}
-                >
-                  Onayla
-                </Button>
-                <Button
-                  style={{ backgroundColor: 'red', margin: 'theme.spacing(1)' }}
-                  variant="contained"
-                  onClick={() => handleReject(request.id)}
-                >
-                  Reddet
-                </Button>
-              </td>
-            </tr>
+            <TableRow key={request.id}>
+              <TableCell style={styles.td}>{request.employeeName}</TableCell>
+              <TableCell style={styles.td}>{request.employeeLastName}</TableCell>
+              <TableCell style={styles.td}>{request.numberOfDays}</TableCell>
+              <TableCell style={styles.td}>{request.description}</TableCell>
+              <TableCell style={styles.td}>{request.type}</TableCell>
+              <TableCell style={styles.td}>{request.leaveDate}</TableCell>
+              <TableCell style={styles.td}>{request.dueDate}</TableCell>
+              <TableCell>
+                <Button style={styles.buttonApprove} onClick={() => updateLeaveStatus(request.id, 2)}>Onayla</Button>
+                <Button style={styles.buttonReject} onClick={() => updateLeaveStatus(request.id, 3)}>Reddet</Button>
+              </TableCell>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </div>
   );
 }

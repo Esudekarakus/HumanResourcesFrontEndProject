@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Button, makeStyles } from '@material-ui/core';
+import { Button, Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
 import { getAdvanceWithEmployee } from '../../service/AdvanceService';
 
-const useStyles = makeStyles((theme) => ({
+const styles = {
   card: {
     backgroundColor: '#f0faff',
     border: '1px solid #007bff',
@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: '700px',
     margin: '20px auto',
     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+    textAlign: 'center',
   },
   header: {
     color: '#007bff',
@@ -32,92 +33,108 @@ const useStyles = makeStyles((theme) => ({
     border: '1px solid #007bff',
     textAlign: 'center',
   },
-  button: {
-    margin: theme.spacing(1),
+  buttonApprove: {
+    backgroundColor: 'green',
+    color: 'white',
+    '&:hover': {
+      backgroundColor: 'darkgreen',
+    },
+    margin: '5px',
   },
-}));
+  buttonReject: {
+    backgroundColor: 'red',
+    color: 'white',
+    '&:hover': {
+      backgroundColor: 'darkred',
+    },
+    margin: '5px',
+  },
+};
 
-function ApproveRejectTable() {
-  const classes = useStyles();
-  const [requests, setRequests] = useState([]);
+function AdvanceApprovalScreen() {
+  const [advanceRequests, setAdvanceRequests] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const data = await getAdvanceWithEmployee();
-        setRequests(data.result);
+        const response = await getAdvanceWithEmployee();
+        setAdvanceRequests(response.result);
       } catch (error) {
-        console.error(error);
+        console.error('Avans talepleri yüklenirken bir hata oluştu:', error);
       }
     }
 
     fetchData();
   }, []);
 
-  const handleApprove = (id) => {
-    alert(`Talep ${id} onaylandı.`);
-  };
+  const updateAdvanceStatus = async (advanceId, newStatus) => {
+    console.log(`Updating status for advance: ${advanceId} with newStatus: ${newStatus}`);
+    const url = `https://localhost:7287/api/advance/${advanceId}`;
+    console.log(`Request URL: ${url}`);
+    try {
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: advanceId, approvalStatus: newStatus }),
+      });
 
-  const handleReject = (id) => {
-    alert(`Talep ${id} reddedildi.`);
+      if (!response.ok) {
+        throw new Error('Durum güncelleme başarısız');
+      }
+
+      const updatedList = advanceRequests.map(request => {
+        if (request.id === advanceId) {
+          return { ...request, approvalStatus: newStatus };
+        }
+        return request;
+      });
+      alert(`Avans talebi ID: ${advanceId} başarıyla güncellendi.`);
+      setAdvanceRequests(updatedList);
+    } catch (error) {
+      console.error('Avans durumu güncellenirken bir hata oluştu:', error);
+    }
   };
 
   return (
-    <div className={classes.card}>
-      <h2 className={classes.header}>
-        Avans Talep Onay Ekranı
-      </h2>
-      <table className={classes.table}>
-        <thead>
-          <tr>
-            <th className={classes.th}>Ad</th>
-            <th className={classes.th}>Soyad</th>
-            <th className={classes.th}>Talep Tutarı</th>
-            <th className={classes.th}>Talep Tarihi</th>
-            <th className={classes.th}>Talep Türü</th>
-            <th className={classes.th} align="center">İşlemler</th>
-          </tr>
-        </thead>
-        <tbody>
-          {requests.length > 0 ? (
-            requests.map((request) => (
-              <tr key={request.id}>
-                <td>{request.employeeName}</td>
-                <td>{request.employeeLastName}</td>
-                <td>{request.amount}</td>
-                <td>{request.createdDate}</td>
-                <td>{request.advanceType}</td>
-                <td align="center">
-                  <Button
-                    style={{ backgroundColor: 'green' }}
-                    variant="contained"
-                    color="primary"
-                    className={classes.button}
-                    onClick={() => handleApprove(request.id)}
-                  >
-                    Onayla
-                  </Button>
-                  <Button
-                    style={{ backgroundColor: 'red' }}
-                    variant="contained"
-                    color="secondary"
-                    className={classes.button}
-                    onClick={() => handleReject(request.id)}
-                  >
-                    Reddet
-                  </Button>
-                </td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan={6} align="center">Veri yükleniyor...</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+    <div style={styles.card}>
+      <h2 style={styles.header}> Avans Talep Onay Ekranı</h2>
+      <Table style={styles.table}>
+        <TableHead>
+          <TableRow>
+            <TableCell style={styles.th}>Ad</TableCell>
+            <TableCell style={styles.th}>Soyad</TableCell>
+            <TableCell style={styles.th}>Talep Edilen Miktar</TableCell>
+            <TableCell style={styles.th}>Açıklama</TableCell>
+            <TableCell style={styles.th}>Talep Türü</TableCell>
+            <TableCell style={styles.th}>Talep Tarihi</TableCell>
+            <TableCell style={styles.th}>Güncellenme Tarihi</TableCell>
+            <TableCell style={styles.th}>Onaylanma Tarihi</TableCell>
+            <TableCell style={styles.th}>Aksiyonlar</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {advanceRequests.map((request) => (
+            <TableRow key={request.id}>
+              <TableCell style={styles.td}>{request.employeeName}</TableCell>
+              <TableCell style={styles.td}>{request.employeeLastName}</TableCell>
+              <TableCell style={styles.td}>{request.amount}</TableCell>
+              <TableCell style={styles.td}>{request.description}</TableCell>
+              <TableCell style={styles.td}>{request.advanceType}</TableCell> {/* Assuming requestType exists */}
+              <TableCell style={styles.td}>{request.createdDate}</TableCell>
+              <TableCell style={styles.td}>{request.updatedDate}</TableCell>
+              <TableCell style={styles.td}>{request.approvalDate}</TableCell>
+              <TableCell>
+              <Button style={styles.buttonApprove} onClick={() => updateAdvanceStatus(request.id, 2)}>Onayla</Button>
+                <Button style={styles.buttonReject} onClick={() => updateAdvanceStatus(request.id, 3)}>Reddet</Button>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </div>
   );
 }
 
-export default ApproveRejectTable;
+export default AdvanceApprovalScreen;

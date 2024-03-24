@@ -103,7 +103,7 @@ function LeaveApprovalScreen() {
 
   return (
     <div style={styles.card}>
-      <h2 style={styles.header}>İzin Taleplerim</h2>
+      <h2 style={styles.header}> İzin Talep Onay Ekranı</h2>
       <Table style={styles.table}>
         <TableHead>
           <TableRow>

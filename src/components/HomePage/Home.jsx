@@ -7,64 +7,71 @@ import React, { useState, useEffect } from 'react';
 import { fetchEmployerById } from '../../service/EmployerService';
 import { useParams } from 'react-router';
 import CircularProgress from '@mui/material/CircularProgress'; // 
+// import  { useState, useEffect } from 'react';
+// import { fetchEmployerById } from '../../service/EmployerService';
+// import { useParams } from 'react-router';
+import CircularProgress from '@mui/material/CircularProgress'; // CircularProgress bileşenini import ediyoruz
+import { useSelector } from 'react-redux';
 
 function Home() {
-  const [user, setUser] = useState(null);
-  const { userId } = useParams();
+  // const { userId } = useParams();
+  const userDetails = useSelector((state) => state.userDetails);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const userData = await fetchEmployerById(userId);
-        setUser(userData);
-      } catch (error) {
-        console.error('Kullanıcı bilgileri alınırken bir hata oluştu:', error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     try {
+  //       const userData = await fetchEmployerById(userId);
+  //       setUser(userData);
+  //     } catch (error) {
+  //       console.error('Kullanıcı bilgileri alınırken bir hata oluştu:', error);
+  //     }
+  //   };
 
-    fetchUser();
-  }, [userId]); 
+  //   fetchUser();
+  // }, [userId]); 
 
-  if (!user) {
+  if (!userDetails) {
     return <CircularProgress />; // Loading durumu için CircularProgress
   }
 
   return (
+    <>
     <div>
       <h2 style={{ textAlign: 'center' }}>Anasayfa</h2>
-      <h5 style={{ textAlign: 'center' }}>Hoş geldiniz <strong>{user.name}!</strong></h5>  
+      <h5 style={{ textAlign: 'center' }}>Hoş geldiniz <strong>{userDetails.name}!</strong></h5>  
       <br />
       <Divider />
       <br />
       <CardContent>
         <Stack spacing={2} sx={{ alignItems: 'center' }}>
           <div>
-            <Avatar src={user.avatar} sx={{ height: '120px', width: '120px' }} /> <br/>
+            <Avatar src={userDetails.avatar} sx={{ height: '120px', width: '120px' }} /> <br/>
           </div>
           <Stack spacing={1} sx={{ textAlign: 'left' }}>
             <Typography variant="h6">
-              <label><strong>Ad Soyad:</strong></label> {user.name}
+              <label><strong>Ad Soyad:</strong></label> {userDetails.name}
             </Typography>
             <Typography color="" variant="h7">
-              <label><strong>Email:</strong></label> {user.email}
+              <label><strong>Email:</strong></label> {userDetails.email}
             </Typography>
             <Typography color="" variant="h7">
-              <label><strong>Telefon:</strong></label> {user.phone}
+              <label><strong>Telefon:</strong></label> {userDetails.phoneNumber}
             </Typography>
             <Typography color="" variant="h7">
-              <label><strong>Adres:</strong></label> {user.address}, <label></label>
-              {user.country}
+              <label><strong>Adres:</strong></label> {userDetails.address}, <label></label>
+              {userDetails.address}
             </Typography>
             <Typography color="" variant="h7">
-              <label><strong>Departman:</strong></label> {user.department}
+              <label><strong>Departman:</strong></label> {userDetails.department}
             </Typography>
             <Typography color="" variant="h7">
-              <label><strong>İş Ünvanı:</strong></label> {user.profession}
+              <label><strong>İş Ünvanı:</strong></label> {userDetails.profession}
             </Typography>
           </Stack>
         </Stack>
       </CardContent>
     </div>
+    </>
   );
 }
 

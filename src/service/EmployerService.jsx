@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export const fetchEmployers = async () => {
     try{
         const response = await fetch('https://hrprojectapi.azurewebsites.net/api/Employer');

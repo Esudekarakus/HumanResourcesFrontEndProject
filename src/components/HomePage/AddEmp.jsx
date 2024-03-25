@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FormControlLabel, Typography } from "@mui/material";
 import { addEmployeeByEmployer } from "../../service/EmployerService";
 import {
@@ -31,6 +31,16 @@ const companies = [
 ];
 
 export function AddEmp() {
+
+  // const [password, setPassword] = useState('');
+  // const [validPassword, setValidPassword] = useState(false);
+  // const [passwordFocus, setPasswordFocus] = useState(false);
+
+  // const [matchPassword, setMatchPassword] = useState('');
+  // const [validMatchPassword, setValidMatchPassword] = useState(false);
+  // const [matchPasswordFocus, setMatchPasswordFocus] = useState(false);
+
+
   const [empData, setEmpData] = useState({
     name: "",
     middleName: "",
@@ -68,14 +78,14 @@ export function AddEmp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (!empData.name || !empData.lastName || !empData.dateOfBirth || !empData.address || !empData. identificationNumber || !empData.dateOfStart || !empData.phoneNumber || !empData.privateMail || !empData.department) {
+      if (!empData.name || !empData.lastName || !empData.dateOfBirth || !empData.address || !empData.identificationNumber || !empData.dateOfStart || !empData.phoneNumber || !empData.privateMail || !empData.department) {
         setError("Lütfen tüm gerekli alanları doldurun.");
         return;
       }
       console.log(empData);
       const responseData = await addEmployeeByEmployer(empData);
       console.log("Employee added successfully:", responseData);
-      
+
 
       setEmpData({
         name: "",
@@ -103,6 +113,7 @@ export function AddEmp() {
   };
 
   return (
+
     <form onSubmit={handleSubmit}>
       <Card>
         <CardHeader
@@ -222,16 +233,16 @@ export function AddEmp() {
               />
             </Grid>
             <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="Telefon"
-              name="phoneNumber"
-              onChange={handleChange}
-              value={empData.phoneNumber}
-              variant="outlined"
-              required
-            />
-          </Grid>
+              <TextField
+                fullWidth
+                label="Telefon"
+                name="phoneNumber"
+                onChange={handleChange}
+                value={empData.phoneNumber}
+                variant="outlined"
+                required
+              />
+            </Grid>
             <Grid item xs={12}>
               <TextField
                 fullWidth
@@ -316,7 +327,7 @@ export function AddEmp() {
         </CardActions>
       </Card>
     </form>
-  );
+  )
 }
 
 export default AddEmp;

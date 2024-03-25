@@ -1,5 +1,7 @@
-import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { useState } from "react";
+import { Routes, Route, Link } from "react-router-dom";
+import Login from './Login/SignIn';
+import { useSelector } from 'react-redux'; 
 import Home from "../components/HomePage/Home";
 import Details from "../components/HomePage/Details";
 import AddEmployee from "./HomePage/AddEmp";
@@ -14,6 +16,9 @@ import LeaveApprovalScreen from "./Employeer/LeaveApprovalScreen";
 import ExpenseScreen from "./Employeer/ExpenseScreen";
 
 function Template() {
+
+  const userRole = useSelector((state) => state.auth.role);
+  
   const [isAdvanceMenuOpen, setAdvanceMenuOpen] = useState(false);
   const [isLeaveMenuOpen, setLeaveMenuOpen] = useState(false);
   const [isExpenseMenuOpen, setExpenseMenuOpen] = useState(false);
@@ -168,9 +173,10 @@ function Template() {
         <div style={{ flex: 1, padding: "20px", background: "#e6f2ff" }}>
           
           <Routes>
+          <Route path="/SignIn" element={<Login />} />
             <Route path="/home/:userId" element={<Home />} />
             <Route path="/details/:userId" element={<Details />} />
-            <Route path="/employees" element={<AddEmployee />} />
+            {userRole === "employee" && <Route path="/employees" element={<AddEmployee />} />}  
             <Route path="/update" element={<UpdateDetails />} />
             <Route path="/advancerequestform"element={<AdvanceRequestForm />}/>
             <Route path="/advancerequestlist" element={<AdvanceRequestsList />}/>

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './UpdateDetails.css';
+import { useDispatch } from 'react-redux';
  
 function PersonelGuncellemeFormu() {
   const [personel, setPersonel] = useState({
@@ -8,6 +9,7 @@ function PersonelGuncellemeFormu() {
     adres:'',// Yeni eklenen alan
     // Diğer sabit bilgiler burada duruyor olacak, ancak bunları state'de tutmaya gerek yok.
   });
+  const dispatch = useDispatch();
  
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,7 +21,7 @@ function PersonelGuncellemeFormu() {
  
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Güncelleme işlemleri burada yapılır, örneğin API'ye bir istek atılabilir.
+    // const response 
     console.log(personel);
   };
  

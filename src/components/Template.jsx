@@ -14,6 +14,10 @@ import ExpenseForm from "./Personel/ExpenseForm";
 import ApproveRejectTable from "./Employeer/ApproveRejectTable";
 import LeaveApprovalScreen from "./Employeer/LeaveApprovalScreen";
 import ExpenseScreen from "./Employeer/ExpenseScreen";
+import CompanyCard from "./Company/CompanyCard";
+import CompanyList from "./Company/CompanyList";
+import ManagerForm from "./Company/ManagerForm";
+
 
 function Template() {
 
@@ -23,9 +27,11 @@ function Template() {
   const [isAdvanceMenuOpen, setAdvanceMenuOpen] = useState(false);
   const [isLeaveMenuOpen, setLeaveMenuOpen] = useState(false);
   const [isExpenseMenuOpen, setExpenseMenuOpen] = useState(false);
+  const [isCompanyMenuOpen, setCompanyMenuOpen] = useState(false);
   const toggleAdvanceMenu = () => setAdvanceMenuOpen(!isAdvanceMenuOpen);
   const toggleLeaveMenu = () => setLeaveMenuOpen(!isLeaveMenuOpen);
   const toggleExpenseMenu = () => setExpenseMenuOpen(!isExpenseMenuOpen);
+  const toggleCompanyMenu = () => setCompanyMenuOpen(!isCompanyMenuOpen);
 
   return (
     <main>
@@ -66,6 +72,41 @@ function Template() {
                 Bilgileri Güncelle
               </Link>
             </li>
+            <li onClick={toggleCompanyMenu} style={{ cursor: "pointer", fontSize: "20px" }}>
+              Mevcut Şirketler
+              {isCompanyMenuOpen && (
+                <ul style={{ listStyleType: "none" }}>
+                  <li>
+                    <Link
+                      to="/companyCard"
+                      style={{ color: "white", textDecoration: "none" }}
+                    >
+                      Şirket Detayları
+                    </Link>
+                  </li>
+
+                  <li>
+                    <Link
+                      to="/companyList"
+                      style={{ color: "white", textDecoration: "none" }}
+                    >
+                      Şirketler
+                    </Link>
+                  </li>
+
+                  <li>
+                    <Link
+                      to="/managerForm"
+                      style={{ color: "white", textDecoration: "none" }}
+                    >
+                      Müdürler
+                    </Link>
+                  </li>
+
+                </ul>
+              )}
+            </li>
+
 
             {user.role === "employer" && (
               <li>
@@ -200,6 +241,13 @@ function Template() {
                 <Route path="/approverejecttable" element={<ApproveRejectTable />} />
                 <Route path="/leaveapprovalscreen" element={<LeaveApprovalScreen />} />
                 <Route path="/expensescreen" element={<ExpenseScreen />} />
+              </>
+            )}
+            {user.role === "employer" && (
+              <>
+                <Route path="/companyCard" element={<CompanyCard />} />
+                <Route path="/companyList" element={<CompanyList />} />
+                <Route path="/managerForm" element={<ManagerForm />} />
               </>
             )}
           </Routes>

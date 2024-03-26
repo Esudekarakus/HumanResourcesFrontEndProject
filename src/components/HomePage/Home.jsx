@@ -19,7 +19,7 @@ function Home() {
 
 
   if (!userDetails) {
-    return <CircularProgress />; // Loading durumu için CircularProgress
+    return <CircularProgress />; 
   }
 
   return (

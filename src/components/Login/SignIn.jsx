@@ -19,20 +19,20 @@ import { authLogin } from '../../controllers/authController';
 import { useDispatch } from "react-redux";
 import { decodeToken } from '../../service/JwtDecoder';
 import { useLocation, useNavigate } from 'react-router';
-import { loginSuccess, failure, logout } from '../../service/redux/actions/authActions';
+import { loginSuccess } from '../../service/redux/actions/authActions';
 import { setUserDetails } from '../../service/redux/actions/userAction';
-import userDetailsReducer from '../../service/redux/reducers/userDetailReducer';
+
 import { getAppUserDetailsByMail } from '../../service/AppUserService';
 
 
 
 
+
 const Login = () => {
-    const [loading, setLoading] = useState(false);
+
     const [email, setEmail] = useState('');
     const [pwd, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
-    const [success, setSuccess] = useState(false);
     const navigate = useNavigate();
     const { search } = useLocation();
     const dispatch = useDispatch();
@@ -47,32 +47,34 @@ const Login = () => {
         display: show ? 'block' : 'none',
     }));
 
-
+   
     useEffect(() => {
         setErrMsg('');
     }, [email, pwd])
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
 
             const data = new FormData(e.currentTarget);
-            setLoading(true);
             const result = await authLogin(data.get("email"), data.get("password"));
-            const emailToSend=data.get("email");
+            const emailToSend = data.get("email");
             if (result && result.data) {
-                const token = result.data.token; // Token, response'un data kısmından alınır
-                const decoded = decodeToken(token); // Token decode edilir
-                console.log(decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailadress"]);
-                console.log(decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role"]);
-                dispatch(loginSuccess({ 
-                    email: decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"], 
-                    token, 
-                    role: decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"],
+                const decoded = decodeToken(); 
+                console.log(decoded);
+                console.log(decoded.Role);
+                console.log(decoded.Email);
+                console.log(JSON.stringify(result.data));
+                dispatch(loginSuccess({
+                    email:decoded.Email,
+                    token: result.data,
+                    role: decoded.Role,
                     isAuthenticated: true
                 }));
+
+
                 console.log(emailToSend);
-                toast.success("Giriş yapıldı. Hoşgeldiniz");
                 const apiResponse = await getAppUserDetailsByMail(emailToSend);
 
                 console.log(apiResponse);
@@ -105,15 +107,7 @@ const Login = () => {
 
     return (
         <>
-            {success ? (
-                <section>
-                    <h1>You are logged in!</h1>
-                    <br />
-                    <p>
-                        <a href='#'> Go to home</a>
-                    </p>
-                </section>
-            ) : (
+
                 <section>
 
                     <ThemeProvider theme={createTheme()}>
@@ -199,7 +193,7 @@ const Login = () => {
                         </Container>
                     </ThemeProvider>
                 </section>
-            )}
+            )
         </>
     )
 }

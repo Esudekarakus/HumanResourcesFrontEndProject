@@ -10,17 +10,17 @@ export const authLogin = async (email, password) => {
         password,
       }
     );
-    console.log(JSON.stringify(response?.data));
+    console.log(response?.data);
+    console.log(response);
     console.log(JSON.stringify(response));
-    const accessToken = response?.data?.accessToken;
-    const roles=response?.data?.roles;
+    const accessToken = response?.data?.token;
+    const roles=response?.data?.role;
     console.log(accessToken);
     console.log(roles);
 
     if (response.data) {
-      localStorage.setItem("jwt", JSON.stringify(response.data));
-      localStorage.setItem("auth", JSON.stringify("true"));
-
+      localStorage.setItem("jwt", response.data);
+      localStorage.setItem("auth",true);
       return response;
     }
   } catch (error) {

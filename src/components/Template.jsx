@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import Login from './Login/SignIn';
-import { useSelector } from 'react-redux'; 
+import { useSelector } from 'react-redux';
 import Home from "../components/HomePage/Home";
 import Details from "../components/HomePage/Details";
-import AddEmployee from "./HomePage/AddEmp";
+import AddEmp from "./HomePage/AddEmp";
 import UpdateDetails from "./UpdateDetails";
 import AdvanceRequestForm from "./Personel/AdvanceForm";
 import AdvanceRequestsList from "./Personel/AdvanceList";
@@ -14,17 +14,24 @@ import ExpenseForm from "./Personel/ExpenseForm";
 import ApproveRejectTable from "./Employeer/ApproveRejectTable";
 import LeaveApprovalScreen from "./Employeer/LeaveApprovalScreen";
 import ExpenseScreen from "./Employeer/ExpenseScreen";
+import CompanyCard from "./Company/CompanyCard";
+import CompanyList from "./Company/CompanyList";
+import ManagerForm from "./Company/ManagerForm";
+
 
 function Template() {
 
-  const userRole = useSelector((state) => state.auth.role);
-  
+  const user = useSelector((state) => state.auth);
+  console.log(user.role);
+
   const [isAdvanceMenuOpen, setAdvanceMenuOpen] = useState(false);
   const [isLeaveMenuOpen, setLeaveMenuOpen] = useState(false);
   const [isExpenseMenuOpen, setExpenseMenuOpen] = useState(false);
+  const [isCompanyMenuOpen, setCompanyMenuOpen] = useState(false);
   const toggleAdvanceMenu = () => setAdvanceMenuOpen(!isAdvanceMenuOpen);
   const toggleLeaveMenu = () => setLeaveMenuOpen(!isLeaveMenuOpen);
   const toggleExpenseMenu = () => setExpenseMenuOpen(!isExpenseMenuOpen);
+  const toggleCompanyMenu = () => setCompanyMenuOpen(!isCompanyMenuOpen);
 
   return (
     <main>
@@ -42,40 +49,76 @@ function Template() {
             <li>
               <Link
                 to="/home/:userId"
-                style={{ color: "white", textDecoration: "none" ,fontSize:"20px"}}
+                style={{ color: "white", textDecoration: "none", fontSize: "20px" }}
               >
                 Anasayfa
               </Link>
             </li>
-            
+
             <li>
               <Link
                 to="/details/:userId"
-                style={{ color: "white", textDecoration: "none" ,fontSize:"20px"}}
+                style={{ color: "white", textDecoration: "none", fontSize: "20px" }}
               >
                 Detaylar
               </Link>
             </li>
-           
+
             <li>
               <Link
                 to="/update"
-                style={{ color: "white", textDecoration: "none" ,fontSize:"20px"}}
+                style={{ color: "white", textDecoration: "none", fontSize: "20px" }}
               >
                 Bilgileri Güncelle
               </Link>
             </li>
-            
-            <li>
-              <Link
-                to="/employees"
-                style={{ color: "white", textDecoration: "none" ,fontSize:"20px"}}
-              >
-                Personel Ekle
-              </Link>
+            <li onClick={toggleCompanyMenu} style={{ cursor: "pointer", fontSize: "20px" }}>
+              Mevcut Şirketler
+              {isCompanyMenuOpen && (
+                <ul style={{ listStyleType: "none" }}>
+                  <li>
+                    <Link
+                      to="/companyCard"
+                      style={{ color: "white", textDecoration: "none" }}
+                    >
+                      Şirket Detayları
+                    </Link>
+                  </li>
+
+                  <li>
+                    <Link
+                      to="/companyList"
+                      style={{ color: "white", textDecoration: "none" }}
+                    >
+                      Şirketler
+                    </Link>
+                  </li>
+
+                  <li>
+                    <Link
+                      to="/managerForm"
+                      style={{ color: "white", textDecoration: "none" }}
+                    >
+                      Müdürler
+                    </Link>
+                  </li>
+
+                </ul>
+              )}
             </li>
-            
-            <li onClick={toggleAdvanceMenu} style={{ cursor: "pointer" , fontSize:"20px"}}>
+
+
+            {user.role === "employer" && (
+              <li>
+                <Link
+                  to="/addemp"
+                  style={{ color: "white", textDecoration: "none", fontSize: "20px" }}
+                >
+                  Personel Ekle
+                </Link>
+              </li>
+            )}
+            <li onClick={toggleAdvanceMenu} style={{ cursor: "pointer", fontSize: "20px" }}>
               Avans İşlemleri
               {isAdvanceMenuOpen && (
                 <ul style={{ listStyleType: "none" }}>
@@ -87,29 +130,32 @@ function Template() {
                       Avans Talep Et
                     </Link>
                   </li>
-                 
+
                   <li>
                     <Link
                       to="/advancerequestlist"
-                      style={{ color: "white", textDecoration: "none"}}
+                      style={{ color: "white", textDecoration: "none" }}
                     >
                       Avans Taleplerim
                     </Link>
                   </li>
-                  
-                  <li>
-                    <Link
-                      to="/approverejecttable"
-                      style={{ color: "white", textDecoration: "none" }}
-                    >
-                      Avans Onay
-                    </Link>
-                  </li>
+                  {user.role === "employer" && (
+                    <li>
+                      <Link
+                        to="/approverejecttable"
+                        style={{ color: "white", textDecoration: "none" }}
+                      >
+                        Avans Onay
+                      </Link>
+                    </li>
+
+                  )}
+
                 </ul>
               )}
             </li>
-            
-            <li onClick={toggleLeaveMenu} style={{ cursor: "pointer",fontSize:"20px" }}>
+
+            <li onClick={toggleLeaveMenu} style={{ cursor: "pointer", fontSize: "20px" }}>
               İzin İşlemleri
               {isLeaveMenuOpen && (
                 <ul style={{ listStyleType: "none" }}>
@@ -121,7 +167,7 @@ function Template() {
                       İzin Talep Et
                     </Link>
                   </li>
-                  
+
                   <li>
                     <Link
                       to="/leaverequestlist"
@@ -130,20 +176,22 @@ function Template() {
                       İzin Taleplerim
                     </Link>
                   </li>
-                  
-                  <li>
-                    <Link
-                      to="/leaveapprovalscreen"
-                      style={{ color: "white", textDecoration: "none" }}
-                    >
-                      İzin Onay
-                    </Link>
-                  </li>
+                  {user.role === "employer" && (
+                    <li>
+                      <Link
+                        to="/leaveapprovalscreen"
+                        style={{ color: "white", textDecoration: "none" }}
+                      >
+                        İzin Onay
+                      </Link>
+                    </li>
+                  )}
+
                 </ul>
               )}
             </li>
-           
-            <li onClick={toggleExpenseMenu} style={{ cursor: "pointer" ,fontSize:"20px"}}>
+
+            <li onClick={toggleExpenseMenu} style={{ cursor: "pointer", fontSize: "20px" }}>
               Masraf İşlemleri
               {isExpenseMenuOpen && (
                 <ul style={{ listStyleType: "none" }}>
@@ -155,15 +203,18 @@ function Template() {
                       Masraf Talep Et
                     </Link>
                   </li>
-                 
-                  <li>
-                    <Link
-                      to="/expensescreen"
-                      style={{ color: "white", textDecoration: "none" }}
-                    >
-                      Masraf Onay
-                    </Link>
-                  </li>
+                  {user.role === "employer" && (
+                    <li>
+                      <Link
+                        to="/expensescreen"
+                        style={{ color: "white", textDecoration: "none" }}
+                      >
+                        Masraf Onay
+                      </Link>
+                    </li>
+
+                  )}
+
                 </ul>
               )}
             </li>
@@ -171,21 +222,34 @@ function Template() {
         </nav>
 
         <div style={{ flex: 1, padding: "20px", background: "#e6f2ff" }}>
-          
+
           <Routes>
-          <Route path="/SignIn" element={<Login />} />
+            {/* Her zaman görünecek Route'lar */}
+            <Route path="/SignIn" element={<Login />} />
             <Route path="/home/:userId" element={<Home />} />
             <Route path="/details/:userId" element={<Details />} />
-            {userRole === "employee" && <Route path="/employees" element={<AddEmployee />} />}  
             <Route path="/update" element={<UpdateDetails />} />
-            <Route path="/advancerequestform"element={<AdvanceRequestForm />}/>
-            <Route path="/advancerequestlist" element={<AdvanceRequestsList />}/>
+            <Route path="/advancerequestform" element={<AdvanceRequestForm />} />
+            <Route path="/advancerequestlist" element={<AdvanceRequestsList />} />
             <Route path="/leaverequestform" element={<LeaveRequestForm />} />
             <Route path="/leaverequestlist" element={<LeaveRequestList />} />
             <Route path="/expenseform" element={<ExpenseForm />} />
-            <Route path="/approverejecttable"element={<ApproveRejectTable />}/>
-            <Route path="/leaveapprovalscreen"element={<LeaveApprovalScreen />}/>
-            <Route path="/expensescreen" element={<ExpenseScreen />} />
+            {/* Koşullu Route'lar */}
+            {user.role === "employer" && (
+              <>
+                <Route path="/Addemp" element={<AddEmp />} />
+                <Route path="/approverejecttable" element={<ApproveRejectTable />} />
+                <Route path="/leaveapprovalscreen" element={<LeaveApprovalScreen />} />
+                <Route path="/expensescreen" element={<ExpenseScreen />} />
+              </>
+            )}
+            {user.role === "employer" && (
+              <>
+                <Route path="/companyCard" element={<CompanyCard />} />
+                <Route path="/companyList" element={<CompanyList />} />
+                <Route path="/managerForm" element={<ManagerForm />} />
+              </>
+            )}
           </Routes>
         </div>
       </div>

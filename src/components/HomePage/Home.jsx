@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import React, { useState, useEffect } from 'react';
 import { fetchEmployerById } from '../../service/EmployerService';
 import { useParams } from 'react-router';
-import CircularProgress from '@mui/material/CircularProgress'; // 
+//import CircularProgress from '@mui/material/CircularProgress'; // 
 // import  { useState, useEffect } from 'react';
 // import { fetchEmployerById } from '../../service/EmployerService';
 // import { useParams } from 'react-router';

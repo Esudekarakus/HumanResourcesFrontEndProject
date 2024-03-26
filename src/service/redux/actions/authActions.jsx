@@ -1,4 +1,4 @@
-export const loginSuccess = (email, token, role,isAuthenticated) => ({
+export const loginSuccess = ({email, token, role,isAuthenticated}) => ({
     type: 'LOGIN_SUCCESS',
     payload: { email, token, role, isAuthenticated}
   });

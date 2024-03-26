@@ -3,32 +3,17 @@ import CardContent from '@mui/material/CardContent';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import React, { useState, useEffect } from 'react';
-import { fetchEmployerById } from '../../service/EmployerService';
-import { useParams } from 'react-router';
 import CircularProgress from '@mui/material/CircularProgress'; // 
 // import  { useState, useEffect } from 'react';
 // import { fetchEmployerById } from '../../service/EmployerService';
 // import { useParams } from 'react-router';
-import CircularProgress from '@mui/material/CircularProgress'; // CircularProgress bileşenini import ediyoruz
 import { useSelector } from 'react-redux';
 
 function Home() {
-  // const { userId } = useParams();
+
   const userDetails = useSelector((state) => state.userDetails);
 
-  // useEffect(() => {
-  //   const fetchUser = async () => {
-  //     try {
-  //       const userData = await fetchEmployerById(userId);
-  //       setUser(userData);
-  //     } catch (error) {
-  //       console.error('Kullanıcı bilgileri alınırken bir hata oluştu:', error);
-  //     }
-  //   };
 
-  //   fetchUser();
-  // }, [userId]); 
 
   if (!userDetails) {
     return <CircularProgress />; // Loading durumu için CircularProgress

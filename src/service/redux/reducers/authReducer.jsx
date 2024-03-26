@@ -1,8 +1,8 @@
 const initialState = {
-    email: null,
-    token: null,
+    email: "",
+    token: "",
     isAuthenticated: false,
-    role: null
+    role: ""
   };
   
   function authReducer(state = initialState, action) {
@@ -18,18 +18,18 @@ const initialState = {
       case 'LOGOUT':
         return {
           ...state,
-          user: null,
-          token: null,
+          email: "",
+          token: "",
           isAuthenticated: false,
-          role: null
+          role: ""
         };
         case 'LOGIN_FAILURE':
             return { 
                 ...state,
-                user: null,
-                token: null,
+                email: "",
+                token: "",
                 isAuthenticated: false,
-                role: null
+                role: ""
             };
       default:
         return state;

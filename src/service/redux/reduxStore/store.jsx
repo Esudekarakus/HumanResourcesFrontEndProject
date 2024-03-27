@@ -3,11 +3,13 @@
 import authReducer from '../reducers/authReducer';
 import { configureStore } from '@reduxjs/toolkit';
 import userDetailsReducer from '../reducers/userDetailReducer';
+import companyDetailsReducer from '../reducers/companyReducer';
 
 const store = configureStore({
   reducer: {
     auth: authReducer,
-    userDetails: userDetailsReducer
+    userDetails: userDetailsReducer,
+    companyDetails:companyDetailsReducer
   },
   
 });

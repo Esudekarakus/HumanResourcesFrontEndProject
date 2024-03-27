@@ -65,12 +65,12 @@ export const VerifyCode = async (code,privateMail,email, password, confirmPasswo
 }
 
 
-export const updateAppUserDetailsById = async(id,address,phoneNumber)=>{
+export const updateAppUserDetailsById = async(id,address,phoneNumber,email)=>{
 
         try {
             const response = await axios.post(
                 `https://localhost:7287/api/Account/UpdateAppUserDetailsById`,
-                { AppUserId: id, Address:address,PhoneNumber:phoneNumber }, // API beklenen formatta veriyi gönder
+                { AppUserId: id, Address:address,PhoneNumber:phoneNumber ,Email:email},
                 {
                     headers: {
                         'Content-Type': 'application/json', 

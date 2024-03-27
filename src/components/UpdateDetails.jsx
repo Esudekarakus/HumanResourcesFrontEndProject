@@ -1,6 +1,11 @@
 import { useState,useEffect } from 'react';
 import './UpdateDetails.css';
 import { useDispatch } from 'react-redux';
+import { updateUserDetails } from '../service/redux/actions/userAction';
+import { useSelector } from 'react-redux';
+import decodeToken from '../service/JwtDecoder';
+import axios from 'axios';
+import { updateAppUserDetailsById } from '../service/AccountService';
 
 const defaultImageSrc='/images/defaultImage.jpg';
 const initialFieldValues ={
@@ -14,11 +19,14 @@ const initialFieldValues ={
 function PersonelGuncellemeFormu() {
   const [values,setValues] =useState(initialFieldValues);
   const [errors, setErrors] = useState({});
- 
-
-
   const dispatch = useDispatch();
  
+  const appUserMail = useSelector((state) => state.auth.Email);
+  const decodedToken=decodeToken();
+
+  console.log(decodedToken.UserId);
+
+
   const handleChange = e => {
     const { name, value } = e.target;
     setValues( {
@@ -44,14 +52,15 @@ function PersonelGuncellemeFormu() {
       formData.append('phoneNumber', values.phoneNumber);
       formData.append('imageFile', values.imageFile); // imageFile'i FormData'ya ekleyin
 
-      const response = await fetch(`https://localhost:7287/api/Employee/1`, {
-        method: 'PUT',
-        body: formData
-      });
+      
+
+      const response = await updateAppUserDetailsById(
+        decodedToken.UserId,values.address,values.phoneNumber,appUserMail
+      );
 
       if (response.ok) {
         console.log('Çalışan başarıyla güncellendi');
-        // Başarılı bir şekilde güncellendiğinde yapılacak işlemler buraya gelebilir
+        dispatch(updateUserDetails({ phoneNumber: values.phoneNumber, address: values.address }));
       } else {
         throw new Error('Çalışan güncellenirken bir hata oluştu');
       }

@@ -16,7 +16,7 @@ import {
   Switch,
   TextField,
 } from "@mui/material";
-
+const defaultImageSrc='/images/defaultImage.jpg';
 const companies = [
   { id: 1, label: "Samsung" },
   { id: 2, label: "Huawei" },
@@ -30,17 +30,13 @@ const companies = [
   { id: 10, label: "Hepsiburada" },
 ];
 
+const initialImgValues={
+  imageName:'',
+  imageSrc:defaultImageSrc,
+  imageFile:null,
+  
+}
 export function AddEmp() {
-
-  // const [password, setPassword] = useState('');
-  // const [validPassword, setValidPassword] = useState(false);
-  // const [passwordFocus, setPasswordFocus] = useState(false);
-
-  // const [matchPassword, setMatchPassword] = useState('');
-  // const [validMatchPassword, setValidMatchPassword] = useState(false);
-  // const [matchPasswordFocus, setMatchPasswordFocus] = useState(false);
-
-
   const [empData, setEmpData] = useState({
     name: "",
     middleName: "",
@@ -58,19 +54,20 @@ export function AddEmp() {
     privateMail: "",
     profession: "",
     department: "",
+    imageFile:null
   });
+  const [imgValues,setImgValues]=useState(initialImgValues);
   const [error, setError] = useState("");
+  const [status, setStatus] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, checked } = e.target;
     if (name === "status") {
-      // Handle switch for status
+      setStatus(checked);
       setEmpData({ ...empData, [name]: checked ? 1 : 2 });
     } else if (name === "salary") {
-      // Parse salary as float and handle NaN
       setEmpData({ ...empData, [name]: isNaN(parseFloat(value)) ? "" : parseFloat(value) });
     } else {
-      // Handle all other inputs
       setEmpData({ ...empData, [name]: value });
     }
   };
@@ -82,10 +79,8 @@ export function AddEmp() {
         setError("Lütfen tüm gerekli alanları doldurun.");
         return;
       }
-      console.log(empData);
       const responseData = await addEmployeeByEmployer(empData);
       console.log("Employee added successfully:", responseData);
-
 
       setEmpData({
         name: "",
@@ -104,11 +99,41 @@ export function AddEmp() {
         privateMail: "",
         profession: "",
         department: "",
+        imageFile:null,
       });
       setError("");
     } catch (error) {
       console.error("Error adding employee:", error);
       setError("Personel eklenirken bir hata oluştu.");
+    }
+  };
+  
+  const showPreview = e =>{
+    if(e.target.files && e.target.files[0]){
+      let imageFile = e.target.files[0];
+      const reader =new FileReader();
+      reader.onload = x=>{
+        setImgValues({
+          ...imgValues,
+          imageFile,
+          imageSrc : x.target.result
+        });
+        setEmpData({
+          ...empData,
+          imageFile, // empData içindeki imageFile'ı güncelliyoruz
+        });
+      };
+      reader.readAsDataURL(imageFile);
+    } else {
+      setImgValues({
+        ...imgValues,
+        imageFile: null,
+        imageSrc: defaultImageSrc
+      });
+      setEmpData({
+        ...empData,
+        imageFile: null, // empData içindeki imageFile'ı sıfırlıyoruz
+      });
     }
   };
 
@@ -127,6 +152,26 @@ export function AddEmp() {
               {error}
             </Typography>
           )}
+           <Grid item xs={12}>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={empData.status === 1}
+                    onChange={handleChange}
+                    name="status"
+                  />
+                }
+                label="Aktiflik Durumu"
+              />
+            </Grid>
+            <Grid item xs={12}>
+            <img src={imgValues.imageSrc}  
+            className='card-img-top' 
+             />
+            </Grid>
+            <Grid item xs={12}>
+             <input type="file" accept='image/*' name="fotograf" onChange={showPreview}/>
+            </Grid>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -274,18 +319,7 @@ export function AddEmp() {
                 variant="outlined"
               />
             </Grid>
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={empData.status === 1}
-                    onChange={handleChange}
-                    name="status"
-                  />
-                }
-                label="Aktiflik Durumu"
-              />
-            </Grid>
+           
             <Grid item xs={12}>
               <TextField
                 fullWidth
@@ -329,5 +363,6 @@ export function AddEmp() {
     </form>
   )
 }
+
 
 export default AddEmp;

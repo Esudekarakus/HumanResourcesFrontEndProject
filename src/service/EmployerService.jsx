@@ -57,7 +57,7 @@ export const addEmployeeByEmployer = async (addData) => {
         formData.append('address', addData.address);
         formData.append('identificationNumber', addData.identificationNumber);
         formData.append('dateOfStart', addData.dateOfStart);
-       
+        formData.append('imageFile', addData.imageFile);
         formData.append('companyId', addData.companyId);
         formData.append('department', addData.department);
         formData.append('status', addData.status);

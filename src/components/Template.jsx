@@ -108,7 +108,7 @@ function Template() {
             </li>
 
 
-            {/* {user.role === "employer" && ( */}
+            {user.role === "employer" && (
               <li>
                 <Link
                   to="/addemp"
@@ -117,7 +117,7 @@ function Template() {
                   Personel Ekle
                 </Link>
               </li>
-            {/* )} */}
+             )} 
             <li onClick={toggleAdvanceMenu} style={{ cursor: "pointer", fontSize: "20px" }}>
               Avans İşlemleri
               {isAdvanceMenuOpen && (
@@ -139,7 +139,7 @@ function Template() {
                       Avans Taleplerim
                     </Link>
                   </li>
-                  {/* {user.role === "employer" && ( */}
+                  {user.role === "employer" && (
                     <li>
                       <Link
                         to="/approverejecttable"
@@ -149,7 +149,7 @@ function Template() {
                       </Link>
                     </li>
 
-                  {/* )} */}
+                   )} 
 
                 </ul>
               )}
@@ -176,7 +176,7 @@ function Template() {
                       İzin Taleplerim
                     </Link>
                   </li>
-                  {/* {user.role === "employer" && ( */}
+                  {user.role === "employer" && (
                     <li>
                       <Link
                         to="/leaveapprovalscreen"
@@ -185,7 +185,7 @@ function Template() {
                         İzin Onay
                       </Link>
                     </li>
-                  {/* )} */}
+                   )} 
 
                 </ul>
               )}
@@ -203,7 +203,7 @@ function Template() {
                       Masraf Talep Et
                     </Link>
                   </li>
-                  {/* {user.role === "employer" && ( */}
+                   {user.role === "employer" && ( 
                     <li>
                       <Link
                         to="/expensescreen"
@@ -213,7 +213,7 @@ function Template() {
                       </Link>
                     </li>
 
-                  {/* )} */}
+                  )}
 
                 </ul>
               )}
@@ -235,21 +235,21 @@ function Template() {
             <Route path="/leaverequestlist" element={<LeaveRequestList />} />
             <Route path="/expenseform" element={<ExpenseForm />} />
             {/* Koşullu Route'lar */}
-            {/* {user.role === "employer" && ( */}
+            {user.role === "employer" && (
               <>
                 <Route path="/Addemp" element={<AddEmp />} />
                 <Route path="/approverejecttable" element={<ApproveRejectTable />} />
                 <Route path="/leaveapprovalscreen" element={<LeaveApprovalScreen />} />
                 <Route path="/expensescreen" element={<ExpenseScreen />} />
               </>
-            {/* )}
-            {user.role === "employer" && ( */}
+             )}
+            {user.role === "employer" && ( 
               <>
                 <Route path="/companyCard" element={<CompanyCard />} />
                 <Route path="/companyList" element={<CompanyList />} />
                 <Route path="/managerForm" element={<ManagerForm />} />
               </>
-            {/* )} */}
+            )} 
           </Routes>
         </div>
       </div>

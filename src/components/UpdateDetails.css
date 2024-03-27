@@ -1,46 +1,69 @@
-/* style.css */
 .form-container {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .form-group label {
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  .form-group input[type="text"],
-  .form-group input[type="tel"],
-  .form-group input[type="file"] {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  button[type="submit"] {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  button[type="submit"]:hover {
-    background-color: #0056b3;
-  }
- 
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  border-radius: 10px;
+}
 
-  .invalid-field{
-    border-color : #dc3545;
-    color: #dc3545;
-    background-color: #fff;
-  }
+.card-img-top {
+  width: 150px; /* Resmi küçült */
+  height: 150px; /* Yükseklik ve genişlik oranını koru */
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  margin: 10px auto 20px; /* Üstte daha az, altta daha fazla boşluk */
+}
+
+/* Form elemanlarının genel stilini ayarla */
+.form-group {
+  margin-bottom: 20px;
+}
+
+/* Etiket ve inputları hizala */
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 5px; /* Alt elemana boşluk ekle */
+}
+
+/* Dosya seçme butonu için özel stil */
+.form-group input[type="file"] {
+  padding: 8px; /* Diğer inputlarla aynı padding */
+  background-color: #f7f7f7; /* Arka plan rengini hafifçe değiştir */
+  border: 1px solid #ccc; /* Diğer inputlarla aynı kenarlık */
+}
+
+button[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+.invalid-field {
+  border-color: #dc3545;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background: #f4f4f4;
+}

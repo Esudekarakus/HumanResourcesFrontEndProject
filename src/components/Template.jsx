@@ -41,7 +41,7 @@ function Template() {
             padding: "20px",
             width: "250px",
             minHeight: "100vh",
-            background: "#004d99",
+            background: "#093766",
             color: "white",
           }}
         >
@@ -99,7 +99,7 @@ function Template() {
                       to="/managerForm"
                       style={{ color: "white", textDecoration: "none" }}
                     >
-                      Müdürler
+                      Yöneticiler
                     </Link>
                   </li>
 
@@ -117,7 +117,7 @@ function Template() {
                   Personel Ekle
                 </Link>
               </li>
-            )}
+             )} 
             <li onClick={toggleAdvanceMenu} style={{ cursor: "pointer", fontSize: "20px" }}>
               Avans İşlemleri
               {isAdvanceMenuOpen && (
@@ -149,7 +149,7 @@ function Template() {
                       </Link>
                     </li>
 
-                  )}
+                   )} 
 
                 </ul>
               )}
@@ -185,7 +185,7 @@ function Template() {
                         İzin Onay
                       </Link>
                     </li>
-                  )}
+                   )} 
 
                 </ul>
               )}
@@ -203,7 +203,7 @@ function Template() {
                       Masraf Talep Et
                     </Link>
                   </li>
-                  {user.role === "employer" && (
+                   {user.role === "employer" && ( 
                     <li>
                       <Link
                         to="/expensescreen"
@@ -242,14 +242,14 @@ function Template() {
                 <Route path="/leaveapprovalscreen" element={<LeaveApprovalScreen />} />
                 <Route path="/expensescreen" element={<ExpenseScreen />} />
               </>
-            )}
-            {user.role === "employer" && (
+             )}
+            {user.role === "employer" && ( 
               <>
                 <Route path="/companyCard" element={<CompanyCard />} />
                 <Route path="/companyList" element={<CompanyList />} />
                 <Route path="/managerForm" element={<ManagerForm />} />
               </>
-            )}
+            )} 
           </Routes>
         </div>
       </div>

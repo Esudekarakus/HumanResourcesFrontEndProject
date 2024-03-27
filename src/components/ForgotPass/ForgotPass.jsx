@@ -14,31 +14,39 @@ const ForgotPass = () => {
   const [codeDirectionInput, setCodeDirectionInput] = useState(false);
   const [showSuccessLabel, setShowSuccessLabel] = useState(false);
 
+
+  const handleVerifyCode = async () => {
+    try {
+      console.log(verificationCode);
+      console.log(privateMail);
+      console.log(email);
+      console.log(confirmPassword);
+      const verifyCode = await VerifyCode(verificationCode, privateMail, email, newPassword, confirmPassword);
+      if (verifyCode) {
+        setShowSuccessLabel(true);
+        setEmail('');
+        setVerificationCode('');
+        setNewPassword('');
+        setConfirmPassword('');
+        setPrivateMail('');
+        setOldPassword('');
+      }
+
+
+    } catch (error) {
+      console.error('Şifre güncellenirken bir hata oluştu', error);
+      setErrorMessage(error.message);
+    }
+  }
+
+
   const handleUpdatePassword = async () => {
     try {
       const result = await ChangePassword(email, privateMail, newPassword, confirmPassword);
       if (result) {
         setShowVerificationInput(true);
         setCodeDirectionInput(true);
-        if (verificationCode !== null) {
-          const verifyCode = await VerifyCode(verificationCode, privateMail, email, newPassword, confirmPassword);
-          if (verifyCode) {
-            setShowSuccessLabel(true);
-            setEmail('');
-            setVerificationCode('');
-            setNewPassword('');
-            setConfirmPassword('');
-            setPrivateMail('');
-            setOldPassword('');
-
-          }
-
-
-        }
       }
-
-      console.log('Şifre başarıyla güncellendi');
-      alert('Şifre başarıyla güncellendi');
     } catch (error) {
       console.error('Şifre güncellenirken bir hata oluştu', error);
       setErrorMessage(error.message);
@@ -119,10 +127,23 @@ const ForgotPass = () => {
               <input
                 type="text"
                 placeholder="Gelen kod *"
-                value={verificationCode}
+                value={verificationCode.toString()}
                 onChange={(e) => setVerificationCode(e.target.value)}
-                className="form-control"
-              />
+                className="form-control" />
+
+              <button
+                onClick={handleVerifyCode}
+                style={{
+                  backgroundColor: '#2196F3',
+                  color: 'white',
+                  padding: '10px 20px',
+                  border: 'none',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                }}
+              >
+                Kodu onayla
+              </button>
             </div>
           </>
         )}

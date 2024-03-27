@@ -44,13 +44,14 @@ export const ChangePassword = async (email,privateMail, password, confirmPasswor
 export const VerifyCode = async (code,privateMail,email, password, confirmPassword) => {
     try {
         const response = await axios.post('https://localhost:7287/api/Account/VerifyCode', {
-            code,
-            privateMail,
-            email,
-            password,
-            confirmPassword
+            inputCode:code,
+            privateMail:privateMail,
+            Email:email,
+            Password:password,
+            ConfirmPassword:confirmPassword
         });
-
+        console.log(response);
+        console.log(response.data);
         if (response) {
             return response;
         } else {

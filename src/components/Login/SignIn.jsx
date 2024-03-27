@@ -79,7 +79,7 @@ const Login = () => {
 
                 console.log(apiResponse);
                 dispatch(setUserDetails(apiResponse));
-                navigate("/home");
+                navigate("/home/:userId");
             } else if (error) {
                 setErrMsg(error);
                 toast.error(error);

@@ -33,7 +33,7 @@ body, html {
     flex: 0 0 150px; /* Küçük ekranlar için sidebar genişliği */
   }
 
-  .content {
+  .content  {
     padding: 10px;
   }
 }

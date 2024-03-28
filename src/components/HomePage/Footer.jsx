@@ -6,7 +6,7 @@ import { faFacebookF, faTwitter, faInstagram } from '@fortawesome/free-brands-sv
 const Footer = () => {
   const year = new Date().getFullYear();
   return (
-<footer style={{ backgroundColor: '#121b35', padding: '20px', textAlign: 'center', color: 'white', position: 'inherit', bottom: 0, width: '100%' }}>
+<footer style={{ backgroundColor: '#121b35', padding: '20px', textAlign: 'center', color: 'white', position:'inherit', bottom: 0, width: '100%' }}>
 <p>
 <strong>İletişim:</strong> <a href="mailto:info@insankaynaklari.com" style={{ color: 'white' }}>info@insankaynaklari.com</a>
 </p>

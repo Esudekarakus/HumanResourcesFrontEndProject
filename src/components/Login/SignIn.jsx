@@ -24,7 +24,8 @@ import { setUserDetails } from "../../service/redux/actions/userAction";
 
 import { getAppUserDetailsByMail } from "../../service/AppUserService";
 
-import backgroundImage from "/images/clean-2721104_1280.jpg";
+import backgroundImage from "../../../public/images/clean-2721104_1280.jpg";
+import { GetCompaniesList } from "../../service/CompanyService";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -68,6 +69,11 @@ const Login = () => {
             isAuthenticated: true,
           })
         );
+        if(decoded.Role==="Admin"){
+          const result = await GetCompaniesList();
+          console.log(result);
+          dispatch(setCompamnyDetails(result));
+        }
 
         console.log(emailToSend);
         const apiResponse = await getAppUserDetailsByMail(emailToSend);
@@ -126,7 +132,7 @@ const Login = () => {
             sx={{
              width: "100%", // Tüm kutunun genişliği
               maxWidth: "400px", // Kutunun maksimum genişliği
-              //padding: '1em', // İçerik kutusunun etrafındaki boşluk
+              padding: '1em', // İçerik kutusunun etrafındaki boşluk
               display: "flex", // Flexbox kullanımı
               flexDirection: "column", // Çocukları dikey sırada dizmek
               alignItems: "center", // Yatay eksende ortalamak
@@ -135,7 +141,7 @@ const Login = () => {
               padding: (theme) => theme.spacing(3), // Tema'dan boşluk değeri kullanmak
               boxShadow: "0px 3px 10px rgba(0, 0, 0, 0.2)", // Gölge efekti
               borderRadius: "8px", // Kenar yuvarlaklığı
-              //backgroundColor: "#ffffff", // Arka plan rengi
+              backgroundColor: "#ffffff", // Arka plan rengi
               backgroundColor: "rgba(255, 255, 255, 0.9)", // Arka planın biraz saydam olması için
               
               justifyContent: "center",

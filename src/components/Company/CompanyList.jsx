@@ -1,38 +1,58 @@
- import React, { useState } from "react";
-
-const CompanyList = ({ companies }) => {
-
-    const mockData = [
-        { id: 1, logo: 'Logo1.png', name: 'Şirket A', title: 'Ünvan A', email: 'email@example.com', phone: '123-456-7890' },
-        // ... add more data rows as needed
-      ];
+ import React, { useState,useEffect } from "react";
+ import { useSelector } from "react-redux";
+ import { GetCompanyList } from "../../service/CompanyService";
+ import { useDispatch } from "react-redux";
+ import { setCompanyDetails } from "../../service/redux/actions/companyActions";
 
 
-  // Kullanıcı tarafından girilen filtreyi tutan state
+const CompanyList =  () => {
+
+  const [companies, setCompanies] = useState([]);
+  const [filteredCompanies, setFilteredCompanies] = useState([]);
   const [filter, setFilter] = useState("");
+  const dispatch = useDispatch();
+  const userRole = useSelector((state) => state.auth.role);
 
-  // Filtreye uyan şirketleri tutan state
-  const [filteredCompanies, setFilteredCompanies] = useState(mockData );
+  useEffect(() => {
+    if (userRole === "admin") {
+      fetchCompanyList();
+    }
+  }, [userRole]);
 
-  // Kullanıcı filtre değerini değiştirdiğinde filteredCompanies state'ini günceller
-  const handleFilterChange = (event) => {
-    const value = event.target.value;
-    setFilter(value);
-    if (!value) {
-      setFilteredCompanies(mockData);
-    } else {
-      const filtered = companies.filter((company) =>
-        company.name.toLowerCase().includes(value.toLowerCase())
-      );
-      setFilteredCompanies(filtered);
+  const fetchCompanyList = async () => {
+    try {
+      const response = await GetCompanyList();
+      setCompanies(response);
+      setFilteredCompanies(response);
+    } catch (error) {
+      console.error("Error fetching company list:", error);
     }
   };
 
-  // Filtrelemeyi temizleyip tüm şirketleri tekrar göstermek için kullanılır
+  const handleFilterChange = (event) => {
+    const value = event.target.value.toLowerCase();
+    setFilter(value);
+    const filtered = companies.filter((company) => {
+      const companyName = company.name.toLowerCase();
+      const companyVatNumber = company.vatNumber.toLowerCase();
+      const companyEmail = company.email ? company.email.toLowerCase() : ''; // Add a conditional check for company.email
+      const phoneNumber = company.phoneNumber.toLowerCase();
+  
+      return (
+        companyName.includes(value) ||
+        companyVatNumber.includes(value) ||
+        companyEmail.includes(value) || // Check if company.email exists before calling toLowerCase()
+        phoneNumber.includes(value)
+      );
+    });
+    setFilteredCompanies(filtered);
+  };
+  
   const clearFilter = () => {
     setFilter("");
-    setFilteredCompanies(mockData);
+    setFilteredCompanies(companies);
   };
+
 
   const styles = {
     listContainer: {
@@ -106,7 +126,7 @@ const CompanyList = ({ companies }) => {
           placeholder="Şirket Ara..."
           style={styles.searchInput}
           value={filter}
-          onChange={(e) => setFilter(e.target.value)}
+          onChange={handleFilterChange}
         />
         <button style={styles.searchButton} onClick={() => setFilter("")}>
           Temizle
@@ -117,7 +137,7 @@ const CompanyList = ({ companies }) => {
           <tr>
             <th style={styles.th}>Logo</th>
             <th style={styles.th}>Şirket Adı</th>
-            <th style={styles.th}>Ünvanı</th>
+            <th style={styles.th}>Vat Number</th>
             <th style={styles.th}>Email</th>
             <th style={styles.th}>Telefon</th>
             <th style={styles.th}>Aksiyon</th>
@@ -134,9 +154,9 @@ const CompanyList = ({ companies }) => {
                 />
               </td>
               <td style={styles.td}>{company.name}</td>
-              <td style={styles.td}>{company.title}</td>
+              <td style={styles.td}>{company.vatNumber}</td>
               <td style={styles.td}>{company.email}</td>
-              <td style={styles.td}>{company.phone}</td>
+              <td style={styles.td}>{company.phoneNumber}</td>
               <td style={styles.td}>
                 <button
                   style={styles.button}

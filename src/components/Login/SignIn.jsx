@@ -25,7 +25,7 @@ import { setUserDetails } from "../../service/redux/actions/userAction";
 import { getAppUserDetailsByMail } from "../../service/AppUserService";
 
 import backgroundImage from "../../../public/images/clean-2721104_1280.jpg";
-import { GetCompaniesList } from "../../service/CompanyService";
+//import { GetCompaniesList } from "../../service/CompanyService";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -55,6 +55,7 @@ const Login = () => {
       const data = new FormData(e.currentTarget);
       const result = await authLogin(data.get("email"), data.get("password"));
       const emailToSend = data.get("email");
+    
       if (result && result.data) {
         const decoded = decodeToken();
         console.log(decoded);
@@ -69,11 +70,8 @@ const Login = () => {
             isAuthenticated: true,
           })
         );
-        if(decoded.Role==="Admin"){
-          const result = await GetCompaniesList();
-          console.log(result);
-          dispatch(setCompamnyDetails(result));
-        }
+
+
 
         console.log(emailToSend);
         const apiResponse = await getAppUserDetailsByMail(emailToSend);

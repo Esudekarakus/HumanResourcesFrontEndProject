@@ -1,23 +1,25 @@
 import axios from "axios";
 
-export  const GetCompaniesList = async ()=>{
-    try {
-        const response = await axios.post(
-            `https://localhost:7287/api/Account/GetCompaniesList`,{
-                headers: {
-                    'Content-Type':'application/json',
-                }
-            }
-
-        );
-        if(response.status===200){
-            return response.data;
+export const GetCompanyList = async () => {
+  try {
+    const response = await axios.get(
+        `https://localhost:7287/api/Company/GetCompanyList`,{},
+      {
+        headers: {
+          'Content-Type': 'application/json',
         }
-        
-        
-    } catch (error) {
-        console.log(error);
-        console.log(response.data);
-        return error;
+      }
+    );
+
+    console.log(response);
+
+    if (response.status === 200) {
+      console.log(response.data);
+      return response.data;
     }
+  } catch (error) {
+    console.log(error);
+    console.log(error.response.data); // Use error.response.data to access response data in catch block
+    return error;
+  }
 }

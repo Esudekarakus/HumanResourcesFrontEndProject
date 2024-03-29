@@ -291,13 +291,13 @@ function Template() {
                 <Route path="/expensescreen" element={<ExpenseScreen />} />
               </>
             {/* )}  */}
-            {user.role === "employer" && (
+            {/* {user.role === "admin" && ( */}
               <>
                 <Route path="/companyCard" element={<CompanyCard />} />
                 <Route path="/companyList" element={<CompanyList />} />
                 <Route path="/managerForm" element={<ManagerForm />} />
               </>
-            )}
+            {/* )} */}
           </Routes>
           
         </div>

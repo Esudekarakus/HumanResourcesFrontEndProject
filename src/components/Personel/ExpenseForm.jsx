@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button, TextField, InputAdornment, IconButton, FormControl, InputLabel, Input, Grid, Typography } from '@material-ui/core';
-import { AttachFile as AttachFileIcon } from '@material-ui/icons';
+import { Button, Input, InputAdornment, MenuItem, Select } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
- 
-const styles = {
+const id =1;
+const useStyles = makeStyles((theme) => ({
   card: {
-    backgroundColor: '#f0faff', // Açık mavi arka plan
-    border: '1px solid #007bff', // Mavi çerçeve
+    backgroundColor: '#f0faff',
+    border: '1px solid #007bff',
     borderRadius: '8px',
     padding: '20px',
     maxWidth: '500px',
@@ -14,7 +13,7 @@ const styles = {
     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
   },
   header: {
-    color: '#007bff', // Mavi başlık metni
+    color: '#007bff',
     textAlign: 'center',
     marginBottom: '20px',
   },
@@ -24,7 +23,7 @@ const styles = {
   label: {
     display: 'block',
     marginBottom: '5px',
-    color: '#0056b3', // Daha koyu mavi metin
+    color: '#0056b3',
   },
   input: {
     width: '100%',
@@ -41,104 +40,178 @@ const styles = {
     marginBottom: '10px',
   },
   submitButton: {
-    backgroundColor: '#007bff', // Mavi buton
+    backgroundColor: '#007bff',
     color: 'white',
     padding: '10px 15px',
     border: 'none',
     borderRadius: '4px',
     cursor: 'pointer',
   },
-  errorMessage: {
-    color: 'red',
-    marginBottom: '15px',
-  },
-};
- 
+}));
+
 function ExpenseForm() {
+  const classes = useStyles();
   const [expenses, setExpenses] = useState([]);
   const [expenseType, setExpenseType] = useState('');
   const [amount, setAmount] = useState('');
   const [currency, setCurrency] = useState('');
   const [file, setFile] = useState(null);
- 
+  const [description, setDescription] = useState('');
+  const [invoicePath, setInvoicePath] = useState('');
+
+
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
   };
- 
-  const handleSubmit = (event) => {
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    if (name === 'expenseType') {
+      setExpenseType(value);
+    } else if (name === 'currency') {
+      setCurrency(value);
+    }else if (name === 'amount') {
+    const doubleAmount = parseFloat(value);
+    setAmount(doubleAmount);
+    } else if (name === 'description') {
+      setDescription(value);
+    } else if (name === 'invoicePath') {
+      setInvoicePath(value);
+    }
+  }
+  
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const newExpense = {
-      expenseType,
-      amount,
-      currency,
-      file, // Normally you would handle file uploads differently
-    };
-    setExpenses([...expenses, newExpense]);
+   
+    const formData = new FormData();
+    formData.append('description',description);
+    formData.append('currency', currency);
+    formData.append('expenseType', expenseType);
+    formData.append('invoicePath',invoicePath);
+    formData.append('amount', amount);
+    formData.append('employeeId',id);
+    formData.append('formFile', file);
+    
+  
+    try {
+      console.log(formData);
+      const response = await fetch('https://localhost:7287/api/Expense', {
+        method: 'POST',
+        body: formData,
+      });
+  
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log('Expense submitted successfully:', responseData);
+        // İşlem başarılı olduğunda gerekli adımları burada gerçekleştirin
+      } else {
+        console.error('Error submitting expense:', response.statusText);
+        // İşlem başarısız olduğunda gerekli adımları burada gerçekleştirin
+      }
+    } catch (error) {
+      console.error('Error submitting expense:', error.message);
+      // Hata durumunda gerekli adımları burada gerçekleştirin
+    }
+  
+    // Formu temizle
     setExpenseType('');
     setAmount('');
     setCurrency('');
-    setFile(null);
+    setFile(event.target.files[0]);
   };
- 
+
   return (
-<div style={styles.card}>
-<form onSubmit={handleSubmit}>
-<h2 style={styles.header}>Masraf Talep Formu</h2>
- 
-<div style={styles.formGroup}>
-   <label style={styles.label}>Masraf Türü:</label>
-   <input value={expenseType} onChange={(e) => setExpenseType(e.target.value)} fullWidth margin="normal" />
-</div>
- 
-<div style={styles.formGroup}>
-<label style={styles.label}>Tutar:</label>
-<input value={amount} onChange={(e) => setAmount(e.target.value)} fullWidth margin="normal" InputProps={{
-            endAdornment: <InputAdornment position="end">TL</InputAdornment>,
-          }} />
-</div>
- 
-<div style={styles.formGroup}>
-<label style={styles.label}>Para Birimi:</label>
+    <div className={classes.card}>
+      <form onSubmit={handleSubmit}>
+        <h2 className={classes.header}>Masraf Talep Formu</h2>
+        <div className={classes.formGroup}>
+          <label className={classes.label}>Masraf Türü:</label>
+          <Select
+            name="expenseType"
+            value={expenseType}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            className={classes.select}
+          >
+            <MenuItem value={1}>Konut</MenuItem>
+            <MenuItem value={2}>Seyahat</MenuItem>
+            <MenuItem value={3}>Gıda İhtiyaçları</MenuItem>
+            <MenuItem value={4}>Malzemeler</MenuItem>
+            <MenuItem value={5}>Eğitim</MenuItem>
+            <MenuItem value={6}>Sağlık</MenuItem>
+            <MenuItem value={7}>Yakıt</MenuItem>
+            <MenuItem value={8}>Diğer</MenuItem>
+          </Select>
+        </div>
 
-<input value={currency} onChange={(e) => setCurrency(e.target.value)} fullWidth margin="normal" />
+        <div className={classes.formGroup}>
+          <label className={classes.label}>Tutar:</label>
+          <Input
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            fullWidth
+            margin="normal"
+           
+            className={classes.input}
+          />
+        </div>
 
-</div>
-<input accept=".pdf,.xls,.xlsx" className={styles.AttachFile} id="contained-button-file" multiple type="file" onChange={handleFileChange} />
- <br />
-{/* <label >
-<Button variant="contained" color="default" component="span" startIcon={<AttachFileIcon />} multiple type="file" onChange={handleFileChange} accept=".pdf,.xls,.xlsx">
-              Dosya Ekle
-</Button>
-</label> */}
-<br />
-<Button type="submit" variant="contained" color="primary" className={styles.submitButton}>
-            Talep Gönder
-</Button>
-</form>
-<table>
-<thead>
-<tr>
-<td>Masraf Türü</td>
-<td align="right">Tutar</td>
-<td align="right">Para Birimi</td>
-<td align="right">Dosya</td>
-</tr>
-</thead>
-<tbody>
-            {expenses.map((expense, index) => (
-<tr key={index}>
-<td component="th" scope="row">
-                  {expense.expenseType}
-</td>
-<td align="right">{expense.amount}</td>
-<td align="right">{expense.currency}</td>
-<td align="right">{expense.file ? expense.file.name : 'Yok'}</td>
-</tr>
-            ))}
-</tbody>
-</table>
-</div>
+        <div className={classes.formGroup}>
+          <label className={classes.label}>Para Birimi:</label>
+          <Select
+            name="currency"
+            value={currency}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            className={classes.select}
+          >
+            <MenuItem value={1}>TL</MenuItem>
+            <MenuItem value={2}>USD</MenuItem>
+            <MenuItem value={3}>EUR</MenuItem>
+          </Select>
+        </div>
+        <div className={classes.formGroup}>
+          <label className={classes.label}>Açıklama :</label>
+          <Input
+            name="description"
+            value={description}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+           
+            className={classes.input}
+          />
+        </div>
+        <div className={classes.formGroup}>
+          <label className={classes.label}>Fatura Numarası : </label>
+          <Input
+            name='invoicePath'
+            value={invoicePath}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+           
+            className={classes.input}
+          />
+        </div>
+        <input
+          accept=".pdf,.xls,.xlsx"
+          id="contained-button-file"
+          multiple
+          type="file"
+          onChange={handleFileChange}
+        />
+        <br />
+        <br />
+        <Button type="submit" variant="contained" color="primary" className={classes.submitButton}>
+          Talep Gönder
+        </Button>
+      </form>
+    </div>
   );
 }
- 
+
 export default ExpenseForm;

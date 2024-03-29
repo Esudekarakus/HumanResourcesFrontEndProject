@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ChangePassword, VerifyCode } from "../../service/AccountService";
 import { Link } from "react-router-dom";
-import backgroundImage from "../../../public/images/clean-2721104_1280.jpg";
+import backgroundImage from "/images/clean-2721104_1280.jpg";
 
 const ForgotPass = () => {
   const [email, setEmail] = useState("");

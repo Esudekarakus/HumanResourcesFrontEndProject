@@ -24,7 +24,7 @@ import { setUserDetails } from "../../service/redux/actions/userAction";
 
 import { getAppUserDetailsByMail } from "../../service/AppUserService";
 
-import backgroundImage from "../../../public/images/clean-2721104_1280.jpg";
+import backgroundImage from "/images/clean-2721104_1280.jpg";
 
 const Login = () => {
   const [email, setEmail] = useState("");

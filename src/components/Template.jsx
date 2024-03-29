@@ -10,6 +10,7 @@ import AdvanceRequestForm from "./Personel/AdvanceForm";
 import AdvanceRequestsList from "./Personel/AdvanceList";
 import LeaveRequestForm from "./Personel/LeaveForm";
 import LeaveRequestList from "./Personel/LeaveList";
+import ExpenseList from "./Personel/ExpenseList";
 import ExpenseForm from "./Personel/ExpenseForm";
 import ApproveRejectTable from "./Employeer/ApproveRejectTable";
 import LeaveApprovalScreen from "./Employeer/LeaveApprovalScreen";
@@ -18,6 +19,7 @@ import CompanyCard from "./Company/CompanyCard";
 import CompanyList from "./Company/CompanyList";
 import ManagerForm from "./Company/ManagerForm";
 import backgroundImage from "../../public/images/clean-2721104_1280.jpg";
+
 
 
 function Template() {
@@ -230,7 +232,7 @@ function Template() {
                       Masraf Talep Et
                     </Link>
                   </li>
-                  {user.role === "employer" && (
+                  {/* {user.role === "employer" && ( */}
                     <li>
                       <Link
                         to="/expensescreen"
@@ -239,7 +241,15 @@ function Template() {
                         Masraf Onay
                       </Link>
                     </li>
-                  )}
+                    <li>
+                      <Link
+                        to="/expenseList"
+                        style={{ color: "white", textDecoration: "none" }}
+                      >
+                        Masraf Taleplerim
+                      </Link>
+                    </li>
+                  {/* )} */}
                 </ul>
               )}
             </li>
@@ -264,8 +274,10 @@ function Template() {
             <Route path="/leaverequestform" element={<LeaveRequestForm />} />
             <Route path="/leaverequestlist" element={<LeaveRequestList />} />
             <Route path="/expenseform" element={<ExpenseForm />} />
+            <Route path="/expenseList" element={<ExpenseList/>}/>
+           
             {/* Koşullu Route'lar */}
-            {user.role === "employer" && ( 
+            {/* {user.role === "employer" && (  */}
               <>
                 <Route path="/Addemp" element={<AddEmp />} />
                 <Route
@@ -278,7 +290,7 @@ function Template() {
                 />
                 <Route path="/expensescreen" element={<ExpenseScreen />} />
               </>
-            )} 
+            {/* )}  */}
             {user.role === "employer" && (
               <>
                 <Route path="/companyCard" element={<CompanyCard />} />

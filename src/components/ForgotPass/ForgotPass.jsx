@@ -86,7 +86,7 @@ const ForgotPass = () => {
           backgroundColor: "white", // İçerik div'inin arka plan rengi, biraz saydamlık ekledik
           boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)", // İçerik div'ine gölge efekti
           borderRadius: "4px", // İçerik div'inin köşelerini yuvarlak yap
-          padding: '1em', // İçerik kutusunun etrafındaki boşluk
+          //padding: '1em', // İçerik kutusunun etrafındaki boşluk
         }}
       >
         <h2 style={{ textAlign: "center", color: "#2196F3" }}>

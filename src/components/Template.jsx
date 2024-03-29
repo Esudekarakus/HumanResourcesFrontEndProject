@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Routes, Route, Link } from "react-router-dom";
-import Login from './Login/SignIn';
-import { useSelector } from 'react-redux';
+import Login from "./Login/SignIn";
+import { useSelector } from "react-redux";
 import Home from "../components/HomePage/Home";
 import Details from "../components/HomePage/Details";
 import AddEmp from "./HomePage/AddEmp";
@@ -17,10 +17,10 @@ import ExpenseScreen from "./Employeer/ExpenseScreen";
 import CompanyCard from "./Company/CompanyCard";
 import CompanyList from "./Company/CompanyList";
 import ManagerForm from "./Company/ManagerForm";
+import backgroundImage from "../../public/images/clean-2721104_1280.jpg";
 
 
 function Template() {
-
   const user = useSelector((state) => state.auth);
   console.log(user.role);
 
@@ -41,7 +41,11 @@ function Template() {
             padding: "20px",
             width: "250px",
             minHeight: "100vh",
-            background: "#093766",
+            //background: "#093766",
+            backgroundImage:`url(${backgroundImage})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center center",
+            backgroundRepeat: "no-repeat",
             color: "white",
           }}
         >
@@ -49,7 +53,11 @@ function Template() {
             <li>
               <Link
                 to="/home/:userId"
-                style={{ color: "white", textDecoration: "none", fontSize: "20px" }}
+                style={{
+                  color: "white",
+                  textDecoration: "none",
+                  fontSize: "20px",
+                }}
               >
                 Anasayfa
               </Link>
@@ -58,7 +66,11 @@ function Template() {
             <li>
               <Link
                 to="/details/:userId"
-                style={{ color: "white", textDecoration: "none", fontSize: "20px" }}
+                style={{
+                  color: "white",
+                  textDecoration: "none",
+                  fontSize: "20px",
+                }}
               >
                 Detaylar
               </Link>
@@ -67,12 +79,19 @@ function Template() {
             <li>
               <Link
                 to="/update"
-                style={{ color: "white", textDecoration: "none", fontSize: "20px" }}
+                style={{
+                  color: "white",
+                  textDecoration: "none",
+                  fontSize: "20px",
+                }}
               >
                 Bilgileri Güncelle
               </Link>
             </li>
-            <li onClick={toggleCompanyMenu} style={{ cursor: "pointer", fontSize: "20px" }}>
+            <li
+              onClick={toggleCompanyMenu}
+              style={{ cursor: "pointer", fontSize: "20px" }}
+            >
               Mevcut Şirketler
               {isCompanyMenuOpen && (
                 <ul style={{ listStyleType: "none" }}>
@@ -102,23 +121,28 @@ function Template() {
                       Yöneticiler
                     </Link>
                   </li>
-
                 </ul>
               )}
             </li>
-
 
             {user.role === "employer" && (
               <li>
                 <Link
                   to="/addemp"
-                  style={{ color: "white", textDecoration: "none", fontSize: "20px" }}
+                  style={{
+                    color: "white",
+                    textDecoration: "none",
+                    fontSize: "20px",
+                  }}
                 >
                   Personel Ekle
                 </Link>
               </li>
-             )} 
-            <li onClick={toggleAdvanceMenu} style={{ cursor: "pointer", fontSize: "20px" }}>
+            )} 
+            <li
+              onClick={toggleAdvanceMenu}
+              style={{ cursor: "pointer", fontSize: "20px" }}
+            >
               Avans İşlemleri
               {isAdvanceMenuOpen && (
                 <ul style={{ listStyleType: "none" }}>
@@ -148,14 +172,15 @@ function Template() {
                         Avans Onay
                       </Link>
                     </li>
-
-                   )} 
-
+                  )}
                 </ul>
               )}
             </li>
 
-            <li onClick={toggleLeaveMenu} style={{ cursor: "pointer", fontSize: "20px" }}>
+            <li
+              onClick={toggleLeaveMenu}
+              style={{ cursor: "pointer", fontSize: "20px" }}
+            >
               İzin İşlemleri
               {isLeaveMenuOpen && (
                 <ul style={{ listStyleType: "none" }}>
@@ -185,13 +210,15 @@ function Template() {
                         İzin Onay
                       </Link>
                     </li>
-                   )} 
-
+                  )}
                 </ul>
               )}
             </li>
 
-            <li onClick={toggleExpenseMenu} style={{ cursor: "pointer", fontSize: "20px" }}>
+            <li
+              onClick={toggleExpenseMenu}
+              style={{ cursor: "pointer", fontSize: "20px" }}
+            >
               Masraf İşlemleri
               {isExpenseMenuOpen && (
                 <ul style={{ listStyleType: "none" }}>
@@ -203,7 +230,7 @@ function Template() {
                       Masraf Talep Et
                     </Link>
                   </li>
-                   {user.role === "employer" && ( 
+                  {user.role === "employer" && (
                     <li>
                       <Link
                         to="/expensescreen"
@@ -212,9 +239,7 @@ function Template() {
                         Masraf Onay
                       </Link>
                     </li>
-
                   )}
-
                 </ul>
               )}
             </li>
@@ -222,35 +247,47 @@ function Template() {
         </nav>
 
         <div style={{ flex: 1, padding: "20px", background: "#e6f2ff" }}>
-
           <Routes>
             {/* Her zaman görünecek Route'lar */}
             <Route path="/SignIn" element={<Login />} />
             <Route path="/home/:userId" element={<Home />} />
             <Route path="/details/:userId" element={<Details />} />
             <Route path="/update" element={<UpdateDetails />} />
-            <Route path="/advancerequestform" element={<AdvanceRequestForm />} />
-            <Route path="/advancerequestlist" element={<AdvanceRequestsList />} />
+            <Route
+              path="/advancerequestform"
+              element={<AdvanceRequestForm />}
+            />
+            <Route
+              path="/advancerequestlist"
+              element={<AdvanceRequestsList />}
+            />
             <Route path="/leaverequestform" element={<LeaveRequestForm />} />
             <Route path="/leaverequestlist" element={<LeaveRequestList />} />
             <Route path="/expenseform" element={<ExpenseForm />} />
             {/* Koşullu Route'lar */}
-            {user.role === "employer" && (
+            {user.role === "employer" && ( 
               <>
                 <Route path="/Addemp" element={<AddEmp />} />
-                <Route path="/approverejecttable" element={<ApproveRejectTable />} />
-                <Route path="/leaveapprovalscreen" element={<LeaveApprovalScreen />} />
+                <Route
+                  path="/approverejecttable"
+                  element={<ApproveRejectTable />}
+                />
+                <Route
+                  path="/leaveapprovalscreen"
+                  element={<LeaveApprovalScreen />}
+                />
                 <Route path="/expensescreen" element={<ExpenseScreen />} />
               </>
-             )}
-            {user.role === "employer" && ( 
+            )} 
+            {user.role === "employer" && (
               <>
                 <Route path="/companyCard" element={<CompanyCard />} />
                 <Route path="/companyList" element={<CompanyList />} />
                 <Route path="/managerForm" element={<ManagerForm />} />
               </>
-            )} 
+            )}
           </Routes>
+          
         </div>
       </div>
     </main>

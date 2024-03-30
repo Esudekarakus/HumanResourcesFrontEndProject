@@ -1,5 +1,8 @@
 
-import React from "react";
+import React ,{useState,useEffect} from "react";
+import { useSelector } from "react-redux";
+import decodeToken from "../../service/JwtDecoder";
+import { fetchCompanyById } from "../../service/CompanyService";
 
 const sampleCompany = {
     logo: 'https://via.placeholder.com/60',
@@ -19,7 +22,10 @@ const sampleCompany = {
   };
   
 
-const CompanyCard = ({ company = sampleCompany }) => {
+const CompanyCard = () => {
+
+  const[companyDetails,setCompanyDetails]=useState("");
+
   const styles = {
     companyCard: {
       width: "100%",
@@ -59,66 +65,88 @@ const CompanyCard = ({ company = sampleCompany }) => {
     },
   };
 
+  const CompanyId = useSelector((state)=>state.userDetails.companyId);
+  console.log(CompanyId);
+
+
+  if (CompanyId !== 0) {
+    useEffect(() => {
+      console.log(CompanyId);
+        bringCompanyDetails(CompanyId);
+    }, [CompanyId]);
+}
+
+
+  const bringCompanyDetails = async (CompanyId) => {
+    try {
+      console.log(CompanyId);
+      const response = await fetchCompanyById(CompanyId);
+      setCompanyDetails(response);
+    } catch (error) {
+      console.error("Error fetching company list:", error);
+    }
+  };
+
   return (
     <div style={styles.companyCard}>
       <div style={styles.cardHeader}>
-        <img src={company.logo} alt="Company Logo" style={styles.companyLogo} />
-        <h2>{company.name}</h2>
+        <img src={companyDetails.logo} alt="Company Logo" style={styles.companyLogo} />
+        <h2>{companyDetails.name}</h2>
       </div>
       <div style={styles.cardContent}>
         <table style={styles.companyInfo}>
           <tbody>
             <tr>
               <td style={styles.companyInfoTdFirst}>Ünvan:</td>
-              <td style={styles.companyInfoTd}>{company.title}</td>
+              <td style={styles.companyInfoTd}>{companyDetails.name}</td>
             </tr>
             <tr>
               <td style={styles.companyInfoTdFirst}>Mersis No:</td>
-              <td style={styles.companyInfoTd}>{company.mersisNo}   </td>
+              <td style={styles.companyInfoTd}>{companyDetails.mersisNo}   </td>
             </tr>
             <tr>
               <td style={styles.companyInfoTdFirst}>Vergi No:</td>
-              <td style={styles.companyInfoTd}>{company.taxNo}</td>
+              <td style={styles.companyInfoTd}>{companyDetails.vatNumber}</td>
             </tr>
             <tr>
               <td style={styles.companyInfoTdFirst}>Vergi Dairesi:</td>
-              <td style={styles.companyInfoTd}>{company.taxOffice}</td>
+              <td style={styles.companyInfoTd}>{companyDetails.taxOffice}</td>
             </tr>
             <tr>
               <td style={styles.companyInfoTdFirst}>Telefon:</td>
-              <td style={styles.companyInfoTd}>{company.phone}</td>
+              <td style={styles.companyInfoTd}>{companyDetails.phoneNumber}</td>
             </tr>
             <tr>
               <td style={styles.companyInfoTdFirst}>Adres:</td>
-              <td style={styles.companyInfoTd}>{company.address}</td>
+              <td style={styles.companyInfoTd}>{companyDetails.address}</td>
             </tr>
             <tr>
               <td style={styles.companyInfoTdFirst}>Email:</td>
-              <td style={styles.companyInfoTd}>{company.email}</td>
+              <td style={styles.companyInfoTd}>{companyDetails.email}</td>
             </tr>
 
             <tr>
               <td style={styles.companyInfoTdFirst}>Çalışan Sayısı:</td>
-              <td style={styles.companyInfoTd}>{company.employeeCount}</td>
+              <td style={styles.companyInfoTd}>{companyDetails.employeeCount}</td>
             </tr>
             <tr>
               <td style={styles.companyInfoTdFirst}>Kuruluş Yılı:</td>
-              <td style={styles.companyInfoTd}>{company.foundationYear}</td>
+              <td style={styles.companyInfoTd}>{companyDetails.foundationDate}</td>
             </tr>
             <tr>
               <td style={styles.companyInfoTdFirst}>
                 Sözleşme Başlangıç Tarihi:
               </td>
-              <td style={styles.companyInfoTd}>{company.contractStartDate}</td>
+              <td style={styles.companyInfoTd}>{companyDetails.dateOfContractStart}</td>
             </tr>
             <tr>
               <td style={styles.companyInfoTdFirst}>Sözleşme Bitiş Tarihi:</td>
-              <td style={styles.companyInfoTd}>{company.contractEndDate}</td>
+              <td style={styles.companyInfoTd}>{companyDetails.dateOFContractEnd}</td>
             </tr>
             <tr>
               <td style={styles.companyInfoTdFirst}>Aktiflik Durumu:</td>
               <td style={styles.companyInfoTd}>
-                {company.isActive ? "Aktif" : "Pasif"}
+                {companyDetails.isActive ? "Aktif" : "Pasif"}
               </td>
             </tr>
           </tbody>

@@ -23,3 +23,15 @@ export const GetCompanyList = async () => {
     return error;
   }
 }
+
+export const fetchCompanyById = async (id) =>{
+  try{
+      const response = await fetch(`https://localhost:7287/api/Company/${id}`);
+      const data = await response.json();
+      return data;
+  }catch(error){
+      console.error('Çalışan getirme hatası',error);
+  }
+}
+
+

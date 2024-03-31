@@ -31,13 +31,11 @@ export const ChangePassword = async (email,privateMail, password, confirmPasswor
 
         if (response) {
             return response;
-        } else {
-            console.error('İstek başarısız oldu:', response.status, response.statusText);
-            throw new Error('İstek başarısız oldu');
-        }
+        } 
     } catch (error) {
-        console.error('Bir hata oluştu:', error.message);
-        throw error;
+        console.error('Bir hata oluştu:', error.response);
+        console.log(error.response);
+        return error.response;
     }
 }
 

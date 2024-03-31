@@ -1,16 +1,14 @@
  import React, { useState,useEffect } from "react";
  import { useSelector } from "react-redux";
  import { GetCompanyList } from "../../service/CompanyService";
- import { useDispatch } from "react-redux";
- import { setCompanyDetails } from "../../service/redux/actions/companyActions";
-
+ 
 
 const CompanyList =  () => {
 
   const [companies, setCompanies] = useState([]);
   const [filteredCompanies, setFilteredCompanies] = useState([]);
   const [filter, setFilter] = useState("");
-  const dispatch = useDispatch();
+ 
   const userRole = useSelector((state) => state.auth.role);
 
   useEffect(() => {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
 import { getAdvanceWithEmployee } from '../../service/AdvanceService';
+import { useSelector } from 'react-redux';
 
 const styles = {
   card: {
@@ -53,6 +54,8 @@ const styles = {
 
 function AdvanceApprovalScreen() {
   const [advanceRequests, setAdvanceRequests] = useState([]);
+  const CompanyId = useSelector((state)=>state.userDetails.companyId);
+  console.log(CompanyId);
 
   useEffect(() => {
     async function fetchData() {

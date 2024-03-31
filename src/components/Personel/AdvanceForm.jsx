@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 const styles = {
   card: {
@@ -57,6 +58,21 @@ const AdvanceRequestForm = () => {
   const [description, setDescription] = useState('');
   const [advanceType, setAdvanceType] = useState('1');
   const [errorMessage, setErrorMessage] = useState('');
+  const [personalIdRole, setPersonalIdRole] = useState({ personalId: '', personalRole: '' });
+
+  const personalId = useSelector((state) => state.userDetails.personalId);
+  const personalRole = useSelector((state) => state.auth.role);
+
+  useEffect(() => {
+    // burada ikisinide bir use state ile tuttum buradan alıp kullanılabilir.
+    setPersonalIdRole({ personalId, personalRole });
+  }, [personalId, personalRole]);
+
+  // denemeler.
+  console.log(personalIdRole.personalId);
+  console.log(personalIdRole.personalRole);
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();

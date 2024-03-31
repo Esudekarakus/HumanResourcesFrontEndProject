@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Button, Input, InputAdornment, MenuItem, Select } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { useSelector } from 'react-redux';
+
 const id =1;
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -58,6 +60,20 @@ function ExpenseForm() {
   const [file, setFile] = useState(null);
   const [description, setDescription] = useState('');
   const [invoicePath, setInvoicePath] = useState('');
+  const [personalIdRole, setPersonalIdRole] = useState({ personalId: '', personalRole: '' });
+
+  const personalId = useSelector((state) => state.userDetails.personalId);
+  const personalRole = useSelector((state) => state.auth.role);
+
+  useEffect(() => {
+    // burada ikisinide bir use state ile tuttum buradan alıp kullanılabilir.
+    setPersonalIdRole({ personalId, personalRole });
+  }, [personalId, personalRole]);
+
+  // denemeler.
+  console.log(personalIdRole.personalId);
+  console.log(personalIdRole.personalRole);
+  
 
 
   const handleFileChange = (event) => {

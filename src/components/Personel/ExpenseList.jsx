@@ -1,5 +1,6 @@
 import {getExpensesByEmployeeId} from '../../service/ExpenseService';
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 const styles = {
     card: {
@@ -35,6 +36,19 @@ const styles = {
    
   const ExpenseRequestsList = () => {
     const [expenses, setExpenses] = useState([]);
+    const [personalIdRole, setPersonalIdRole] = useState({ personalId: '', personalRole: '' });
+
+    const personalId = useSelector((state) => state.userDetails.personalId);
+    const personalRole = useSelector((state) => state.auth.role);
+  
+    useEffect(() => {
+      // burada ikisinide bir use state ile tuttum buradan alıp kullanılabilir.
+      setPersonalIdRole({ personalId, personalRole });
+    }, [personalId, personalRole]);
+  
+    // denemeler.
+    console.log(personalIdRole.personalId);
+    console.log(personalIdRole.personalRole);
    
     useEffect(() => {
       async function fetchData() {

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 const LeaveRequestForm = () => {
   const [leaveType, setLeaveType] = useState('0'); // Başlangıç değeri olarak '0' (seçim yapılmadı)
@@ -7,6 +8,19 @@ const LeaveRequestForm = () => {
   const [description, setDescription] = useState('');
   // Sabit bir EmployeeId değeri kullanılacak
   // Gerçek uygulamada bu değer dinamik olarak kullanıcı oturum bilgisinden alınmalıdır.
+  const [personalIdRole, setPersonalIdRole] = useState({ personalId: '', personalRole: '' });
+
+  const personalId = useSelector((state) => state.userDetails.personalId);
+  const personalRole = useSelector((state) => state.auth.role);
+
+  useEffect(() => {
+    // burada ikisinide bir use state ile tuttum buradan alıp kullanılabilir.
+    setPersonalIdRole({ personalId, personalRole });
+  }, [personalId, personalRole]);
+
+  // denemeler.
+  console.log(personalIdRole.personalId);
+  console.log(personalIdRole.personalRole);
   const employeeId = 1;
 
   const handleSubmit = async (e) => {

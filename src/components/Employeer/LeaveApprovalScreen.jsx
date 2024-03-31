@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
+import { useSelector } from 'react-redux';
 
 // API çağrılarınızı içeren servis dosyanızın yolu
 import { getLeaveWithEmployee } from '../../service/LeaveService';
@@ -55,6 +56,8 @@ const styles = {
 
 function LeaveApprovalScreen() {
   const [leaveRequests, setLeaveRequests] = useState([]);
+  const CompanyId = useSelector((state)=>state.userDetails.companyId);
+  console.log(CompanyId);
 
   useEffect(() => {
     async function fetchData() {

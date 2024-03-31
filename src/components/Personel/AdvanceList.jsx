@@ -35,10 +35,28 @@ const styles = {
  
 const AdvanceRequestsList = () => {
   const [advanceRequests, setAdvanceRequests] = useState([]);
+  const [personalIdRole, setPersonalIdRole] = useState({ personalId: '', personalRole: '' });
+
+  const personalId = useSelector((state) => state.userDetails.personalId);
+  const personalRole = useSelector((state) => state.auth.role);
+
+  useEffect(() => {
+    // burada ikisinide bir use state ile tuttum buradan alıp kullanılabilir.
+    setPersonalIdRole({ personalId, personalRole });
+  }, [personalId, personalRole]);
+
+  // denemeler.
+  console.log(personalIdRole.personalId);
+  console.log(personalIdRole.personalRole);
  
   useEffect(() => {
     async function fetchData() {
       try {
+        if(personalRole==="employer"){// burada employer ın da avans isteğini yapabilirsin.
+
+        }else{
+
+        }
         const data = await getAdvancesByEmployeeId(1); // Buradaki 1, employeeId'yi temsil eder. Değiştirmeniz gerekiyorsa değiştirebilirsiniz.
         setAdvanceRequests(data);
       } catch (error) {

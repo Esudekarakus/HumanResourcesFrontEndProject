@@ -47,22 +47,29 @@ function PersonelGuncellemeFormu() {
   if (validate()) {
     try {
       const formData = new FormData();
-      formData.append('id', values.id);
+      formData.append('id', decodedToken.UserId);
       formData.append('address', values.address);
       formData.append('phoneNumber', values.phoneNumber);
+      formData.append('email', appUserMail);
       formData.append('imageFile', values.imageFile); // imageFile'i FormData'ya ekleyin
-
+      console.log(appUserMail);
       
 
-      const response = await updateAppUserDetailsById(
-        decodedToken.UserId,values.address,values.phoneNumber,appUserMail
-      );
+      const response = await fetch("https://localhost:7287/api/User/UpdateAppUserDetailsById",{
+        method: 'PUT',
+        // headers :{
+        //   'Content-Type': 'multipart/form-data'
+        // },
+        body :formData
+
+      });
 
       if (response.ok) {
         console.log('Çalışan başarıyla güncellendi');
         dispatch(updateUserDetails({ phoneNumber: values.phoneNumber, address: values.address }));
       } else {
-        throw new Error('Çalışan güncellenirken bir hata oluştu');
+        const errorText = await response.text();
+        console.error('Sunucudan hata döndü:', errorText);
       }
     } catch (error) {
       console.error('Hata:', error.message);
@@ -98,7 +105,7 @@ function PersonelGuncellemeFormu() {
 <form onSubmit={handleSubmit}>
 <img src={values.imgSrc}  className='card-img-top'  />
 <div  className="form-group">
-<label>Fotoğraf: <input type="file" accept='image/*' /*sadece image format kabul etsin*/ name="fotograf" onChange={showPreview} className={""+applyErrorClass('imgSrc')}/></label>
+<label>Fotoğraf: <input type="file" accept='image/*' /*sadece image format kabul etsin*/ name="imageFile" onChange={showPreview} className={""+applyErrorClass('imgSrc')}/></label>
 </div>
 <div className="form-group">
 <label>Adres: <input type="adres" name="address" value={values.address} onChange={handleChange} className={""+applyErrorClass('address')}/></label>

@@ -59,6 +59,8 @@ button[type="submit"]:hover {
 
 .invalid-field {
   border-color: #dc3545;
+  color:#dc3545;
+  background-color: #fff;
 }
 
 body {

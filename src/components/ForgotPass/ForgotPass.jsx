@@ -10,7 +10,7 @@ const ForgotPass = () => {
   const [newPassword, setNewPassword] = useState("");
   const [oldPassword, setOldPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState([]);
   const [showVerificationInput, setShowVerificationInput] = useState(false);
   const [codeDirectionInput, setCodeDirectionInput] = useState(false);
   const [showSuccessLabel, setShowSuccessLabel] = useState(false);
@@ -28,7 +28,7 @@ const ForgotPass = () => {
         newPassword,
         confirmPassword
       );
-      if (verifyCode) {
+      if (verifyCode.status===200) {
         setShowSuccessLabel(true);
         setEmail("");
         setVerificationCode("");
@@ -36,7 +36,15 @@ const ForgotPass = () => {
         setConfirmPassword("");
         setPrivateMail("");
         setOldPassword("");
+        setErrorMessage([]);
+      }else{
+        if (result.data && result.data.errors&&result===400) {
+          console.log(result);
+          setErrorMessage(result.data);
+      }else{
+        setErrorMessage("An error occurred. Please try again.");
       }
+    }
     } catch (error) {
       console.error("Şifre güncellenirken bir hata oluştu", error);
       setErrorMessage(error.message);
@@ -51,10 +59,18 @@ const ForgotPass = () => {
         newPassword,
         confirmPassword
       );
-      if (result) {
+      console.log(result);
+      if (result.status===200) {
         setShowVerificationInput(true);
         setCodeDirectionInput(true);
+      }else{
+        if (result.data && result.data.errors) {
+          const errorMessages = Object.values(result.data.errors).flatMap(messages => messages);
+          setErrorMessage(errorMessages.join('\n'));
+      }else{
+        setErrorMessage("An error occurred. Please try again.");
       }
+    }
     } catch (error) {
       console.error("Şifre güncellenirken bir hata oluştu", error);
       setErrorMessage(error.message);
@@ -203,8 +219,25 @@ const ForgotPass = () => {
         </div>
 
         {errorMessage && (
-          <div style={{ color: "red", margin: "10px 0" }}>{errorMessage}</div>
+          <div style={{ color: "red", margin: "10px 0" }}>
+            {Array.isArray(errorMessage) ? (
+              errorMessage.map((errorGroup, index) => (
+                <div key={index}>
+                  {Array.isArray(errorGroup) ? (
+                    errorGroup.map((message, index) => (
+                      <div key={index}>{message}</div>
+                    ))
+                  ) : (
+                    <div>{message.split('\n').map((line, i) => <div key={i}>{line}</div>)}</div>
+                  )}
+                </div>
+              ))
+            ) : (
+              <div>{errorMessage.split('\n').map((line, i) => <div key={i}>{line}</div>)}</div>
+            )}
+          </div>
         )}
+
 
         <div style={{ textAlign: "center" }}>
           <button

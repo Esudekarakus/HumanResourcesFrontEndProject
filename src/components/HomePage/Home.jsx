@@ -15,6 +15,7 @@ import Box from '@mui/material/Box';
  
 function Home() {
   const userDetails = useSelector((state) => state.userDetails);
+  console.log(userDetails.personalId);
  
   if (!userDetails) {
     return <CircularProgress />;

@@ -31,13 +31,11 @@ export const ChangePassword = async (email,privateMail, password, confirmPasswor
 
         if (response) {
             return response;
-        } else {
-            console.error('İstek başarısız oldu:', response.status, response.statusText);
-            throw new Error('İstek başarısız oldu');
-        }
+        } 
     } catch (error) {
-        console.error('Bir hata oluştu:', error.message);
-        throw error;
+        console.error('Bir hata oluştu:', error.response);
+        console.log(error.response);
+        return error.response;
     }
 }
 
@@ -50,17 +48,13 @@ export const VerifyCode = async (code,privateMail,email, password, confirmPasswo
             Password:password,
             ConfirmPassword:confirmPassword
         });
-        console.log(response);
-        console.log(response.data);
         if (response) {
             return response;
-        } else {
-            console.error('İstek başarısız oldu:', response.status, response.statusText);
-            throw new Error('İstek başarısız oldu');
-        }
+        } 
     } catch (error) {
-        console.error('Bir hata oluştu:', error.message);
-        throw error;
+        console.error('Bir hata oluştu:', error.response);
+        console.log(error.response);
+        return error.response;
     }
 }
 

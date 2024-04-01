@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import Login from "./Login/SignIn";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Home from "../components/HomePage/Home";
 import Details from "../components/HomePage/Details";
 import AddEmp from "./HomePage/AddEmp";
@@ -19,21 +19,51 @@ import CompanyCard from "./Company/CompanyCard";
 import CompanyList from "./Company/CompanyList";
 import ManagerForm from "./Company/ManagerForm";
 import backgroundImage from "../../public/images/clean-2721104_1280.jpg";
+// import { getAppUserDetailsByMail } from "../service/AppUserService";
+// import { setUserDetails } from "../service/redux/actions/userAction";
+// import { useDispatch } from "react-redux";
 
 
 
 function Template() {
-  const user = useSelector((state) => state.auth);
-  console.log(user.role);
+
+
 
   const [isAdvanceMenuOpen, setAdvanceMenuOpen] = useState(false);
   const [isLeaveMenuOpen, setLeaveMenuOpen] = useState(false);
   const [isExpenseMenuOpen, setExpenseMenuOpen] = useState(false);
   const [isCompanyMenuOpen, setCompanyMenuOpen] = useState(false);
+  const [logoutClicked, setLogoutClicked] = useState(false);
   const toggleAdvanceMenu = () => setAdvanceMenuOpen(!isAdvanceMenuOpen);
   const toggleLeaveMenu = () => setLeaveMenuOpen(!isLeaveMenuOpen);
   const toggleExpenseMenu = () => setExpenseMenuOpen(!isExpenseMenuOpen);
   const toggleCompanyMenu = () => setCompanyMenuOpen(!isCompanyMenuOpen);
+  const user = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  console.log(user.role);
+
+
+  const handleLogoutPage = () => {
+    dispatch(logout());
+    alert("")
+    // Perform logout logic (clearing token, etc.)
+  };
+
+  const cancelLogout = () => {
+    setLogoutClicked(false);
+  };
+
+  // const UserDetails=async(email)=>{
+  //   const apiResponse = await getAppUserDetailsByMail(email);
+  //   console.log(apiResponse);
+  //   return apiResponse
+  // }
+  // if(user.isAuthenticated){
+  //   const result = UserDetails(user.email);
+  //   dispatch(setUserDetails(result));
+  // }
+
 
   return (
     <main>
@@ -44,7 +74,7 @@ function Template() {
             width: "250px",
             minHeight: "100vh",
             //background: "#093766",
-            backgroundImage:`url(${backgroundImage})`,
+            backgroundImage: `url(${backgroundImage})`,
             backgroundSize: "cover",
             backgroundPosition: "center center",
             backgroundRepeat: "no-repeat",
@@ -90,42 +120,45 @@ function Template() {
                 Bilgileri Güncelle
               </Link>
             </li>
-            <li
-              onClick={toggleCompanyMenu}
-              style={{ cursor: "pointer", fontSize: "20px" }}
-            >
-              Mevcut Şirketler
-              {isCompanyMenuOpen && (
-                <ul style={{ listStyleType: "none" }}>
-                  <li>
-                    <Link
-                      to="/companyCard"
-                      style={{ color: "white", textDecoration: "none" }}
-                    >
-                      Şirket Detayları
-                    </Link>
-                  </li>
+            {user.role === "admin" && (
+              <li
+                onClick={toggleCompanyMenu}
+                style={{ cursor: "pointer", fontSize: "20px" }}
+              >
+                Mevcut Şirketler
+                {isCompanyMenuOpen && (
+                  <ul style={{ listStyleType: "none" }}>
+                    <li>
+                      <Link
+                        to="/companyCard"
+                        style={{ color: "white", textDecoration: "none" }}
+                      >
+                        Şirket Detayları
+                      </Link>
+                    </li>
 
-                  <li>
-                    <Link
-                      to="/companyList"
-                      style={{ color: "white", textDecoration: "none" }}
-                    >
-                      Şirketler
-                    </Link>
-                  </li>
+                    <li>
+                      <Link
+                        to="/companyList"
+                        style={{ color: "white", textDecoration: "none" }}
+                      >
+                        Şirketler
+                      </Link>
+                    </li>
 
-                  <li>
-                    <Link
-                      to="/managerForm"
-                      style={{ color: "white", textDecoration: "none" }}
-                    >
-                      Yöneticiler
-                    </Link>
-                  </li>
-                </ul>
-              )}
-            </li>
+                    <li>
+                      <Link
+                        to="/managerForm"
+                        style={{ color: "white", textDecoration: "none" }}
+                      >
+                        Yöneticiler
+                      </Link>
+                    </li>
+                  </ul>
+                )}
+              </li>
+            )}
+
 
             {user.role === "employer" && (
               <li>
@@ -140,7 +173,7 @@ function Template() {
                   Personel Ekle
                 </Link>
               </li>
-            )} 
+            )}
             <li
               onClick={toggleAdvanceMenu}
               style={{ cursor: "pointer", fontSize: "20px" }}
@@ -232,7 +265,15 @@ function Template() {
                       Masraf Talep Et
                     </Link>
                   </li>
-                  {/* {user.role === "employer" && ( */}
+                  <li>
+                    <Link
+                      to="/expenseList"
+                      style={{ color: "white", textDecoration: "none" }}
+                    >
+                      Masraf Taleplerim
+                    </Link>
+                  </li>
+                  {user.role === "employer" && (
                     <li>
                       <Link
                         to="/expensescreen"
@@ -241,19 +282,20 @@ function Template() {
                         Masraf Onay
                       </Link>
                     </li>
-                    <li>
-                      <Link
-                        to="/expenseList"
-                        style={{ color: "white", textDecoration: "none" }}
-                      >
-                        Masraf Taleplerim
-                      </Link>
-                    </li>
-                  {/* )} */}
+                  )}
                 </ul>
               )}
             </li>
+            <li>
+              <Link
+                onClick={handleLogoutPage}
+                tyle={{ color: "white", textDecoration: "none" }}
+              >
+                Çıkış Yap
+              </Link>
+            </li>
           </ul>
+
         </nav>
 
         <div style={{ flex: 1, padding: "20px", background: "#e6f2ff" }}>
@@ -274,10 +316,10 @@ function Template() {
             <Route path="/leaverequestform" element={<LeaveRequestForm />} />
             <Route path="/leaverequestlist" element={<LeaveRequestList />} />
             <Route path="/expenseform" element={<ExpenseForm />} />
-            <Route path="/expenseList" element={<ExpenseList/>}/>
-           
+            <Route path="/expenseList" element={<ExpenseList />} />
+
             {/* Koşullu Route'lar */}
-            {/* {user.role === "employer" && (  */}
+            {user.role === "employer" && (
               <>
                 <Route path="/Addemp" element={<AddEmp />} />
                 <Route
@@ -290,16 +332,16 @@ function Template() {
                 />
                 <Route path="/expensescreen" element={<ExpenseScreen />} />
               </>
-            {/* )}  */}
-            {/* {user.role === "admin" && ( */}
+            )}
+            {user.role === "admin" && (
               <>
                 <Route path="/companyCard" element={<CompanyCard />} />
                 <Route path="/companyList" element={<CompanyList />} />
                 <Route path="/managerForm" element={<ManagerForm />} />
               </>
-            {/* )} */}
+            )}
           </Routes>
-          
+
         </div>
       </div>
     </main>

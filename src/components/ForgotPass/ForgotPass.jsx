@@ -28,7 +28,7 @@ const ForgotPass = () => {
         newPassword,
         confirmPassword
       );
-      if (verifyCode) {
+      if (verifyCode.status===200) {
         setShowSuccessLabel(true);
         setEmail("");
         setVerificationCode("");
@@ -37,7 +37,14 @@ const ForgotPass = () => {
         setPrivateMail("");
         setOldPassword("");
         setErrorMessage([]);
+      }else{
+        if (result.data && result.data.errors&&result===400) {
+          console.log(result);
+          setErrorMessage(result.data);
+      }else{
+        setErrorMessage("An error occurred. Please try again.");
       }
+    }
     } catch (error) {
       console.error("Şifre güncellenirken bir hata oluştu", error);
       setErrorMessage(error.message);

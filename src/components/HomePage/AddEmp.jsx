@@ -24,7 +24,7 @@ import {
 } from "@mui/material";
 const defaultImageSrc = "/images/defaultImage.jpg";
 const companies = [
-  { id: 1, label: "Samsung" },
+  { id: 1, label: "CelebiOglu A.S" },
   { id: 2, label: "Huawei" },
   { id: 3, label: "TürkTelekom" },
   { id: 4, label: "Vestel" },

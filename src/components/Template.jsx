@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import Login from "./Login/SignIn";
 import { useSelector, useDispatch } from "react-redux";
 import Home from "../components/HomePage/Home";
@@ -33,25 +33,29 @@ function Template() {
   const [isLeaveMenuOpen, setLeaveMenuOpen] = useState(false);
   const [isExpenseMenuOpen, setExpenseMenuOpen] = useState(false);
   const [isCompanyMenuOpen, setCompanyMenuOpen] = useState(false);
-  const [logoutClicked, setLogoutClicked] = useState(false);
+
   const toggleAdvanceMenu = () => setAdvanceMenuOpen(!isAdvanceMenuOpen);
   const toggleLeaveMenu = () => setLeaveMenuOpen(!isLeaveMenuOpen);
   const toggleExpenseMenu = () => setExpenseMenuOpen(!isExpenseMenuOpen);
   const toggleCompanyMenu = () => setCompanyMenuOpen(!isCompanyMenuOpen);
+  const [isLogoutModalOpen, setLogoutModalOpen] = useState(false);
+  const toggleLogoutModal = () => setLogoutModalOpen(!isLogoutModalOpen);
+
   const user = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const navigate=useNavigate();
 
   console.log(user.role);
 
 
   const handleLogoutPage = () => {
-    dispatch(logout());
-    alert("")
-    // Perform logout logic (clearing token, etc.)
+
+    localStorage.removeItem("jwt");
+    navigate("/SignIn");
   };
 
   const cancelLogout = () => {
-    setLogoutClicked(false);
+    setLogoutModalOpen(false);
   };
 
   // const UserDetails=async(email)=>{
@@ -286,13 +290,20 @@ function Template() {
                 </ul>
               )}
             </li>
-            <li>
-              <Link
-                onClick={handleLogoutPage}
-                tyle={{ color: "white", textDecoration: "none" }}
-              >
-                Çıkış Yap
-              </Link>
+            <li
+            onClick={toggleLogoutModal}
+            style={{ cursor: "pointer", fontSize: "20px" }}
+            >
+              {isLogoutModalOpen && (
+                <div className="logout-modal">
+                  <div className="logout-modal-content">
+                    <h2>Emin misiniz?</h2>
+                    <button onClick={handleLogoutPage}>Evet</button>
+                    <button onClick={cancelLogout}>İptal</button>
+                  </div>
+                </div>
+              )}
+              Çıkış Yap
             </li>
           </ul>
 

@@ -6,6 +6,7 @@ const LeaveRequestForm = () => {
   const [leaveDate, setLeaveDate] = useState('');
   const [dueDate, setDueDate] = useState('');
   const [description, setDescription] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
   // Sabit bir EmployeeId değeri kullanılacak
   // Gerçek uygulamada bu değer dinamik olarak kullanıcı oturum bilgisinden alınmalıdır.
   const [personalIdRole, setPersonalIdRole] = useState({ personalId: '', personalRole: '' });
@@ -46,11 +47,15 @@ const LeaveRequestForm = () => {
         body: JSON.stringify(leaveData),
       });
 
-      if (!response.ok) {
-        throw new Error('Leave request could not be submitted.');
+      if (response.ok) {
+        setSuccessMessage('Talebiniz işleme alınmıştır');
+        setTimeout(() => setSuccessMessage(''), 4000);
+      }
+      else{
+        
       }
 
-      alert('Leave request submitted successfully.');
+    
       // Formu sıfırla
       setLeaveType('0');
       setLeaveDate('');
@@ -96,6 +101,8 @@ const LeaveRequestForm = () => {
 
         <button type="submit" style={{ width: '100%', padding: '10px', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Submit Request</button>
       </form>
+      <br />
+      {successMessage && <div className="success-message">{successMessage}</div>}
     </div>
   );
 };

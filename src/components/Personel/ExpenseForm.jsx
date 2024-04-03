@@ -61,7 +61,8 @@ function ExpenseForm() {
   const [description, setDescription] = useState('');
   const [invoicePath, setInvoicePath] = useState('');
   const [personalIdRole, setPersonalIdRole] = useState({ personalId: '', personalRole: '' });
-
+  const [successMessage, setSuccessMessage] = useState('');
+  const [fileInputKey, setFileInputKey] = useState(Date.now());
   const personalId = useSelector((state) => state.userDetails.personalId);
   const personalRole = useSelector((state) => state.auth.role);
 
@@ -118,8 +119,9 @@ function ExpenseForm() {
       });
   
       if (response.ok) {
-        const responseData = await response.json();
-        console.log('Expense submitted successfully:', responseData);
+        
+        setSuccessMessage('Talebiniz işleme alınmıştır');
+        setTimeout(() => setSuccessMessage(''), 4000);
         // İşlem başarılı olduğunda gerekli adımları burada gerçekleştirin
       } else {
         console.error('Error submitting expense:', response.statusText);
@@ -134,7 +136,10 @@ function ExpenseForm() {
     setExpenseType('');
     setAmount('');
     setCurrency('');
-    setFile(event.target.files[0]);
+    setDescription('');
+    setInvoicePath('');
+    setFile(null); // Dosya seçimini sıfırla
+    setFileInputKey(Date.now()); 
   };
 
   return (
@@ -219,6 +224,7 @@ function ExpenseForm() {
           multiple
           type="file"
           onChange={handleFileChange}
+          key={fileInputKey}
         />
         <br />
         <br />
@@ -226,6 +232,8 @@ function ExpenseForm() {
           Talep Gönder
         </Button>
       </form>
+      <br />
+      {successMessage && <div className="success-message">{successMessage}</div>}
     </div>
   );
 }

@@ -72,7 +72,7 @@ function PersonelGuncellemeFormu() {
         setValues(initialFieldValues); // Reset form fields
         setFileInputKey(Date.now()); // Reset file input
         setSuccessMessage('Güncelleme başarılı');
-        setTimeout(() => setSuccessMessage(''), 5000);
+        setTimeout(() => setSuccessMessage(''), 3000);
       } else {
         const errorText = await response.text();
         console.error('Sunucudan hata döndü:', errorText);
@@ -108,7 +108,7 @@ function PersonelGuncellemeFormu() {
   const applyErrorClass = field => ((field in errors && errors[field]==false)?'invalid-field':'')
   return (
 <div className="form-container">
-{successMessage && <div className="success-message">{successMessage}</div>}
+
 <form onSubmit={handleSubmit}>
 <img src={values.imgSrc}  className='card-img-top'  />
 <div  className="form-group">
@@ -121,7 +121,9 @@ function PersonelGuncellemeFormu() {
 <label>Telefon: <input type="tel" name="phoneNumber" value={values.phoneNumber} onChange={handleChange}  className={""+applyErrorClass('phoneNumber')}/></label>
 </div>
 <button type="submit">Bilgileri Güncelle</button>
+<br/>
 </form>
+{successMessage && <div className="success-message">{successMessage}</div>}
 </div>
   );
 }

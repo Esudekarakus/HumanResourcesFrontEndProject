@@ -92,7 +92,7 @@ const Login = () => {
         setErrMsg(errorMessages.join('\n'));
         setErrorDiv(true);
       }else{
-        setErrMsg("Kullanıcı adı veyahut Şifreniz yanlış tekrar kontrol ediniz..")
+        setErrMsg("Kullanıcı adı veya şifre hatalı tekrar kontrol ediniz..")
       }
 
     } catch (err) {

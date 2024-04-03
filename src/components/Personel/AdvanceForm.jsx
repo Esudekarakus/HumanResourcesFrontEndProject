@@ -58,6 +58,7 @@ const AdvanceRequestForm = () => {
   const [description, setDescription] = useState('');
   const [advanceType, setAdvanceType] = useState('1');
   const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
   const [personalIdRole, setPersonalIdRole] = useState({ personalId: '', personalRole: '' });
 
   const personalId = useSelector((state) => state.userDetails.personalId);
@@ -86,7 +87,7 @@ const AdvanceRequestForm = () => {
 
     try {
       await createAdvance(advanceData);
-      alert('Advance request submitted successfully.');
+      
       // Reset the form
       setAmount('');
       setCurrency('1');
@@ -109,18 +110,16 @@ const AdvanceRequestForm = () => {
         body: JSON.stringify(advanceData),
       });
 
-      if (!response.ok) {
-        const contentType = response.headers.get('Content-Type');
-        if (contentType && contentType.includes('application/json')) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || 'Server error.');
-        } else {
-          const errorText = await response.text();
-          throw new Error(errorText || 'Unexpected error occurred. Please try again later.');
-        }
+      if (response.ok) {
+        setSuccessMessage('Talebiniz işleme alınmıştır');
+        setTimeout(() => setSuccessMessage(''), 4000);
+        
+      }
+      else{
+        alert('İşlem başarısız')
       }
 
-      return await response.json();
+     
     } catch (error) {
       console.error('Error during the request:', error);
       throw error;
@@ -129,15 +128,16 @@ const AdvanceRequestForm = () => {
 
   return (
     <div style={styles.card}>
+      
       <form onSubmit={handleSubmit}>
-        <h2 style={styles.header}>Advance Request Form</h2>
+        <h2 style={styles.header}>Avans Talep Form</h2>
         {errorMessage && <p style={styles.errorMessage}>{errorMessage}</p>}
         <div style={styles.formGroup}>
-          <label style={styles.label}>Advance Amount:</label>
+          <label style={styles.label}>Talep Edilen Miktar:</label>
           <input style={styles.input} type="number" value={amount} onChange={(e) => setAmount(e.target.value)} required />
         </div>
         <div style={styles.formGroup}>
-          <label style={styles.label}>Currency:</label>
+          <label style={styles.label}>Döviz:</label>
           <select style={styles.select} value={currency} onChange={(e) => setCurrency(e.target.value)} required>
             <option value="1">Turkish Lira (TL)</option>
             <option value="2">US Dollar (USD)</option>
@@ -145,11 +145,11 @@ const AdvanceRequestForm = () => {
           </select>
         </div>
         <div style={styles.formGroup}>
-          <label style={styles.label}>Description:</label>
+          <label style={styles.label}>Açıklama:</label>
           <textarea style={styles.input} value={description} onChange={(e) => setDescription(e.target.value)} required></textarea>
         </div>
         <div style={styles.formGroup}>
-          <label style={styles.label}>Advance Type:</label>
+          <label style={styles.label}>Avans Türü:</label>
           <select style={styles.select} value={advanceType} onChange={(e) => setAdvanceType(e.target.value)} required>
             <option value="1">Personal</option>
             <option value="2">Health</option>
@@ -158,6 +158,8 @@ const AdvanceRequestForm = () => {
         </div>
         <button type="submit" style={styles.submitButton}>Submit Request</button>
       </form>
+      <br/>
+      {successMessage && <div className="success-message">{successMessage}</div>}
     </div>
   );
 };

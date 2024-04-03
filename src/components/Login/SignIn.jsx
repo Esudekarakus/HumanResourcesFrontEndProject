@@ -24,13 +24,14 @@ import { setUserDetails } from "../../service/redux/actions/userAction";
 
 import { getAppUserDetailsByMail } from "../../service/AppUserService";
 
-import backgroundImage from "../../../public/images/clean-2721104_1280.jpg";
+import backgroundImage from "/images/clean-2721104_1280.jpg";
 //import { GetCompaniesList } from "../../service/CompanyService";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [pwd, setPwd] = useState("");
-  const [errMsg, setErrMsg] = useState("");
+  const [errMsg, setErrMsg] = useState([]);
+  const [showErrorDiv, setErrorDiv] = useState(false);
   const navigate = useNavigate();
   const { search } = useLocation();
   const dispatch = useDispatch();
@@ -55,7 +56,8 @@ const Login = () => {
       const data = new FormData(e.currentTarget);
       const result = await authLogin(data.get("email"), data.get("password"));
       const emailToSend = data.get("email");
-    
+      console.log(result);
+
       if (result && result.data) {
         const decoded = decodeToken();
         console.log(decoded);
@@ -79,26 +81,32 @@ const Login = () => {
         console.log(apiResponse);
         dispatch(setUserDetails(apiResponse));
         navigate("/home/:userId");
-      } else if (error) {
-        setErrMsg(error);
-        toast.error(error);
-      } else if (result === null) {
-        setErrMsg("Bir sorun oluştu tekrar deneyiniz");
-      } else {
-        toast.warning("Bir sorun oluştu tekrar deneyiniz");
+        setErrMsg([]);
+        setErrorDiv(false);
+        setEmail("");
+        setPwd("");
+      } else if (result.status === 400) {
+        console.log(result.errors);
+        const errorMessages = Object.values(result.errors).flatMap(messages => messages);
+        console.log(errorMessages);
+        setErrMsg(errorMessages.join('\n'));
+        setErrorDiv(true);
+      }else{
+        setErrMsg("Kullanıcı adı veyahut Şifreniz yanlış tekrar kontrol ediniz..")
       }
+
     } catch (err) {
-      if (!err?.response) {
-        toast.error("No server response");
+      console.log(err);
+      if (!err?.response === 400) {
+        setErrMsg("No server response");
       } else if (err.reponse?.status === 400) {
-        toast.error("Missing username or pass");
+        setErrMsg("Missing username or pass");
       } else if (err.response?.status === 401) {
-        toast.error("Unauthorized");
+        setErrMsg("Unauthorized");
       } else {
-        toast.error("login failed");
+        setErrMsg("login failed");
       }
       console.log(err);
-      toast.error(err);
       setErrMsg(err);
     }
   };
@@ -128,9 +136,9 @@ const Login = () => {
             component="main"
             maxWidth="xs"
             sx={{
-             width: "100%", // Tüm kutunun genişliği
+              width: "100%", // Tüm kutunun genişliği
               maxWidth: "400px", // Kutunun maksimum genişliği
-              padding: '1em', // İçerik kutusunun etrafındaki boşluk
+              //padding: '1em', // İçerik kutusunun etrafındaki boşluk
               display: "flex", // Flexbox kullanımı
               flexDirection: "column", // Çocukları dikey sırada dizmek
               alignItems: "center", // Yatay eksende ortalamak
@@ -139,12 +147,12 @@ const Login = () => {
               padding: (theme) => theme.spacing(3), // Tema'dan boşluk değeri kullanmak
               boxShadow: "0px 3px 10px rgba(0, 0, 0, 0.2)", // Gölge efekti
               borderRadius: "8px", // Kenar yuvarlaklığı
-              backgroundColor: "#ffffff", // Arka plan rengi
+              //backgroundColor: "#ffffff", // Arka plan rengi
               backgroundColor: "rgba(255, 255, 255, 0.9)", // Arka planın biraz saydam olması için
-              
+
               justifyContent: "center",
-              textAlign:'center'
-              
+              textAlign: 'center'
+
             }}
           >
             <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
@@ -182,7 +190,7 @@ const Login = () => {
                 label="Şifre"
                 type="password"
                 id="password"
-                //autoComplete="current-password"
+              //autoComplete="current-password"
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
@@ -196,9 +204,26 @@ const Login = () => {
               >
                 GİrİŞ Yap
               </Button>
-              <ErrorText show={!!errMsg} variant="body2">
-                {errMsg}
-              </ErrorText>
+              {showErrorDiv && (
+                <div style={{ color: "red", margin: "10px 0" }}>
+                  {Array.isArray(errMsg) ? (
+                    errMsg.map((errorGroup, index) => (
+                      <div key={index}>
+                        {Array.isArray(errorGroup) ? (
+                          errorGroup.map((message, index) => (
+                            <div key={index}>{message}</div>
+                          ))
+                        ) : (
+                          <div>{message.split('\n').map((line, i) => <div key={i}>{line}</div>)}</div>
+                        )}
+                      </div>
+                    ))
+                  ) : (
+                    <div>{errMsg.split('\n').map((line, i) => <div key={i}>{line}</div>)}</div>
+                  )}
+                </div>
+              )}
+
               <Grid container>
                 <Grid item xs>
                   <Link href="forgot-password" variant="body2">
@@ -207,22 +232,22 @@ const Login = () => {
                 </Grid>
                 <Grid item>
                   <Link href="#" variant="body2"></Link>
-                </Grid> 
-                
+                </Grid>
+
               </Grid>
               <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    padding={"20px"}
-                    align="center"
-                  >
-                    {"Copyright © "}
-                    <Link color="inherit" href="https://mui.com/">
-                      insankaynaklari.com
-                    </Link>{" "}
-                    {new Date().getFullYear()}
-                    {"."}
-                  </Typography>
+                variant="body2"
+                color="text.secondary"
+                padding={"20px"}
+                align="center"
+              >
+                {"Copyright © "}
+                <Link color="inherit" href="https://mui.com/">
+                  insankaynaklari.com
+                </Link>{" "}
+                {new Date().getFullYear()}
+                {"."}
+              </Typography>
             </Box>
           </Box>
 

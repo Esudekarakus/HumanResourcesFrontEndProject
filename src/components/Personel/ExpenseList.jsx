@@ -53,7 +53,7 @@ const styles = {
     useEffect(() => {
       async function fetchData() {
         try {
-          const data = await getExpensesByEmployeeId(1); // Buradaki 1, employeeId'yi temsil eder. Değiştirmeniz gerekiyorsa değiştirebilirsiniz.
+          const data = await getExpensesByEmployeeId(personalId); // Buradaki 1, employeeId'yi temsil eder. Değiştirmeniz gerekiyorsa değiştirebilirsiniz.
           setExpenses(data);
         } catch (error) {
           console.error(error);

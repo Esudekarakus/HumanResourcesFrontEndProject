@@ -34,7 +34,7 @@ const LeaveRequestForm = () => {
       DueDate: dueDate,
       Description: description,
       NumberOfDays: (new Date(dueDate).getTime() - new Date(leaveDate).getTime()) / (1000 * 3600 * 24), // Otomatik hesaplama
-      EmployeeId: employeeId,
+      EmployeeId: personalId,
     };
 
     try {

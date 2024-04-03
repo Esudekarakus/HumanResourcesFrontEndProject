@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { getAdvancesByEmployeeId } from '../../service/AdvanceService';
  
 const styles = {
@@ -57,7 +58,7 @@ const AdvanceRequestsList = () => {
         }else{
 
         }
-        const data = await getAdvancesByEmployeeId(1); // Buradaki 1, employeeId'yi temsil eder. Değiştirmeniz gerekiyorsa değiştirebilirsiniz.
+        const data = await getAdvancesByEmployeeId(personalId); // Buradaki 1, employeeId'yi temsil eder. Değiştirmeniz gerekiyorsa değiştirebilirsiniz.
         setAdvanceRequests(data);
       } catch (error) {
         console.error(error);

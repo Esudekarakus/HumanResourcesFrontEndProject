@@ -81,7 +81,7 @@ const AdvanceRequestForm = () => {
       Currency: parseInt(currency, 10),
       AdvanceType: parseInt(advanceType, 10),
       Amount: parseFloat(amount),
-      EmployeeId: 1, // Assuming a fixed value for simplicity
+      EmployeeId: personalId, // Assuming a fixed value for simplicity
     };
 
     try {

@@ -54,7 +54,7 @@ function LeaveRequestList() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const data = await getLeaveByEmployeeId(1);
+        const data = await getLeaveByEmployeeId(personalId);
         setLeaveRequests(data);
       } catch (error) {
         console.error(error);

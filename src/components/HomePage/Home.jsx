@@ -27,7 +27,7 @@ function Home() {
 <CardContent>
 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mb: 2 }}>
 <Avatar
-              src={userDetails.avatar}
+              src={userDetails.imageSrc}
               sx={{ height: '120px', width: '120px', mb: 2 }}
             />
 <Typography variant="h5" component="div" gutterBottom>

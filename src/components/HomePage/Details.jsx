@@ -53,7 +53,7 @@ function Details() {
         </Typography>
         <Divider sx={{ mb: 2 }} />
         <Stack spacing={2} alignItems="center">
-          <Avatar src={detail.img} sx={{ height: 120, width: 120 }} />
+          <Avatar src={detail.imageSrc} sx={{ height: 120, width: 120 }} />
           <List dense>
             <ListItem>
               <ListItemIcon>

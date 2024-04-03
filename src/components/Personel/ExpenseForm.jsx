@@ -106,7 +106,7 @@ function ExpenseForm() {
     formData.append('expenseType', expenseType);
     formData.append('invoicePath',invoicePath);
     formData.append('amount', amount);
-    formData.append('employeeId',id);
+    formData.append('employeeId',personalId);
     formData.append('formFile', file);
     
   

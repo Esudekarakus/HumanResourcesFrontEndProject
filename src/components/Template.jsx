@@ -18,7 +18,7 @@ import ExpenseScreen from "./Employeer/ExpenseScreen";
 import CompanyCard from "./Company/CompanyCard";
 import CompanyList from "./Company/CompanyList";
 import ManagerForm from "./Company/ManagerForm";
-import backgroundImage from "../../public/images/clean-2721104_1280.jpg";
+import backgroundImage from "/images/clean-2721104_1280.jpg";
 // import { getAppUserDetailsByMail } from "../service/AppUserService";
 // import { setUserDetails } from "../service/redux/actions/userAction";
 // import { useDispatch } from "react-redux";

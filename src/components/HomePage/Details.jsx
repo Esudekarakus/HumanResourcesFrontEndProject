@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import {
   Avatar,
@@ -29,6 +30,7 @@ import LocationCityIcon from "@mui/icons-material/LocationCity";
 import FingerprintIcon from "@mui/icons-material/Fingerprint";
 
 function Details() {
+  
   const detail = useSelector((state) => state.userDetails);
 
   const getStatusText = (status) => {

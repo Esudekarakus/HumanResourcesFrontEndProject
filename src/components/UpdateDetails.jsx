@@ -19,6 +19,8 @@ const initialFieldValues ={
 function PersonelGuncellemeFormu() {
   const [values,setValues] =useState(initialFieldValues);
   const [errors, setErrors] = useState({});
+  const [successMessage, setSuccessMessage] = useState('');
+  const [fileInputKey, setFileInputKey] = useState(Date.now());
   const dispatch = useDispatch();
  
   const appUserMail = useSelector((state) => state.auth.Email);
@@ -65,8 +67,12 @@ function PersonelGuncellemeFormu() {
       });
 
       if (response.ok) {
-        console.log('Çalışan başarıyla güncellendi');
+        
         dispatch(updateUserDetails({ phoneNumber: values.phoneNumber, address: values.address }));
+        setValues(initialFieldValues); // Reset form fields
+        setFileInputKey(Date.now()); // Reset file input
+        setSuccessMessage('Güncelleme başarılı');
+        setTimeout(() => setSuccessMessage(''), 5000);
       } else {
         const errorText = await response.text();
         console.error('Sunucudan hata döndü:', errorText);
@@ -102,10 +108,11 @@ function PersonelGuncellemeFormu() {
   const applyErrorClass = field => ((field in errors && errors[field]==false)?'invalid-field':'')
   return (
 <div className="form-container">
+{successMessage && <div className="success-message">{successMessage}</div>}
 <form onSubmit={handleSubmit}>
 <img src={values.imgSrc}  className='card-img-top'  />
 <div  className="form-group">
-<label>Fotoğraf: <input type="file" accept='image/*' /*sadece image format kabul etsin*/ name="imageFile" onChange={showPreview} className={""+applyErrorClass('imgSrc')}/></label>
+<label>Fotoğraf: <input type="file" accept='image/*' /*sadece image format kabul etsin*/ name="imageFile" onChange={showPreview} className={""+applyErrorClass('imgSrc')}  key={fileInputKey} /></label>
 </div>
 <div className="form-group">
 <label>Adres: <input type="adres" name="address" value={values.address} onChange={handleChange} className={""+applyErrorClass('address')}/></label>

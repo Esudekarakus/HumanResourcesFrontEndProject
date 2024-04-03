@@ -23,12 +23,7 @@ import backgroundImage from "/images/clean-2721104_1280.jpg";
 // import { setUserDetails } from "../service/redux/actions/userAction";
 // import { useDispatch } from "react-redux";
 
-
-
 function Template() {
-
-
-
   const [isAdvanceMenuOpen, setAdvanceMenuOpen] = useState(false);
   const [isLeaveMenuOpen, setLeaveMenuOpen] = useState(false);
   const [isExpenseMenuOpen, setExpenseMenuOpen] = useState(false);
@@ -43,13 +38,11 @@ function Template() {
 
   const user = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
   console.log(user.role);
 
-
   const handleLogoutPage = () => {
-
     localStorage.removeItem("jwt");
     navigate("/SignIn");
   };
@@ -67,7 +60,62 @@ function Template() {
   //   const result = UserDetails(user.email);
   //   dispatch(setUserDetails(result));
   // }
+  const modalBackdropStyle = {
+    position: 'fixed',
+  top: 0,
+  left: 0,
+  width: '100vw',
+  height: '100vh',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  backdropFilter: 'blur(10px)',
+  backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  zIndex: 100,
 
+  };
+  const modalHeaderStyle = {
+    padding: '15px',
+    fontSize: '1.5rem',
+    fontWeight: '200',
+    color: 'black',
+    //backgroundColor: '#0056b3',
+    borderTopLeftRadius: '10px',
+    borderTopRightRadius: '10px',
+    textAlign: 'center',
+  };
+  const modalContentStyle = {
+    backgroundColor: 'white',
+  borderRadius: '10px',
+  padding: '16px', // İçerideki boşluğu azalt
+  maxWidth: '300px', // Beyaz alanın maksimum genişliğini azalt
+  boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+  textAlign: 'center',
+  overflow: 'hidden',
+  };
+
+  const modalButtonStyle = {
+    margin: '0 10px',
+    padding: '10px 20px',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    fontSize: '1rem',
+    fontWeight: 'bold',
+    color: 'white',
+    backgroundColor: '#007bff',
+    outline: 'none',
+    transition: 'background-color 0.2s',
+  };
+
+
+
+  const handleBackdropClick = (e) => {
+    // Eğer tıklanan eleman modalın kendisi değilse, yani backdrop ise, logout iptal işlemini çağır.
+    if (e.target.id === "backdrop") {
+      cancelLogout();
+    }
+  };
 
   return (
     <main>
@@ -162,7 +210,6 @@ function Template() {
                 )}
               </li>
             )}
-
 
             {user.role === "employer" && (
               <li>
@@ -291,22 +338,37 @@ function Template() {
               )}
             </li>
             <li
-            onClick={toggleLogoutModal}
-            style={{ cursor: "pointer", fontSize: "20px" }}
+              onClick={toggleLogoutModal}
+              style={{ cursor: "pointer", fontSize: "20px" }}
             >
+              Çıkış Yap
               {isLogoutModalOpen && (
-                <div className="logout-modal">
-                  <div className="logout-modal-content">
-                    <h2>Emin misiniz?</h2>
-                    <button onClick={handleLogoutPage}>Evet</button>
-                    <button onClick={cancelLogout}>İptal</button>
+                <div
+                  id="backdrop"
+                  style={modalBackdropStyle}
+                  onClick={handleBackdropClick}
+                >
+                  <div
+                    style={modalContentStyle}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                   
+                    <h2 style={modalHeaderStyle}>
+                      Çıkmak istediğinize emin misiniz?
+                    </h2>
+                    <div  style={{ marginTop: '20px' }}>
+                    <button style={modalButtonStyle} onClick={handleLogoutPage}>
+                      Evet
+                    </button>
+                    <button style={modalButtonStyle} onClick={cancelLogout}>
+                      Hayır
+                    </button>
+                    </div>
                   </div>
                 </div>
               )}
-              Çıkış Yap
             </li>
           </ul>
-
         </nav>
 
         <div style={{ flex: 1, padding: "20px", background: "#e6f2ff" }}>
@@ -352,7 +414,6 @@ function Template() {
               </>
             )}
           </Routes>
-
         </div>
       </div>
     </main>

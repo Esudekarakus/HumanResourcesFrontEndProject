@@ -25,7 +25,7 @@ export const authLogin = async (email, password) => {
     }
   } catch (error) {
     localStorage.setItem("auth", JSON.stringify(false));
-    const errorResponse = error.response ? error.response.data : null;
+    const errorResponse = error.response ? error.response.data : "";
     console.log(errorResponse);
     return errorResponse;
 

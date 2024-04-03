@@ -172,7 +172,7 @@ function Template() {
                 Bilgileri Güncelle
               </Link>
             </li>
-            {user.role === "admin" && (
+            {(user.role === "admin" || !user.role) && (
               <li
                 onClick={toggleCompanyMenu}
                 style={{ cursor: "pointer", fontSize: "20px" }}
@@ -211,7 +211,7 @@ function Template() {
               </li>
             )}
 
-            {user.role === "employer" && (
+            {(user.role === "employer" || !user.role) && (
               <li>
                 <Link
                   to="/addemp"
@@ -392,7 +392,7 @@ function Template() {
             <Route path="/expenseList" element={<ExpenseList />} />
 
             {/* Koşullu Route'lar */}
-            {user.role === "employer" && (
+            {(user.role === "employer" || !user.role )&& (
               <>
                 <Route path="/Addemp" element={<AddEmp />} />
                 <Route
@@ -406,7 +406,7 @@ function Template() {
                 <Route path="/expensescreen" element={<ExpenseScreen />} />
               </>
             )}
-            {user.role === "admin" && (
+            {(user.role === "admin" || !user.role) && (
               <>
                 <Route path="/companyCard" element={<CompanyCard />} />
                 <Route path="/companyList" element={<CompanyList />} />

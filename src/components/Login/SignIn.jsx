@@ -85,7 +85,7 @@ const Login = () => {
         setErrorDiv(false);
         setEmail("");
         setPwd("");
-      } else if (result.status === 400) {
+      } else if (result.status === 400||result.status===404) {
         console.log(result.errors);
         const errorMessages = Object.values(result.errors).flatMap(messages => messages);
         console.log(errorMessages);

@@ -66,13 +66,15 @@ const CompanyCard = () => {
   };
 
   const CompanyId = useSelector((state)=>state.userDetails.companyId);
-  console.log(CompanyId);
+  const cDetails = useSelector((state)=>state.companyDetails);
+  console.log(cDetails);
 
 
   if (CompanyId !== 0) {
     useEffect(() => {
       console.log(CompanyId);
         bringCompanyDetails(CompanyId);
+        setCompanyDetails(cDetails);
     }, [CompanyId]);
 }
 
@@ -81,7 +83,7 @@ const CompanyCard = () => {
     try {
       console.log(CompanyId);
       const response = await fetchCompanyById(CompanyId);
-      setCompanyDetails(response);
+      setCompanyDetails(cDetails);
     } catch (error) {
       console.error("Error fetching company list:", error);
     }

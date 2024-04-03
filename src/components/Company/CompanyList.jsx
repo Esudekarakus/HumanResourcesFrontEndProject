@@ -1,15 +1,22 @@
- import React, { useState,useEffect } from "react";
- import { useSelector } from "react-redux";
- import { GetCompanyList } from "../../service/CompanyService";
- 
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { GetCompanyList } from "../../service/CompanyService";
+import { setCompanyDetails } from "../../service/redux/actions/companyActions";
+import { useNavigate } from "react-router";
+import { fetchCompanyById } from "../../service/CompanyService";
 
-const CompanyList =  () => {
+const CompanyList = () => {
 
   const [companies, setCompanies] = useState([]);
   const [filteredCompanies, setFilteredCompanies] = useState([]);
   const [filter, setFilter] = useState("");
- 
+  const [errMsg, setErrMsg] = useState("");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+
   const userRole = useSelector((state) => state.auth.role);
+
 
   useEffect(() => {
     if (userRole === "admin") {
@@ -33,9 +40,9 @@ const CompanyList =  () => {
     const filtered = companies.filter((company) => {
       const companyName = company.name.toLowerCase();
       const companyVatNumber = company.vatNumber.toLowerCase();
-      const companyEmail = company.email ? company.email.toLowerCase() : ''; // Add a conditional check for company.email
+      const companyEmail = company.email ? company.email.toLowerCase() : '';
       const phoneNumber = company.phoneNumber.toLowerCase();
-  
+
       return (
         companyName.includes(value) ||
         companyVatNumber.includes(value) ||
@@ -45,10 +52,23 @@ const CompanyList =  () => {
     });
     setFilteredCompanies(filtered);
   };
-  
+
   const clearFilter = () => {
     setFilter("");
     setFilteredCompanies(companies);
+  };
+
+  const navigateToDetailsPage = async (companyId) => {
+
+    const response = await fetchCompanyById(companyId);
+    console.log(response);
+    if (response) {
+      dispatch(setCompanyDetails(response));
+      navigate(`/companyCard`);
+    } else {
+      setErrMsg(response.data.errors);
+    }
+
   };
 
 
@@ -113,7 +133,7 @@ const CompanyList =  () => {
     },
   };
 
- 
+
 
   return (
     <div style={styles.listContainer}>
@@ -126,9 +146,6 @@ const CompanyList =  () => {
           value={filter}
           onChange={handleFilterChange}
         />
-        <button style={styles.searchButton} onClick={() => setFilter("")}>
-          Temizle
-        </button>
       </div>
       <table style={styles.table}>
         <thead>
@@ -158,7 +175,7 @@ const CompanyList =  () => {
               <td style={styles.td}>
                 <button
                   style={styles.button}
-                  onClick={() => alert(`Şirket Detayları: ${company.name}`)}
+                  onClick={() => navigateToDetailsPage(company.id)}
                 >
                   Detaylar
                 </button>
@@ -172,3 +189,4 @@ const CompanyList =  () => {
 };
 
 export default CompanyList;
+

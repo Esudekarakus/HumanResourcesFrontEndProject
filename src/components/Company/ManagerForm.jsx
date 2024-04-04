@@ -204,7 +204,7 @@ export function ManagerForm() {
       <Card>
         <CardHeader
           title="Şirket Yöneticisi Ekle"
-          subheader="Yeni personel ekleyebilirsiniz"
+          subheader="Yeni şirket yöneticisi ekleyebilirsiniz"
         />
         <Divider />
         <CardContent>

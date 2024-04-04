@@ -28,10 +28,12 @@ import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import CakeIcon from "@mui/icons-material/Cake";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import FingerprintIcon from "@mui/icons-material/Fingerprint";
+import { useNavigate } from "react-router";
 
 function Details() {
   
   const detail = useSelector((state) => state.userDetails);
+  const navigate = useNavigate();
 
   const getStatusText = (status) => {
     if (status === 2) return "Aktif";
@@ -40,7 +42,7 @@ function Details() {
   };
  
   const openNewWindow = () => {
-    window.open("/update", "_self"); // Yeni pencere yerine mevcut pencerede yönlendirme yapar
+    navigate("/update")// Yeni pencere yerine mevcut pencerede yönlendirme yapar
   };
 
   if (!detail) {

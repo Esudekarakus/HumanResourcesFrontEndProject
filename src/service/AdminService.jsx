@@ -1,8 +1,8 @@
-
+import axios from "axios";
 
 export const CreateEmployerByAdmin = async (addData) => {
     try {
-        
+
         const formData = new FormData();
         formData.append('name', addData.name);
         formData.append('middleName', addData.middleName);
@@ -22,24 +22,17 @@ export const CreateEmployerByAdmin = async (addData) => {
         formData.append('profession', addData.profession);
         formData.append('privateMail', addData.privateMail);
 
-        const response = await fetch(`https://localhost:7287/api/Account/CreateEmployerByAdmin`, {
-            method: 'POST',
-            body: formData,
-            
-        });
-        console.log(response.data);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+        const response = await axios.post(`https://localhost:7287/api/Account/CreateEmployerByAdmin`, formData);
+        if (response) {
+            console.log(response);
+            return response;
         }
 
-        // Yanıt işleme
-        const errorMessage = await response.text();
-        console.log(errorMessage);
-        console.log("Employee added successfully:", responseData);
-        return responseData;
+
     } catch (error) {
-        console.error("Error adding employee:", error);
-        throw error;
+        
+        console.log(error);
+        return error.response;
     }
 };
 

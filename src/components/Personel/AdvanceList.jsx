@@ -49,7 +49,30 @@ const AdvanceRequestsList = () => {
   // denemeler.
   console.log(personalIdRole.personalId);
   console.log(personalIdRole.personalRole);
- 
+  const getApprovalStatusText = (status) => {
+    switch (status) {
+      case 1:
+        return 'Onay Bekleniyor';
+      case 2:
+        return 'Onaylandı';
+      case 3:
+        return 'Reddedildi';
+      default:
+        return 'Bilinmiyor'; // Varsayılan durum
+    }
+  };
+  const getAdvanceTypeText = (advanceType) => {
+    switch (advanceType) {
+      case 1:
+        return 'Kişisel';
+    case 2:
+        return 'Sağlık';
+    case 3:
+        return 'Seyahat';
+   
+    default: return AdvanceType.Individual;
+    }
+  };
   useEffect(() => {
     async function fetchData() {
       try {
@@ -85,10 +108,10 @@ const AdvanceRequestsList = () => {
         <tbody>
           {advanceRequests.map((request, index) => (
             <tr key={index}>
-              <td style={styles.td}>{request.type}</td>
+              <td style={styles.td}>{getAdvanceTypeText(request.advanceType)}</td>
               <td style={styles.td}>{request.amount}</td>
-              <td style={styles.td}>{request.approvalStatus}</td>
-              <td style={styles.td}>{request.updatedDate || 'N/A'}</td>
+              <td style={styles.td}>{getApprovalStatusText(request.approvalStatus)}</td>
+              <td style={styles.td}>{request.updatedDate || '-'}</td>
               <td style={styles.td}>{request.createdDate}</td>
             </tr>
           ))}

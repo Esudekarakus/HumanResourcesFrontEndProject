@@ -64,7 +64,49 @@ function LeaveRequestList() {
  
     fetchData();
   }, []);
- 
+  const getApprovalStatusText = (status) => {
+    switch (status) {
+      case 1:
+        return 'Onay Bekleniyor';
+      case 2:
+        return 'Onaylandı';
+      case 3:
+        return 'Reddedildi';
+      default:
+        return 'Onay Bekleniyor'; // Varsayılan durum
+    }
+  };
+  const getLeaveTypeText = (type) => {
+    switch (type) {
+      case 1:
+    return 'Yıllık İzin';
+      case 2:
+          return 'Ücretsiz Izin';
+      case 3:
+          return 'Mazeret İzni';
+
+      case 4:
+          return 'Raporlu İzin'; 
+      case 5:
+          return 'Özel İzin';
+      case 6:
+          return 'Uzun Süreli İzin'; 
+      case 7:
+          return 'Hastalık İzni';
+      case 8:
+          return 'Doğum İzni';
+      case 9:
+          return 'Evlilik İzni';
+      case 10:
+          return 'Ölüm İzni';
+      case 11:
+          return 'Annelik İzni';
+      case 12:
+          return 'Babalık İzni';
+      default:
+          return 'Mazeret İzni';
+    }
+  };
   return (
     <div style={styles.card}>
       <h2 style={styles.header}>İzin Taleplerim</h2>
@@ -77,19 +119,19 @@ function LeaveRequestList() {
             <th style={styles.th}>İzin Başlangıç</th>
             <th style={styles.th}>İzin Bitiş</th>
             <th style={styles.th}>Talep Durumu</th>
-            <th style={styles.th}>Gün Sayısı</th>
+            {/* <th style={styles.th}>Gün Sayısı</th> */}
           </tr>
         </thead>
         <tbody>
           {leaveRequests.map((request, index) => (
             <tr key={index}>
-              <td style={styles.td}>{request.type}</td>
+              <td style={styles.td}>{getLeaveTypeText(request.type)}</td>
               <td style={styles.td}>{request.description}</td>
-              <td style={styles.td}>{request.approvalDate}</td>
+              <td style={styles.td}>{request.approvalDate || '-'}</td>
               <td style={styles.td}>{request.leaveDate}</td>
               <td style={styles.td}>{request.dueDate}</td>
-              <td>-</td>
-              <td>{request.numberOfDays}</td>
+              <td style={styles.td}>{getApprovalStatusText(request.approvalStatus)}</td>
+              {/* <td style={styles.td}> {request.numberOfDays}</td> */}
             </tr>
           ))}
         </tbody>

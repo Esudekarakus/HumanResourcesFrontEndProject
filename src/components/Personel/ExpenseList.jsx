@@ -45,7 +45,39 @@ const styles = {
       // burada ikisinide bir use state ile tuttum buradan alıp kullanılabilir.
       setPersonalIdRole({ personalId, personalRole });
     }, [personalId, personalRole]);
-  
+    const getApprovalStatusText = (status) => {
+      switch (status) {
+        case 1:
+          return 'Onay Bekleniyor';
+        case 2:
+          return 'Onaylandı';
+        case 3:
+          return 'Reddedildi';
+        default:
+          return 'Bilinmiyor'; // Varsayılan durum
+      }
+    };
+    const getExpenseTypeText = (expenseType) => {
+      switch (expenseType) {
+        case 1:
+          return 'Konut';
+        case 2:
+          return 'Seyahat';
+        case 3:
+          return 'Yiyecek';
+        case 4:
+          return 'Malzeme';
+        case 5:
+          return ' Eğitim';
+        case 6:
+          return 'Sağlık';
+        case 7:
+          return 'Yakıt';
+        default:
+          return 'Diğer'; // Varsayılan durum
+      }
+    };
+    
     // denemeler.
     console.log(personalIdRole.personalId);
     console.log(personalIdRole.personalRole);
@@ -53,7 +85,7 @@ const styles = {
     useEffect(() => {
       async function fetchData() {
         try {
-          const data = await getExpensesByEmployeeId(personalId); // Buradaki 1, employeeId'yi temsil eder. Değiştirmeniz gerekiyorsa değiştirebilirsiniz.
+          const data = await getExpensesByEmployeeId(personalId); 
           setExpenses(data);
         } catch (error) {
           console.error(error);
@@ -80,10 +112,10 @@ const styles = {
           <tbody>
             {expenses.map((request, index) => (
               <tr key={index}>
-                <td style={styles.td}>{request.expenseType}</td>
+                <td style={styles.td}>{getExpenseTypeText(request.expenseType)}</td>
                 <td style={styles.td}>{request.amount}</td>
-                <td style={styles.td}>{request.approvalStatus}</td>
-                <td style={styles.td}>{request.updatedDate || 'N/A'}</td>
+                <td style={styles.td}>{getApprovalStatusText(request.approvalStatus)}</td>
+                <td style={styles.td}>{request.updatedDate || '-'}</td>
                 <td style={styles.td}>{request.createdDate}</td>
               </tr>
             ))}
